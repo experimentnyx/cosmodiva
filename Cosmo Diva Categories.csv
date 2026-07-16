@@ -1,0 +1,4 @@
+Name,Slug,Collection ID,Locale ID,Item ID,Archived,Draft,Created On,Updated On,Published On
+Десерти,desserts,65e9bcd325d49442a15fef95,65e9bcc6c203b16f668d068c,65e9be112037056504733bc6,false,false,Thu Mar 07 2024 13:16:01 GMT+0000 (Coordinated Universal Time),Sun May 19 2024 19:54:35 GMT+0000 (Coordinated Universal Time),Sun May 19 2024 20:05:41 GMT+0000 (Coordinated Universal Time)
+Обід,obid,65e9bcd325d49442a15fef95,65e9bcc6c203b16f668d068c,65e9be112037056504733bc1,false,false,Thu Mar 07 2024 13:16:01 GMT+0000 (Coordinated Universal Time),Fri Apr 19 2024 13:47:45 GMT+0000 (Coordinated Universal Time),Fri Apr 19 2024 18:15:43 GMT+0000 (Coordinated Universal Time)
+Солоні закуски,soloni-zakusky,65e9bcd325d49442a15fef95,65e9bcc6c203b16f668d068c,65e9be112037056504733bc8,false,false,Thu Mar 07 2024 13:16:01 GMT+0000 (Coordinated Universal Time),Sun May 19 2024 19:54:52 GMT+0000 (Coordinated Universal Time),Sun May 19 2024 20:05:41 GMT+0000 (Coordinated Universal Time)
