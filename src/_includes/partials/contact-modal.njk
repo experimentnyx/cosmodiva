@@ -1,0 +1,36 @@
+<div class="cd-modal" id="contactModal" role="dialog" aria-modal="true" aria-labelledby="contactTitle" aria-hidden="true">
+  <div class="cd-modal-card">
+    <button type="button" class="cd-modal-close" data-modal-close aria-label="{{ site.contact.close }}">&#10005;</button>
+
+    <div data-contact-form>
+      <h2 class="cd-modal-title" id="contactTitle">{{ site.contact.title }}</h2>
+      <p class="cd-modal-sub">{{ site.contact.sub }}</p>
+
+      <!-- TODO: no submit endpoint yet. Decide between a form service
+           (Formspree / Web3Forms), a Vercel serverless function, or replacing
+           this modal with a direct Telegram link. Until then the form is
+           inert and the email address in the banner is the real channel. -->
+      <form id="contactForm" novalidate>
+        <div class="cd-field">
+          <label for="cf-name">{{ site.contact.fields.name }}</label>
+          <input type="text" id="cf-name" name="name" required autocomplete="name">
+        </div>
+        <div class="cd-field">
+          <label for="cf-email">{{ site.contact.fields.email }}</label>
+          <input type="email" id="cf-email" name="email" required autocomplete="email">
+        </div>
+        <div class="cd-field">
+          <label for="cf-message">{{ site.contact.fields.message }}</label>
+          <textarea id="cf-message" name="message" required placeholder="{{ site.contact.fields.message }}"></textarea>
+        </div>
+        <button type="submit" class="cd-btn cd-btn--blue cd-btn--block">{{ site.contact.submit }}</button>
+      </form>
+    </div>
+
+    <div data-contact-sent hidden>
+      <h2 class="cd-modal-title">{{ site.contact.sentTitle }}</h2>
+      <p class="cd-modal-sub">{{ site.contact.sentBody }}</p>
+      <button type="button" class="cd-btn cd-btn--blue cd-btn--block" data-modal-close>{{ site.contact.close }}</button>
+    </div>
+  </div>
+</div>

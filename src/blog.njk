@@ -1,0 +1,81 @@
+---
+layout: layouts/base.njk
+permalink: /blog/index.html
+title: Рецепти — Anastasiia
+description: Колекція корисних і смачних рецептів від Анастасії Шерстюк.
+---
+{% set featured = recipes | first %}
+{% set rest = recipes | after(1) %}
+{% set categories = recipes | categories %}
+
+{% include "partials/header.njk" %}
+
+<section id="blog-content" class="cd-blog cd-reveal">
+
+  <div class="cd-blog-intro">
+    <div class="cd-eyebrow">
+      <span>Рецепти</span>
+      <span class="cd-eyebrow-line"></span>
+    </div>
+    <h1 class="cd-blog-heading">Твоя колекція корисної і смачної їжі</h1>
+    <p class="cd-blog-sub">
+      Кожен рецепт — з підрахованими калоріями та БЖУ, щоб ти могла планувати раціон без зайвих здогадок.
+    </p>
+  </div>
+
+  {%- if featured %}
+  <article class="cd-featured">
+    <div class="cd-featured-img" style="background-image:url('{{ featured.image }}');" role="img" aria-label="{{ featured.name }}"></div>
+    <div class="cd-featured-body">
+      <div class="cd-meta">
+        {%- if featured.categoryName %}<span class="cd-tag">{{ featured.categoryName }}</span>{% endif %}
+        {%- if featured.calories %}<span class="cd-meta-kcal">{{ featured.calories }} ккал</span>{% endif %}
+      </div>
+      <div class="cd-featured-text">
+        <h2 class="cd-featured-title">{{ featured.name }}</h2>
+        <p class="cd-featured-desc">
+          {{ featured.description or (featured.minutes ~ " хв · " ~ featured.protein ~ " г білка · " ~ featured.carbs ~ " г вуглеводів · " ~ featured.fats ~ " г жирів") }}
+        </p>
+      </div>
+      <a href="/blog/{{ featured.slug }}/" class="cd-btn cd-btn--orange">Дивитись рецепт</a>
+    </div>
+  </article>
+  {%- endif %}
+
+  <div class="cd-blog-list">
+    {#- The design shipped a 5-way category filter, but every real recipe is
+        currently in one category. Rendering a filter with a single option would
+        be theatre, so it only appears once there are genuinely 2+. #}
+    {%- if categories | length > 1 %}
+    <div class="cd-filters" role="group" aria-label="Фільтр за категорією">
+      <button type="button" class="cd-filter is-active" data-filter="all">Всі</button>
+      {%- for c in categories %}
+      <button type="button" class="cd-filter" data-filter="{{ c.slug }}">{{ c.name }}</button>
+      {%- endfor %}
+    </div>
+    {%- endif %}
+
+    {%- if rest | length %}
+    <div class="cd-recipe-grid">
+      {%- for r in rest %}
+      <article class="cd-card" data-category="{{ r.category }}">
+        <div class="cd-card-img" style="background-image:url('{{ r.image }}');" role="img" aria-label="{{ r.name }}"></div>
+        <div class="cd-card-body">
+          <div class="cd-meta">
+            {%- if r.categoryName %}<span class="cd-tag">{{ r.categoryName }}</span>{% endif %}
+            {%- if r.calories %}<span class="cd-meta-kcal">{{ r.calories }} ккал</span>{% endif %}
+          </div>
+          <h3 class="cd-card-title">{{ r.name }}</h3>
+          <p class="cd-card-desc">
+            {{ r.description or (r.minutes ~ " хв · " ~ r.protein ~ " г білка · " ~ r.carbs ~ " г вуглеводів · " ~ r.fats ~ " г жирів") }}
+          </p>
+        </div>
+        <a href="/blog/{{ r.slug }}/" class="cd-btn cd-btn--outline">Дивитись рецепт</a>
+      </article>
+      {%- endfor %}
+    </div>
+    {%- endif %}
+  </div>
+</section>
+
+{% include "partials/footer.njk" %}

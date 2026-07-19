@@ -1,0 +1,269 @@
+---
+layout: layouts/base.njk
+permalink: /index.html
+---
+{% macro check(accent) %}
+<span class="cd-check-dot{% if accent == 'orange' %} cd-check-dot--orange{% endif %}">
+  <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true">
+    <path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
+{% endmacro %}
+
+<!-- ============ HERO ============ -->
+<section class="cd-hero">
+  <div class="cd-hero-photo">
+    <div class="cd-hero-glow"></div>
+    <img src="/assets/hero-photo-2.webp"
+         srcset="/assets/hero-photo-2.webp 1x, /assets/hero-photo-2@2x.webp 2x"
+         alt="Анастасія Шерстюк" width="1058" height="1587" fetchpriority="high">
+  </div>
+
+  {% include "partials/header.njk" %}
+
+  <div class="cd-hero-body">
+    <div class="cd-stats">
+      {%- for s in site.hero.stats %}
+      <div class="cd-stat">
+        <span class="cd-stat-value">{{ s.value }}</span>
+        <span class="cd-stat-label">{{ s.label }}</span>
+      </div>
+      {%- endfor %}
+    </div>
+
+    <div class="cd-hero-text">
+      <div class="cd-hero-text-inner">
+        <h1 class="cd-hero-title">
+          {%- for line in site.hero.titleLines %}
+          <span>{{ line }}</span>
+          {%- endfor %}
+        </h1>
+        <p class="cd-hero-desc">{{ site.hero.desc }}</p>
+      </div>
+      <a href="{{ site.hero.cta.href }}" class="cd-btn cd-btn--orange">{{ site.hero.cta.label }}</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="cd-about cd-bleed cd-reveal">
+  <div class="cd-about-col">
+    <div class="cd-about-text">
+      <div class="cd-eyebrow">
+        <span>{{ site.about.eyebrow }}</span>
+        <span class="cd-eyebrow-line"></span>
+      </div>
+      <h2 class="cd-section-head cd-about-head">{{ site.about.heading }}</h2>
+      <p class="cd-about-body">{{ site.about.body }}</p>
+    </div>
+    <a href="{{ site.about.cta.href }}" class="cd-btn cd-btn--orange">{{ site.about.cta.label }}</a>
+  </div>
+  <div class="cd-media cd-about-media">
+    <img src="{{ site.about.image }}"
+         srcset="{{ site.about.image }} 1x, {{ site.about.image | retina }} 2x"
+         alt="{{ site.about.imageAlt }}" width="656" height="767" loading="lazy">
+  </div>
+</section>
+
+<!-- ============ TRAINING ============ -->
+<section id="training" class="cd-training cd-reveal">
+  <div class="cd-training-intro">
+    <div class="cd-training-heading">
+      <h2 class="cd-section-head">{{ site.training.heading }}</h2>
+      <p class="cd-training-desc">{{ site.training.desc }}</p>
+    </div>
+
+    {%- set p = site.training.programs[0] %}
+    <div class="cd-program">
+      <div class="cd-media cd-program-media">
+        <img src="{{ p.image }}"
+             srcset="{{ p.image }} 1x, {{ p.image | retina }} 2x"
+             alt="{{ p.title }}" width="656" height="449" loading="lazy">
+      </div>
+      <div class="cd-program-body">
+        <div class="cd-program-text">
+          <h3 class="cd-program-title">{{ p.title }}</h3>
+          <div class="cd-program-points">
+            {%- for pt in p.points %}
+            <div class="cd-check">{{ check(p.accent) }}<span>{{ pt }}</span></div>
+            {%- endfor %}
+          </div>
+        </div>
+        <div class="cd-program-actions">
+          <a href="{{ p.cta.href }}" class="cd-btn cd-btn--blue">{{ p.cta.label }}</a>
+          <span class="cd-program-hint">{{ site.training.ctaHint }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner CTA -->
+  <div class="cd-banner">
+    <img class="cd-banner-decor cd-banner-bg" src="/assets/banner-space-bg.webp" alt="" loading="lazy">
+    <img class="cd-banner-decor cd-banner-cloud-1" src="/assets/banner-cloud-1.svg" alt="" loading="lazy">
+    <img class="cd-banner-decor cd-banner-cloud-3" src="/assets/banner-cloud-3.svg" alt="" loading="lazy">
+    <img class="cd-banner-decor cd-banner-cloud-2" src="/assets/banner-cloud-2.svg" alt="" loading="lazy">
+
+    <div class="cd-astronaut" aria-hidden="true">
+      {% include "partials/astronaut.njk" %}
+    </div>
+
+    <div class="cd-banner-content">
+      <div class="cd-banner-text">
+        <h2 class="cd-banner-head">{{ site.banner.heading }}</h2>
+        <p class="cd-banner-sub">{{ site.banner.sub }}</p>
+      </div>
+      <button type="button" class="cd-btn cd-btn--light" data-modal-open>{{ site.banner.cta }}</button>
+    </div>
+  </div>
+
+  {%- set p2 = site.training.programs[1] %}
+  <div class="cd-program cd-program--right">
+    <div class="cd-program-body">
+      <div class="cd-program-text">
+        <h3 class="cd-program-title">{{ p2.title }}</h3>
+        <div class="cd-program-points">
+          {%- for pt in p2.points %}
+          <div class="cd-check">{{ check(p2.accent) }}<span>{{ pt }}</span></div>
+          {%- endfor %}
+        </div>
+      </div>
+      <div class="cd-program-actions">
+        <a href="{{ p2.cta.href }}" class="cd-btn cd-btn--orange">{{ p2.cta.label }}</a>
+        <span class="cd-program-hint">{{ site.training.ctaHint }}</span>
+      </div>
+    </div>
+    <div class="cd-media cd-program-media">
+      <img src="{{ p2.image }}"
+           srcset="{{ p2.image }} 1x, {{ p2.image | retina }} 2x"
+           alt="{{ p2.title }}" width="646" height="449" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="cd-pricing cd-bleed cd-reveal">
+  <h2 class="cd-section-head">{{ site.pricing.heading }}</h2>
+  <div class="cd-pricing-grid">
+    {%- for plan in site.pricing.plans %}
+    <div class="cd-price-card{% if plan.featured %} cd-price-card--featured{% endif %}">
+      {%- if plan.badge %}
+      <span class="cd-price-badge">{{ plan.badge }}</span>
+      {%- endif %}
+      <div class="cd-price-top">
+        <h3 class="cd-price-name">{{ plan.name }}</h3>
+        <span class="cd-price-amount">{{ plan.price }}</span>
+        <div class="cd-price-points">
+          <span class="cd-price-points-label">{{ site.pricing.includesLabel }}</span>
+          {%- for pt in plan.points %}
+          <div class="cd-check">{{ check() }}<span>{{ pt }}</span></div>
+          {%- endfor %}
+        </div>
+      </div>
+      <!-- TODO: checkout link pending payment provider (D5) -->
+      <a href="{{ plan.href }}" class="cd-btn cd-btn--blue cd-btn--block">{{ site.pricing.cta }}</a>
+    </div>
+    {%- endfor %}
+  </div>
+</section>
+
+<!-- ============ NUTRITION ============ -->
+<section id="nutrition" class="cd-nutrition cd-reveal">
+  <div class="cd-nutrition-head">
+    <h2 class="cd-section-head">{{ site.nutrition.heading }}</h2>
+    <p class="cd-nutrition-desc">{{ site.nutrition.desc }}</p>
+  </div>
+  <div class="cd-nutrition-actions">
+    <a id="recipes" href="{{ site.nutrition.cta.href }}" class="cd-btn cd-btn--ghost">{{ site.nutrition.cta.label }}</a>
+  </div>
+
+  <div class="cd-recipe-row">
+    {%- for r in recipes | limit(3) %}
+    <article class="cd-recipe-card">
+      <div class="cd-media cd-recipe-media">
+        <img src="{{ r.image }}" alt="{{ r.name }}" loading="lazy">
+      </div>
+      <div class="cd-recipe-info">
+        <div class="cd-recipe-top">
+          <h3 class="cd-recipe-name">{{ r.name }}</h3>
+          {%- if r.minutes %}<span class="cd-recipe-time">{{ r.minutes }} хв</span>{% endif %}
+        </div>
+        <p class="cd-recipe-macros">
+          {{ r.calories }} ккал, {{ r.protein }} г білка, {{ r.carbs }} вуглеводів, {{ r.fats }} жирів
+        </p>
+        <a href="/blog/{{ r.slug }}/" class="cd-recipe-link">{{ site.nutrition.cardCta }} &#8599;</a>
+      </div>
+    </article>
+    {%- endfor %}
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="cd-faq cd-reveal">
+  <h2 class="cd-section-head">{{ site.faq.heading }}</h2>
+  <div class="cd-faq-list">
+    {%- for item in site.faq.items %}
+    <details class="cd-faq-item"{% if item.open %} open{% endif %}>
+      <summary class="cd-faq-q">
+        <span>{{ item.q }}</span>
+        <span class="cd-faq-icon" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M6 1V11M1 6H11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </summary>
+      <p class="cd-faq-a">{{ item.a }}</p>
+    </details>
+    {%- endfor %}
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section id="reviews" class="cd-reviews cd-reveal">
+  <div class="cd-reviews-header">
+    <div>
+      <h2 class="cd-section-head">{{ site.reviews.heading }}</h2>
+      <div class="cd-reviews-rating">
+        <span class="cd-stars" aria-hidden="true">★★★★★</span>
+        <span class="cd-reviews-rating-value">{{ site.reviews.rating }}</span>
+        <span class="cd-reviews-rating-suffix">{{ site.reviews.ratingSuffix }}</span>
+      </div>
+    </div>
+    <a href="{{ site.reviews.cta.href }}" class="cd-btn cd-btn--orange">{{ site.reviews.cta.label }}</a>
+  </div>
+
+  <div class="cd-reviews-main">
+    <div class="cd-media cd-reviews-photo">
+      <img src="{{ site.reviews.featured.image }}"
+           srcset="{{ site.reviews.featured.image }} 1x, {{ site.reviews.featured.image | retina }} 2x"
+           alt="" width="807" height="524" loading="lazy">
+    </div>
+    <blockquote class="cd-review-featured">
+      <span class="cd-stars" aria-hidden="true">★★★★★</span>
+      <p class="cd-review-text">{{ site.reviews.featured.text }}</p>
+      <footer class="cd-review-author">
+        <img src="{{ site.reviews.featured.avatar }}"
+             srcset="{{ site.reviews.featured.avatar }} 1x, {{ site.reviews.featured.avatar | retina }} 2x"
+             alt="" width="40" height="40" loading="lazy">
+        <span>{{ site.reviews.featured.author }}</span>
+      </footer>
+    </blockquote>
+  </div>
+
+  <div class="cd-reviews-grid">
+    {%- for r in site.reviews.items %}
+    <blockquote class="cd-review-card">
+      <span class="cd-stars" aria-hidden="true">★★★★★</span>
+      <p class="cd-review-text">{{ r.text }}</p>
+      <footer class="cd-review-author">
+        <img src="{{ r.avatar }}"
+             srcset="{{ r.avatar }} 1x, {{ r.avatar | retina }} 2x"
+             alt="" width="40" height="40" loading="lazy">
+        <span>{{ r.author }}</span>
+      </footer>
+    </blockquote>
+    {%- endfor %}
+  </div>
+</section>
+
+{% include "partials/footer.njk" %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or site.title }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600&family=Martel+Sans:wght@300;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+</head>
+<body>
+  <div class="cd-page" id="top">
+    {{ content | safe }}
+  </div>
+
+  {% include "partials/mobile-nav.njk" %}
+  {% include "partials/contact-modal.njk" %}
+
+  <button type="button" class="cd-back-to-top" id="backToTop" aria-label="Нагору">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M8 13V3M8 3L3 8M8 3L13 8" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <script src="/js/site.js" defer></script>
+</body>
+</html>

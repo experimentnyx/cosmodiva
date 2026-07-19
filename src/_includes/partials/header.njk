@@ -1,0 +1,25 @@
+<div class="cd-header">
+  <div class="cd-header-left">
+    <a href="/" class="cd-logo">
+      <span class="cd-logo-name">{{ site.brand.name }}</span>
+      <span class="cd-logo-tagline">{{ site.brand.tagline }}</span>
+    </a>
+    <nav class="cd-nav">
+      {%- for item in site.nav %}
+      <a href="{{ item.href }}">{{ item.label }}</a>
+      {%- endfor %}
+    </nav>
+  </div>
+
+  <div class="cd-header-cta">
+    <a href="{{ site.headerCta.href }}" class="cd-btn cd-btn--blue">{{ site.headerCta.label }}</a>
+  </div>
+
+  <button type="button" class="cd-hamburger" id="navOpen" aria-label="Відкрити меню" aria-expanded="false" aria-controls="mobileNav">
+    <svg width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
+      <path d="M1 1H19M1 8H19M1 15H19" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  </button>
+
+  {#- The mobile nav overlay is deliberately NOT here — see partials/mobile-nav.njk. #}
+</div>

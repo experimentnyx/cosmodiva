@@ -1,0 +1,263 @@
+/* ============================================================
+   Design tokens
+   Extracted verbatim from "Anastasiia Landing.dc.html".
+
+   The design tool computed layout in JavaScript from a single
+   boolean (`const m = window.innerWidth <= 1100`) and injected the
+   result into inline styles. Every token below is that same value
+   pair, expressed as CSS instead: the :root block holds the desktop
+   value, the media query holds the mobile one.
+
+   One breakpoint only — 1100px. The design has no tablet layout.
+   ============================================================ */
+
+:root {
+  /* ---- palette ---- */
+  --c-bg: rgb(0, 4, 21);
+  --c-bg-grad-top: rgb(12, 27, 82);
+  --c-orange: rgb(249, 93, 0);
+  --c-orange-dark: rgb(212, 79, 0);
+  --c-blue: rgb(14, 61, 204);
+  --c-blue-dark: rgb(11, 49, 163);
+  --c-blue-soft: rgba(14, 61, 204, 0.18);
+  --c-plum: rgb(55, 26, 69);
+  --c-card-grad-a: rgb(18, 10, 63);
+  --c-card-grad-b: rgba(0, 4, 101, 0.28);
+  --c-gold: rgb(242, 176, 5);
+  --c-white: rgb(255, 255, 255);
+  --c-grey: rgb(216, 216, 216);
+
+  --c-w-80: rgba(255, 255, 255, 0.8);
+  --c-w-70: rgba(255, 255, 255, 0.7);
+  --c-w-60: rgba(255, 255, 255, 0.6);
+  --c-w-40: rgba(255, 255, 255, 0.4);
+  --c-w-30: rgba(255, 255, 255, 0.3);
+  --c-w-15: rgba(255, 255, 255, 0.15);
+  --c-w-10: rgba(255, 255, 255, 0.1);
+  --c-w-08: rgba(255, 255, 255, 0.08);
+  --c-w-06: rgba(255, 255, 255, 0.06);
+  --c-w-05: rgba(255, 255, 255, 0.05);
+
+  /* ---- type ---- */
+  --font-display: Oswald, sans-serif;
+  --font-body: Inter, sans-serif;
+  --font-alt: Montserrat, sans-serif;
+
+  --fs-hero-title: 110px;
+  --fs-hero-desc: 18px;
+  --fs-section-head: 48px;
+  --fs-train-head-1: 36px;
+  --fs-train-head-2: 40px;
+  --fs-banner-head: 48px;
+  --fs-recipe-name: 36px;
+  --fs-footer-big: 64px;
+
+  /* ---- radii ---- */
+  --r-sm: 8px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+
+  /* ---- widths (w.*) ---- */
+  --w-page: 1440px;
+  --w-stats: 140px;
+  --w-hero-text: 594px;
+  --w-hero-desc: 533px;
+  --w-about-text-1: 621px;
+  --w-about-text-2: 594px;
+  --w-about-img: 656px;
+  --w-train-img-1: 656px;
+  --w-train-img-2: 646px;
+  --w-training-desc: 705px;
+  --w-pricing-head: 640px;
+  --w-pricing-card: 421px;
+  --w-nutrition-head: 767px;
+  --w-banner-text: 497px;
+  --w-reviews-main: 60%;
+  --w-reviews-side: auto;
+
+  /* ---- heights (h.*) ---- */
+  --h-hero-section: 1024px;
+  --h-hero-body: 540px;
+  --h-stat-box: 114px;
+  --h-about-img: 767px;
+  --h-train-img: 449px;
+  --h-banner: 404px;
+  --h-recipe-img: 596px;
+  --h-reviews-main: 524px;
+  --h-reviews-side: 524px;
+
+  /* ---- gaps & padding (g.*) ---- */
+  --g-hero-section: 160px;
+  --g-header-pad: 20px 40px;
+  --g-hero-body-pad: 0 40px;
+  --g-hero-body: 0px;
+  --g-stats: 24px;
+  --g-about: 48px;
+  --g-about-pad: 80px 40px;
+  --g-training-container: 100px;
+  --g-training-container-pad: 80px 40px;
+  --g-training-row: 48px;
+  --g-banner-pad: 98px 56px;
+  --g-pricing: 64px;
+  --g-pricing-pad: 80px 40px;
+  --g-nutrition: 64px;
+  --g-nutrition-pad: 80px 40px;
+  --g-nutrition-head-pad: 0 40px;
+  --g-nutrition-row: 56px;
+  --g-faq: 64px;
+  --g-faq-pad: 80px 40px;
+  --g-reviews: 80px;
+  --g-reviews-pad: 80px 40px;
+  --g-reviews-row: 32px;
+  --g-footer-pad: 64px 40px 32px;
+  --g-footer: 40px;
+
+  /* ---- display toggles (d.*) ---- */
+  --d-nav: flex;
+  --d-header-cta: flex;
+  --d-hamburger: none;
+  --d-decor: block;
+
+  /* ---- alignment (al.* / ta.*) ---- */
+  --al-stat: flex-end;
+  --al-hero-text: flex-start;
+  --al-banner: flex-end;
+  --al-recipe: flex-start;
+  --al-reviews-header: flex-end;
+  --al-footer: center;
+
+  --ta-stat: right;
+  --ta-hero: left;
+  --ta-banner: right;
+
+  /* ---- flex direction / wrapping ---- */
+  --dir-main: row;      /* mCol */
+  --dir-rev: column;    /* rCol */
+  --ws-nowrap: nowrap;  /* wsN  */
+
+  /* ---- flex order (order.*) ---- */
+  --o-stats: 0;
+  --o-text: 0;
+  --o-header: 0;
+  --o-hero-body: 0;
+
+  /* ---- Blog.dc.html ---- */
+  --fs-blog-heading: 56px;
+  --g-blog-pad: 80px 40px;
+  --h-featured-img: 500px;
+  --w-featured-content: 380px;
+  --g-featured-pad: 0 48px;
+  --al-featured: center;
+
+  /* ---- Blog Post.dc.html ---- */
+  --fs-post-title: 64px;
+  --g-post-pad-x: 40px;
+  --g-post-head-pad: 40px 40px 32px;
+  --w-photos-col: 770px;
+  --h-main-photo: 558px;
+  --h-side-photo: 279px;
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --fs-hero-title: 40px;
+    --fs-hero-desc: 16px;
+    --fs-section-head: 28px;
+    --fs-train-head-1: 22px;
+    --fs-train-head-2: 22px;
+    --fs-banner-head: 26px;
+    --fs-recipe-name: 24px;
+    --fs-footer-big: 32px;
+
+    --w-stats: 100%;
+    --w-hero-text: 100%;
+    --w-hero-desc: 100%;
+    --w-about-text-1: 100%;
+    --w-about-text-2: 100%;
+    --w-about-img: 100%;
+    --w-train-img-1: 100%;
+    --w-train-img-2: 100%;
+    --w-training-desc: 100%;
+    --w-pricing-head: 100%;
+    --w-pricing-card: 100%;
+    --w-nutrition-head: 100%;
+    --w-banner-text: 100%;
+    --w-reviews-main: 100%;
+    --w-reviews-side: 100%;
+
+    --h-hero-section: auto;
+    --h-hero-body: auto;
+    --h-stat-box: auto;
+    --h-about-img: 340px;
+    --h-train-img: 220px;
+    --h-banner: auto;
+    --h-recipe-img: 260px;
+    --h-reviews-main: 220px;
+    --h-reviews-side: auto;
+
+    --g-hero-section: 0px;
+    --g-header-pad: 12px 20px;
+    --g-hero-body-pad: 0 20px 32px;
+    --g-hero-body: 28px;
+    --g-stats: 10px;
+    --g-about: 24px;
+    --g-about-pad: 48px 20px;
+    --g-training-container: 48px;
+    --g-training-container-pad: 48px 20px;
+    --g-training-row: 24px;
+    --g-banner-pad: 32px 24px;
+    --g-pricing: 28px;
+    --g-pricing-pad: 48px 20px;
+    --g-nutrition: 24px;
+    --g-nutrition-pad: 48px 20px;
+    --g-nutrition-head-pad: 0;
+    --g-nutrition-row: 20px;
+    --g-faq: 0px;
+    --g-faq-pad: 48px 20px;
+    --g-reviews: 24px;
+    --g-reviews-pad: 48px 20px;
+    --g-reviews-row: 20px;
+    --g-footer-pad: 40px 20px 24px;
+    --g-footer: 32px;
+
+    --d-nav: none;
+    --d-header-cta: none;
+    --d-hamburger: flex;
+    --d-decor: none;
+
+    --al-stat: center;
+    --al-hero-text: center;
+    --al-banner: center;
+    --al-recipe: stretch;
+    --al-reviews-header: flex-start;
+    --al-footer: flex-start;
+
+    --ta-stat: center;
+    --ta-hero: center;
+    --ta-banner: center;
+
+    --dir-main: column;
+    --dir-rev: row;
+    --ws-nowrap: normal;
+
+    --o-stats: 2;
+    --o-text: 1;
+    --o-header: 1;
+    --o-hero-body: 3;
+
+    --fs-blog-heading: 32px;
+    --g-blog-pad: 48px 20px;
+    --h-featured-img: 260px;
+    --w-featured-content: 100%;
+    --g-featured-pad: 0;
+    --al-featured: stretch;
+
+    --fs-post-title: 40px;
+    --g-post-pad-x: 20px;
+    --g-post-head-pad: 24px 20px 24px;
+    --w-photos-col: 100%;
+    --h-main-photo: 300px;
+    --h-side-photo: 160px;
+  }
+}

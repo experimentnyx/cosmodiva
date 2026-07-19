@@ -1,0 +1,41 @@
+<footer class="cd-footer cd-bleed">
+  <div class="cd-footer-top">
+    <div class="cd-footer-left">
+      <a href="/" class="cd-logo">
+        <span class="cd-logo-name">{{ site.brand.name }}</span>
+        <span class="cd-logo-tagline">{{ site.brand.tagline }}</span>
+      </a>
+      <nav class="cd-footer-nav">
+        {%- for item in site.footer.nav %}
+        <a href="{{ item.href }}">{{ item.label }}</a>
+        {%- if not loop.last %}<span aria-hidden="true">•</span>{% endif %}
+        {%- endfor %}
+      </nav>
+    </div>
+
+    <div class="cd-footer-right">
+      <p class="cd-footer-big">{{ site.footer.big }}</p>
+      <a href="{{ site.footer.cta.href }}" class="cd-btn cd-btn--blue">{{ site.footer.cta.label }}</a>
+      <div class="cd-footer-social">
+        {%- for s in site.footer.social %}
+        <a href="{{ s.href }}">
+          {%- if s.label == "Instagram" %}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="14" height="14" rx="4" stroke="#fff" stroke-width="1.3"/>
+            <circle cx="8" cy="8" r="3.2" stroke="#fff" stroke-width="1.3"/>
+            <circle cx="12.2" cy="3.8" r="0.9" fill="#fff"/>
+          </svg>
+          {%- else %}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M14.5 2.2L1.8 7.1c-.6.2-.6.8 0 1l3.2 1 1.2 3.8c.2.5.5.6.9.2l1.8-1.7 3.3 2.4c.5.3.9.1 1-.5l2-9.4c.1-.6-.3-.9-.7-.7z" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg>
+          {%- endif %}
+          <span>{{ s.label }}</span>
+        </a>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+
+  <span class="cd-copyright">{{ site.footer.copyright }}</span>
+</footer>

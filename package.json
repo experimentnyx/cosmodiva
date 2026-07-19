@@ -1,0 +1,16 @@
+{
+  "name": "cosmodiva",
+  "version": "1.0.0",
+  "description": "Anastasiia Sherstiuk — personal trainer site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "eleventy --serve --port=8080",
+    "build": "eleventy",
+    "clean": "node -e \"require('fs').rmSync('_site',{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "sharp": "^0.35.3"
+  }
+}

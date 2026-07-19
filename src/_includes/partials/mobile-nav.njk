@@ -1,0 +1,21 @@
+{#- Lives at body level, NOT inside .cd-header.
+    .cd-header sets backdrop-filter, which makes it the containing block for
+    position:fixed descendants — nesting this inside it clipped the overlay to
+    the header's own 70px height, so the "fullscreen" menu only painted a strip
+    and the page showed through. Keep this a sibling of .cd-page. #}
+<div class="cd-mobile-nav" id="mobileNav">
+  <div class="cd-mobile-nav-top">
+    <span class="cd-mobile-nav-title">{{ site.brand.name }}</span>
+    <button type="button" class="cd-mobile-close" id="navClose" aria-label="Закрити меню">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M1 1L15 15M15 1L1 15" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <nav>
+    {%- for item in site.nav %}
+    <a href="{{ item.href }}" data-nav-close>{{ item.label }}</a>
+    {%- endfor %}
+  </nav>
+  <a href="{{ site.headerCta.href }}" class="cd-btn cd-btn--blue" data-nav-close>{{ site.headerCta.label }}</a>
+</div>

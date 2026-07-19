@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600&family=Martel+Sans:wght@300;700&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: rgb(0,4,21); }
+  a { color: rgb(255,255,255); text-decoration: none; }
+  a:hover { color: rgb(242,176,5); }
+  @keyframes astronautFloat {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-22px) rotate(3deg); }
+  }
+  @keyframes astronautStar {
+    0%, 100% { opacity: 0.25; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+</style>
+</helmet>
+<div id="top" style="position:relative;width:100%;max-width:1440px;margin:0 auto;background:rgb(0,4,21);font-family:Inter,sans-serif;overflow:hidden;">
+
+  <!-- ============ HERO ============ -->
+  <div style="position:relative;width:100%;height:{{ h.heroSection }};overflow:hidden;background:radial-gradient(1145px 814px at 50% 1.6%, rgb(12,27,82) 0%, rgb(0,4,21) 100%);display:flex;flex-direction:column;gap:{{ g.heroSectionGap }};align-items:center;">
+
+    <!-- Hero photo (transparent PNG, centered) -->
+    <div style="{{ heroPhotoWrapStyle }}">
+      <div style="{{ heroPhotoGlowStyle }}"></div>
+      <img src="assets/hero-photo-2.png" alt="Anastasiia" style="{{ heroPhotoImgStyle }}">
+    </div>
+
+    <!-- Header -->
+    <div style="position:relative;width:100%;height:{{ h.header }};background:rgba(0,4,21,0.1);backdrop-filter:blur(20px);display:flex;flex-direction:row;padding:{{ g.headerPad }};justify-content:space-between;align-items:center;box-sizing:border-box;z-index:10;order:{{ order.header }};">
+      <div style="display:flex;flex-direction:row;gap:32px;align-items:center;">
+        <div style="width:163px;display:flex;flex-direction:column;">
+          <span style="font-family:'Martel Sans',sans-serif;font-weight:700;font-size:26px;line-height:1;color:rgb(255,255,255);text-transform:uppercase;">Anastasiia</span>
+          <span style="font-family:'Martel Sans',sans-serif;font-weight:300;font-size:18px;line-height:1.1;letter-spacing:-0.06em;color:rgba(255,255,255,0.6);text-transform:uppercase;">personal trainer</span>
+        </div>
+        <nav style="display:{{ d.nav }};flex-direction:row;gap:16px;align-items:center;">
+          <a href="#about" style="font-size:18px;font-weight:500;padding:8px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Про мене</a>
+          <a href="#training" style="font-size:18px;font-weight:500;padding:8px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Тренування</a>
+          <a href="#pricing" style="font-size:18px;font-weight:500;padding:8px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Ціни</a>
+          <a href="Blog.dc.html" style="font-size:18px;font-weight:500;padding:8px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Раціон</a>
+          <a href="#faq" style="font-size:18px;font-weight:500;padding:8px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">FAQ</a>
+          <a href="#reviews" style="font-size:18px;font-weight:500;padding:8px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Відгуки</a>
+        </nav>
+      </div>
+      <div style="display:{{ d.headerCta }};flex-direction:row;gap:16px;align-items:center;">
+        <a href="#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати тренування</a>
+      </div>
+      <div style="display:{{ d.hamburger }};width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.08);align-items:center;justify-content:center;cursor:pointer;" onClick="{{ mobileNavToggle }}">
+        <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 1H19M1 8H19M1 15H19" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </div>
+      <div style="{{ mobileNavStyle }}">
+        <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;">
+          <span style="font-family:'Martel Sans',sans-serif;font-weight:700;font-size:20px;color:#fff;text-transform:uppercase;">Anastasiia</span>
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;" onClick="{{ mobileNavToggle }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 1L15 15M15 1L1 15" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <nav style="display:flex;flex-direction:column;gap:4px;margin-top:24px;">
+          <a href="#about" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">Про мене</a>
+          <a href="#training" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">Тренування</a>
+          <a href="#pricing" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">Ціни</a>
+          <a href="Blog.dc.html" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">Раціон</a>
+          <a href="#faq" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">FAQ</a>
+          <a href="#reviews" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;">Відгуки</a>
+        </nav>
+        <a href="#pricing" onClick="{{ mobileNavToggle }}" style="margin-top:auto;width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:14px 24px;color:#fff;font-size:17px;font-weight:500;box-sizing:border-box;">Обрати тренування</a>
+      </div>
+    </div>
+
+    <!-- Hero body -->
+    <div style="position:relative;width:100%;height:{{ h.heroBody }};display:flex;flex-direction:{{ mCol }};padding:{{ g.heroBodyPad }};justify-content:space-between;align-items:center;box-sizing:border-box;z-index:2;gap:{{ g.heroBodyGap }};order:{{ order.heroBody }};">
+      <div style="width:{{ w.stats }};display:flex;flex-direction:{{ rCol }};gap:{{ g.statsGap }};flex-shrink:0;z-index:2;order:{{ order.stats }};">
+        <div style="flex:1;height:{{ h.statBox }};border-radius:10px;background:rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:12px;padding:16px;align-items:{{ al.stat }};justify-content:center;box-sizing:border-box;">
+          <span style="font-size:32px;color:#fff;">100+</span>
+          <span style="font-size:16px;color:#fff;text-align:{{ ta.stat }};">Задоволених клієнтів</span>
+        </div>
+        <div style="flex:1;height:{{ h.statBox }};border-radius:10px;background:rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:12px;padding:16px;justify-content:center;align-items:{{ al.stat }};box-sizing:border-box;">
+          <span style="font-size:32px;color:#fff;">18</span>
+          <span style="font-size:16px;color:#fff;text-align:{{ ta.stat }};">Програм тренувань</span>
+        </div>
+        <div style="flex:1;height:{{ h.statBox }};border-radius:10px;background:rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:8px;padding:16px;align-items:{{ al.stat }};justify-content:center;box-sizing:border-box;">
+          <span style="font-size:32px;color:#fff;">5+</span>
+          <span style="font-size:16px;color:#fff;text-align:{{ ta.stat }};">Років досвіду</span>
+        </div>
+      </div>
+      <div style="width:{{ w.heroText }};display:flex;flex-direction:column;gap:46px;flex-shrink:0;z-index:2;align-items:{{ al.heroText }};order:{{ order.text }};">
+        <div style="display:flex;flex-direction:column;gap:24px;align-items:{{ al.heroText }};">
+          <div style="display:flex;flex-direction:column;align-items:{{ al.heroText }};">
+            <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.heroTitle }};line-height:1.1;letter-spacing:0.05em;color:#fff;text-transform:uppercase;text-align:{{ ta.hero }};">work</span>
+            <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.heroTitle }};line-height:1.1;letter-spacing:0.05em;color:#fff;text-transform:uppercase;text-align:{{ ta.hero }};">harder</span>
+            <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.heroTitle }};line-height:1.1;letter-spacing:0.05em;color:#fff;text-transform:uppercase;text-align:{{ ta.hero }};">gain more</span>
+          </div>
+          <span style="width:{{ w.heroDesc }};font-size:{{ f.heroDesc }};line-height:1.5;color:rgba(255,255,255,0.9);text-align:{{ ta.hero }};">Приєднуйтесь до нас сьогодні і почніть свій шлях до здорового та активного життя!</span>
+        </div>
+        <a href="#training" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати тренування</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ABOUT ME ============ -->
+  <div id="about" data-reveal="1" style="{{ revealAbout }}position:relative;width:100%;background:radial-gradient(900px 900px at 0% 50%, rgba(12,27,82,0.55) 0%, rgba(0,4,21,0) 60%), rgb(0,4,21);display:flex;flex-direction:{{ mCol }};gap:{{ g.aboutGap }};padding:{{ g.aboutPad }};align-items:center;box-sizing:border-box;">
+    <div style="flex-grow:1;display:flex;flex-direction:column;gap:32px;">
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div style="display:flex;flex-direction:row;gap:10px;padding:6px 12px;align-items:center;">
+          <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:16px;color:#fff;white-space:nowrap;">Про мене</span>
+          <div style="width:100px;height:1px;background:#fff;"></div>
+        </div>
+        <span style="width:{{ w.aboutText1 }};font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};line-height:1.2;color:#fff;">Мене звуть Анастасія Шерстюк, і я — ваш персональний тренер</span>
+        <span style="width:{{ w.aboutText2 }};font-size:18px;line-height:1.5;color:#fff;">За багаторічний досвід роботи я допомогла численним жінкам досягти своїх фітнес-мрій, створюючи індивідуальні програми тренувань та надаючи підтримку на шляху до здоров'я та гармонії. З моїм підходом до тренувань та експертними знаннями в галузі харчування, разом ми досягнемо ваші цілі та зробимо кожен день більш енергійним та здоровим!</span>
+      </div>
+      <a href="#training" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись програми</a>
+    </div>
+    <div style="position:relative;width:{{ w.aboutImg }};height:{{ h.aboutImg }};border-radius:20px;overflow:hidden;flex-shrink:0;">
+      <img src="assets/about-photo-real.png" alt="Анастасія Шерстюк" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div>
+    </div>
+  </div>
+
+  <!-- ============ CHOOSE TRAINING ============ -->
+  <div id="training" data-reveal="1" style="{{ revealTraining }}position:relative;width:100%;background:rgb(0,4,21);display:flex;flex-direction:column;gap:{{ g.trainingContainerGap }};padding:{{ g.trainingContainerPad }};align-items:center;box-sizing:border-box;">
+    <div style="width:100%;display:flex;flex-direction:column;gap:64px;align-items:center;">
+      <div style="display:flex;flex-direction:column;gap:24px;justify-content:center;align-items:center;">
+        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:48px;text-align:center;line-height:1.2;color:#fff;">Обери тренування для себе</span>
+        <span style="width:{{ w.trainingDesc }};font-size:18px;text-align:center;line-height:1.5;color:rgba(255,255,255,0.9);">За багаторічний досвід роботи я допомогла численним жінкам досягти своїх фітнес-мрій, створюючи індивідуальні програми тренувань та надаючи підтримку на шляху до здоров'я та гармонії.</span>
+      </div>
+      <div style="width:100%;display:flex;flex-direction:{{ mCol }};gap:{{ g.trainingRowGap }};align-items:center;">
+        <div style="position:relative;width:{{ w.trainImg1 }};height:{{ h.trainImg }};border-radius:20px;overflow:hidden;flex-shrink:0;">
+          <img src="assets/training-bodyweight.png" alt="Тренування із власною вагою" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:42px;flex-grow:1;">
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.trainHead1 }};color:#fff;white-space:{{ wsN }};">Тренування із власною вагою</span>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;flex-direction:row;gap:16px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;color:#fff;">12 відео для тренувань на дому із власною вагою</span></div>
+              <div style="display:flex;flex-direction:row;gap:16px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;color:#fff;">Зручні тренування вдома за вашим графіком</span></div>
+              <div style="display:flex;flex-direction:row;gap:16px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;color:#fff;">Ефективні результати без зайвих витрат часу</span></div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:row;gap:24px;align-items:center;">
+            <a href="#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+            <span style="font-family:Montserrat,sans-serif;font-weight:500;font-size:16px;color:rgba(255,255,255,0.7);white-space:nowrap;">Почни змінювати себе вже сьогодні</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner CTA -->
+    <div style="position:relative;width:100%;height:{{ h.banner }};border-radius:16px;overflow:hidden;background:linear-gradient(90deg, #134AC3 0%, #496CD9 100%);box-shadow:0 24px 32px 0 rgba(255,255,255,0.15);display:flex;flex-direction:column;padding:{{ g.bannerPad }};justify-content:center;align-items:{{ al.banner }};box-sizing:border-box;">
+      <img src="assets/banner-space-bg.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.2;pointer-events:none;display:{{ d.decor }};">
+      <img src="assets/banner-cloud-1.svg" alt="" style="position:absolute;left:213px;top:-151px;width:306px;height:199px;pointer-events:none;display:{{ d.decor }};">
+      <img src="assets/banner-cloud-3.svg" alt="" style="position:absolute;left:527px;top:139px;width:214px;height:132px;opacity:0.5;pointer-events:none;display:{{ d.decor }};">
+      <img src="assets/banner-cloud-2.svg" alt="" style="position:absolute;left:-146px;top:273px;width:355px;height:228px;pointer-events:none;display:{{ d.decor }};">
+
+      <!-- Astronaut illustration with levitation -->
+      <div style="position:absolute;left:71px;top:53px;width:339px;height:296px;animation:astronautFloat 4.5s ease-in-out infinite;pointer-events:none;display:{{ d.decor }};">
+        <x-import component-from-global-scope="Group" from="./components/Components.bundle.js" hint-size="339px,296px"></x-import>
+      </div>
+
+      <div style="position:relative;width:{{ w.bannerText }};display:flex;flex-direction:column;gap:56px;align-items:{{ al.banner }};">
+        <div style="display:flex;flex-direction:column;gap:24px;align-items:{{ al.banner }};">
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.bannerHead }};line-height:1.2;color:#fff;white-space:{{ wsN }};">Космічна діва на зв'язку</span>
+          <span style="font-size:16px;text-align:{{ ta.banner }};white-space:{{ wsN }};font-weight:500;color:rgba(255,255,255,0.6);">Зв'яжись зі мною, пиши на email: cosmodiva@gmail.com</span>
+        </div>
+        <div onClick="{{ openContact }}" style="cursor:pointer;background:rgb(245,245,245);border-radius:8px;padding:12px 24px;color:#000;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(224,224,224);transform:translateY(-2px);">Дроп мі е меседж</div>
+      </div>
+    </div>
+
+    <div style="width:100%;display:flex;flex-direction:{{ mCol }};gap:{{ g.trainingRowGap }};align-items:center;">
+      <div style="display:flex;flex-direction:column;gap:42px;flex-grow:1;">
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.trainHead2 }};color:#fff;white-space:{{ wsN }};">Розтяжка</span>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;flex-direction:row;gap:16px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(249,93,0);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;color:#fff;">6 тренувань з розтяжки та мобільності</span></div>
+            <div style="display:flex;flex-direction:row;gap:16px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(249,93,0);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;color:#fff;">Насолоджуйтесь розтяжкою в будь-який час у затишку свого дому</span></div>
+            <div style="display:flex;flex-direction:row;gap:16px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(249,93,0);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;color:#fff;">Покращуйте свою гнучкість і позбудьтеся напруги</span></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:row;gap:24px;align-items:center;">
+          <a href="#pricing" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати</a>
+          <span style="font-family:Montserrat,sans-serif;font-weight:500;font-size:16px;color:rgba(255,255,255,0.7);white-space:nowrap;">Почни змінювати себе вже сьогодні</span>
+        </div>
+      </div>
+      <div style="position:relative;width:{{ w.trainImg2 }};height:{{ h.trainImg }};border-radius:20px;overflow:hidden;flex-shrink:0;">
+        <img src="assets/training-stretching.png" alt="Розтяжка" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ PRICING ============ -->
+  <div id="pricing" data-reveal="1" style="{{ revealPricing }}position:relative;width:100%;background:radial-gradient(1300px 800px at 50% 45%, rgba(30,16,80,0.45) 0%, rgb(0,4,21) 70%);display:flex;flex-direction:column;gap:{{ g.pricingGap }};padding:{{ g.pricingPad }};align-items:center;box-sizing:border-box;">
+    <span style="width:{{ w.pricingHead }};font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};text-align:center;line-height:1.2;color:#fff;">Поспішай придбати власний курс з тренувань</span>
+    <div style="width:100%;display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;gap:32px;">
+
+      <div style="width:{{ w.pricingCard }};border-radius:20px;background:linear-gradient(147deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:center;box-sizing:border-box;gap:32px;transition:transform 0.2s ease;" style-hover="transform:translateY(-6px);">
+        <div style="display:flex;flex-direction:column;gap:24px;width:100%;">
+          <span style="display:block;min-height:78px;line-height:1.2;font-family:Oswald,sans-serif;font-size:32px;color:#fff;text-transform:uppercase;">Індивідуальний супровід</span>
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:56px;color:#fff;">2500 ГРН</span>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:15px;color:#fff;">Що включає в себе:</span>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Персональний план тренувань</span></div>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Щотижневий зворотний зв'язок</span></div>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до особистого кабінету</span></div>
+          </div>
+        </div>
+        <a href="#" style="width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+      </div>
+
+      <div style="width:{{ w.pricingCard }};position:relative;border-radius:20px;background:linear-gradient(147deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);box-shadow:0 0 0 2px rgb(249,93,0),0 16px 40px 0 rgba(249,93,0,0.25);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:center;box-sizing:border-box;gap:32px;transition:transform 0.2s ease;" style-hover="transform:translateY(-6px);">
+        <span style="position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:rgb(249,93,0);color:#fff;font-size:14px;font-weight:600;padding:6px 18px;border-radius:20px;white-space:nowrap;">Популярний вибір</span>
+        <div style="display:flex;flex-direction:column;gap:24px;width:100%;">
+          <span style="display:block;min-height:78px;line-height:1.2;font-family:Oswald,sans-serif;font-size:32px;color:#fff;text-transform:uppercase;">Тренування із власною вагою</span>
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:56px;color:#fff;">3200 ГРН</span>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:15px;color:#fff;">Що включає в себе:</span>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">12 тренувань із власною вагою</span></div>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до матеріалу</span></div>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до особистого кабінету</span></div>
+          </div>
+        </div>
+        <a href="#" style="width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+      </div>
+
+      <div style="width:{{ w.pricingCard }};border-radius:20px;background:linear-gradient(147deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:center;box-sizing:border-box;gap:32px;transition:transform 0.2s ease;" style-hover="transform:translateY(-6px);">
+        <div style="display:flex;flex-direction:column;gap:24px;width:100%;">
+          <span style="display:block;min-height:78px;line-height:1.2;font-family:Oswald,sans-serif;font-size:32px;color:#fff;text-transform:uppercase;">Доступ до приватного Telegram-каналу</span>
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:56px;color:#fff;">2800 ГРН</span>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:15px;color:#fff;">Що включає в себе:</span>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Щоденна підтримка в чаті</span></div>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до матеріалу</span></div>
+            <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до особистого кабінету</span></div>
+          </div>
+        </div>
+        <a href="#" style="width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NUTRITION ============ -->
+  <div id="nutrition" data-reveal="1" style="{{ revealNutrition }}position:relative;width:100%;background:rgb(0,4,21);display:flex;flex-direction:column;gap:{{ g.nutritionGap }};padding:{{ g.nutritionPad }};align-items:center;box-sizing:border-box;">
+    <div style="display:flex;flex-direction:column;gap:16px;padding:{{ g.nutritionHeadPad }};align-items:center;box-sizing:border-box;">
+      <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};text-align:center;line-height:1.2;color:#fff;">Харчуйся корисно і смачно разом зі мною</span>
+      <span style="width:{{ w.nutritionHead }};font-size:18px;text-align:center;line-height:1.2;color:#fff;">Тут ти знайдеш безліч рецептів корисної і смачної іжі і тобі не прийдеться відмовлятись від улюблених страв</span>
+    </div>
+    <div style="display:flex;flex-direction:row;gap:16px;">
+      <a id="recipes" href="Blog.dc.html" style="box-shadow:inset 0 0 0 1px rgb(255,255,255);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.12);">Дивитись усі рецепти</a>
+    </div>
+    <div style="width:100%;display:flex;flex-direction:{{ mCol }};gap:{{ g.nutritionRowGap }};align-items:{{ al.recipe }};">
+      <div style="display:flex;flex-direction:column;gap:32px;flex:1;min-width:0;">
+        <div style="position:relative;height:{{ h.recipeImg }};border-radius:20px;overflow:hidden;"><img src="assets/recipe-bowl.jpg" alt="Боул" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div></div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;flex-direction:row;gap:24px;justify-content:center;align-items:flex-end;">
+            <span style="flex-grow:1;font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Боул</span>
+            <span style="font-size:18px;color:#fff;white-space:nowrap;">15 хв</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:24px;">
+            <span style="width:256px;font-size:14px;font-weight:500;line-height:1.5;color:rgba(255,255,255,0.8);">356 ккал, 15 г білка, 40 вуглеводів, 10 жирів</span>
+            <a href="Blog Post.dc.html" style="color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.6);">Дивитись рецепт</a>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:32px;align-items:center;flex:1;min-width:0;">
+        <div style="position:relative;width:100%;height:{{ h.recipeImg }};border-radius:20px;overflow:hidden;"><img src="assets/recipe-pancakes.jpg" alt="Панкейки" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div></div>
+        <div style="width:100%;display:flex;flex-direction:column;gap:12px;align-items:center;">
+          <div style="width:100%;display:flex;flex-direction:row;gap:24px;justify-content:center;align-items:flex-end;">
+            <span style="flex-grow:1;font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Панкейки</span>
+            <span style="font-size:18px;color:#fff;white-space:nowrap;">20 хв</span>
+          </div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:24px;">
+            <span style="width:249px;font-size:14px;font-weight:500;line-height:1.5;color:rgba(255,255,255,0.8);">500 ккал, 15 г білка, 40 вуглеводів, 10 жирів</span>
+            <a href="Blog Post.dc.html" style="color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.6);">Дивитись рецепт</a>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:32px;flex:1;min-width:0;">
+        <div style="position:relative;width:100%;height:{{ h.recipeImg }};border-radius:20px;overflow:hidden;"><img src="assets/recipe-plate.jpg" alt="Тарілка" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div></div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;flex-direction:row;gap:24px;justify-content:flex-end;align-items:flex-end;">
+            <span style="flex-grow:1;font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Тарілка</span>
+            <span style="font-size:18px;color:#fff;white-space:nowrap;">15 хв</span>
+          </div>
+          <div style="width:244px;display:flex;flex-direction:column;gap:24px;">
+            <span style="font-size:14px;font-weight:500;line-height:1.5;color:rgba(255,255,255,0.8);">500 ккал, 15 г білка, 40 вуглеводів, 10 жирів</span>
+            <a href="Blog Post.dc.html" style="color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.6);">Дивитись рецепт</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FAQ ============ -->
+  <div id="faq" data-reveal="1" style="{{ revealFaq }}position:relative;width:100%;background:rgb(0,4,21);display:flex;flex-direction:{{ mCol }};gap:{{ g.faqGap }};padding:{{ g.faqPad }};align-items:flex-start;box-sizing:border-box;overflow:hidden;">
+    <!-- Troubled astronaut illustration (from Figma) -->
+        <div style="position:absolute;left:0px;top:0px;transform:matrix(0.817,-0.577,0.577,0.817,1027.352,382.926);transform-origin:0 0;width:509.231px;height:483.83px;pointer-events:none;display:{{ d.decor }};">
+          <div style="position:absolute;left:153.894px;top:208.119px;width:95.229px;height:154.923px;overflow:hidden">
+            <svg width="89.228" height="149.221" viewBox="0 0 89.228 149.221" fill="none" style="position:absolute;left:2.937px;top:2.891px;width:89.228px;height:149.221px;color:rgb(255,255,255)">
+              <path d="M 78.285 0 L 79.347 14.496 L 79.891 21.879 L 89.228 149.212 C 89.228 149.212 80.369 149.347 68.478 148.585 C 66.152 148.436 63.709 148.255 61.193 148.031 C 42.452 146.37 19.699 142.384 11.06 132.904 C -1.855 118.726 -4.009 49.502 7.522 22.053 C 12.804 9.469 39.646 3.989 58.709 1.657 C 60.838 1.391 62.874 1.171 64.769 0.986 C 72.758 0.19 78.285 0 78.285 0 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+            <div style="position:absolute;left:2.94px;top:17.387px;width:89.225px;height:134.725px;opacity:0.29;overflow:hidden">
+              <svg width="89.225" height="134.725" viewBox="0 0 89.225 134.725" fill="none" style="position:absolute;left:0px;top:0px;width:89.225px;height:134.725px;color:rgb(55,26,69)">
+                <path d="M 79.345 0 L 79.889 7.383 L 87.303 108.486 L 89.225 134.716 C 89.225 134.716 89.039 134.718 88.689 134.721 C 88.589 134.721 88.47 134.721 88.344 134.721 C 88.244 134.721 88.133 134.721 88.02 134.721 C 87.934 134.725 87.848 134.721 87.761 134.725 C 87.728 134.723 87.688 134.727 87.655 134.725 C 87.496 134.725 87.317 134.725 87.131 134.721 C 87.091 134.727 87.053 134.725 87.005 134.723 C 86.852 134.723 86.693 134.721 86.522 134.723 C 86.29 134.723 86.051 134.719 85.798 134.718 C 85.619 134.712 85.425 134.718 85.234 134.712 C 85.035 134.71 84.836 134.707 84.63 134.705 C 84.371 134.703 84.099 134.696 83.82 134.696 C 83.254 134.685 82.656 134.676 82.025 134.66 C 81.467 134.655 80.881 134.639 80.268 134.621 C 79.562 134.599 78.825 134.583 78.059 134.556 C 75.228 134.461 71.988 134.315 68.478 134.091 C 67.795 134.048 67.1 133.999 66.398 133.953 C 65.909 133.919 65.407 133.881 64.906 133.841 C 63.694 133.75 62.448 133.649 61.193 133.536 C 42.446 131.877 19.699 127.89 11.067 118.408 C 0.429 106.736 -2.917 57.737 2.68 25.468 C 1.717 53.527 5.584 83.514 13.604 92.312 C 17.568 96.662 32.814 80.729 32.349 71.749 C 31.152 48.589 34.261 18.685 55.563 0.481 C 56.116 0.009 68.83 1.323 79.347 0 L 79.345 0 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+            </div>
+            <svg width="95.154" height="154.923" viewBox="0 0 95.154 154.923" fill="none" style="position:absolute;left:0.074px;top:0px;width:95.154px;height:154.923px;color:rgb(55,26,69)">
+              <path d="M 90.01 154.921 C 78.635 154.921 26.688 154.011 11.8 137.669 C -1.8 122.74 -4.3 52.547 7.748 23.872 C 11.61 14.678 25.283 7.887 48.385 3.693 C 65.046 0.668 80.403 0.115 81.049 0.093 L 83.793 0 L 95.154 154.866 L 92.139 154.911 C 91.9 154.914 91.165 154.923 90.012 154.923 L 90.01 154.921 Z M 78.504 5.815 C 59.969 6.781 18.984 11.805 13.015 26.014 C 2.054 52.103 3.981 120.683 16.045 133.926 C 28.819 147.948 76.51 149.216 89.03 149.302 L 78.504 5.815 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+            <svg width="37.358" height="42.211" viewBox="0 0 37.358 42.211" fill="none" style="position:absolute;left:2.851px;top:83.558px;width:37.358px;height:42.211px;color:rgb(255,255,255)">
+              <path d="M 5.247 0.006 L 30.724 1.23 C 32.999 1.34 34.912 2.941 35.376 5.135 C 37.074 13.17 40.019 31.927 32.205 38.347 C 25.72 43.676 14.951 43.347 8.511 38.261 C 1.307 32.571 0.128 14.131 0 4.99 C -0.04 2.148 2.363 -0.132 5.247 0.006 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+            <div style="position:absolute;left:3.749px;top:87.004px;width:36.459px;height:38.765px;opacity:0.29;overflow:hidden">
+              <svg width="36.459" height="38.765" viewBox="0 0 36.459 38.765" fill="none" style="position:absolute;left:0px;top:0px;width:36.459px;height:38.765px;color:rgb(55,26,69)">
+                <path d="M 34.476 1.693 C 36.178 9.724 39.119 28.483 31.303 34.899 C 24.818 40.23 14.051 39.901 7.607 34.813 C 3.18 31.312 1.029 22.989 0 14.976 C 1.251 18.96 3.136 22.173 5.431 24.254 C 18.571 36.179 27.755 21.484 27.755 21.484 C 27.755 21.484 29.508 24.949 30.836 25.114 C 36.391 25.802 34.795 8.787 33.761 0 C 34.098 0.499 34.346 1.068 34.476 1.691 L 34.476 1.693 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+            </div>
+            <svg width="43.057" height="47.827" viewBox="0 0 43.057 47.827" fill="none" style="position:absolute;left:0px;top:80.752px;width:43.057px;height:47.827px;color:rgb(55,26,69)">
+              <path d="M 23.401 47.827 C 18.443 47.827 13.439 46.303 9.578 43.254 C 1.991 37.261 0.183 20.686 0.001 7.834 C -0.028 5.71 0.844 3.645 2.396 2.17 C 3.949 0.694 6.083 -0.098 8.236 0.01 L 33.712 1.234 C 37.286 1.407 40.289 3.929 41.015 7.369 C 43.204 17.722 45.577 36.157 36.879 43.304 C 33.21 46.319 28.327 47.825 23.397 47.825 L 23.401 47.827 Z M 7.851 5.61 C 7.289 5.61 6.762 5.818 6.357 6.206 C 5.924 6.615 5.693 7.166 5.7 7.759 C 5.926 23.742 8.708 35.376 13.145 38.881 C 18.736 43.296 27.935 43.351 33.229 39.001 C 38.665 34.534 37.934 20.323 35.436 8.515 C 35.237 7.576 34.415 6.886 33.435 6.838 L 7.96 5.613 C 7.924 5.613 7.887 5.611 7.851 5.611 L 7.851 5.61 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+            <svg width="13.346" height="34.877" viewBox="0 0 13.346 34.877" fill="none" style="position:absolute;left:19.638px;top:93.563px;width:13.346px;height:34.877px;color:rgb(55,26,69)">
+              <path d="M 1.715 29.999 C 10.07 24.925 11.136 13.903 10.718 5.055 C 10.623 3.648 10.473 2.161 10.119 0.926 C 9.881 0.046 11.194 -0.398 11.542 0.466 C 13.037 4.764 13.255 9.111 13.343 13.589 C 13.449 21.329 10.805 30.051 3.855 34.504 C 0.591 36.254 -1.751 31.351 1.713 30.001 L 1.715 29.999 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+            <svg width="41.759" height="6.681" viewBox="0 0 41.759 6.681" fill="none" style="position:absolute;left:8.51px;top:19.19px;width:41.759px;height:6.681px;color:rgb(55,26,69)">
+              <path d="M 40.217 4.276 C 28.066 4.021 15.427 3.799 3.578 6.581 C -0.065 7.463 -1.528 2.228 2.084 1.165 C 11.733 -0.559 21.361 -0.015 31.034 0.558 C 34.181 0.782 37.302 1.046 40.455 1.396 C 41.261 1.486 41.841 2.201 41.75 2.996 C 41.662 3.759 40.984 4.317 40.216 4.278 L 40.217 4.276 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <svg width="62.517" height="128.566" viewBox="0 0 62.517 128.566" fill="none" style="position:absolute;left:195.528px;top:313.082px;width:62.517px;height:128.566px;color:rgb(255,255,255)">
+            <path d="M 62.517 0 C 61.981 7.956 60.886 32.217 59.69 56.856 C 58.247 86.627 56.654 116.946 55.689 119.674 C 52.796 127.852 45.281 128.566 45.281 128.566 L 15.826 128.566 C 15.826 128.566 6.823 128.554 2.862 123.841 C -3.641 116.095 2.972 107.668 2.972 107.668 C 2.972 107.668 2.474 72.546 2.149 40.397 C 2.014 26.581 1.91 13.306 1.89 3.612 L 62.516 0 L 62.517 0 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <div style="position:absolute;left:197.42px;top:313.081px;width:60.625px;height:56.976px;opacity:0.29;overflow:hidden">
+            <svg width="60.625" height="56.976" viewBox="0 0 60.625 56.976" fill="none" style="position:absolute;left:0px;top:0px;width:60.625px;height:56.976px;color:rgb(55,26,69)">
+              <path d="M 60.624 0 C 60.087 7.956 58.993 32.217 57.796 56.856 C 35.215 58.276 16.891 46.778 0.259 40.397 C 0.124 26.581 0.02 13.306 0 3.612 L 60.625 0 L 60.624 0 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <div style="position:absolute;left:195.53px;top:423.793px;width:56.691px;height:17.855px;opacity:0.29;overflow:hidden">
+            <svg width="56.691" height="17.855" viewBox="0 0 56.691 17.855" fill="none" style="position:absolute;left:0px;top:0px;width:56.691px;height:17.855px;color:rgb(55,26,69)">
+              <path d="M 56.691 0 C 56.315 4.923 55.972 8.153 55.687 8.963 C 52.794 17.141 45.28 17.855 45.28 17.855 L 15.824 17.855 C 15.824 17.855 6.821 17.843 2.861 13.13 C -0.388 9.264 -0.363 5.225 0.478 2.155 C 0.478 2.162 0.484 2.167 0.491 2.174 C 4.782 7.277 14.537 7.289 14.537 7.289 L 46.451 7.289 C 46.451 7.289 53.099 6.659 56.689 0.002 L 56.691 0 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <svg width="68.221" height="154.045" viewBox="0 0 68.221 154.045" fill="none" style="position:absolute;left:192.675px;top:310.274px;width:68.221px;height:154.045px;color:rgb(55,26,69)">
+            <path d="M 48.112 154.045 L 18.657 154.045 C 17.595 154.045 8.178 153.873 3.5 148.304 C -2.339 141.348 0.317 133.4 2.942 129.473 C 2.823 121.006 1.95 36.351 1.897 6.427 C 1.895 4.878 3.168 3.621 4.741 3.617 L 4.747 3.617 C 6.319 3.617 7.594 4.869 7.596 6.416 C 7.653 38.272 8.643 129.59 8.654 130.308 C 8.663 130.942 19.898 130.623 19.504 131.124 C 19.302 131.388 14.396 137.907 19.338 143.792 C 21.865 146.801 16.526 148.426 18.666 148.436 L 47.933 148.436 C 48.707 148.32 53.738 147.341 55.829 141.429 C 56.92 137.606 59.18 70.568 60.663 39.357 C 61.453 22.738 62.134 8.386 62.526 2.619 C 62.632 1.075 63.993 -0.099 65.56 0.007 C 67.131 0.111 68.318 1.447 68.214 2.992 C 67.826 8.704 67.147 23.029 66.359 39.617 C 63.783 93.851 62.338 140.091 61.214 143.271 C 57.763 153.036 48.769 153.997 48.387 154.033 C 48.296 154.042 48.205 154.045 48.116 154.045 L 48.112 154.045 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="64.594" height="121.772" viewBox="0 0 64.594 121.772" fill="none" style="position:absolute;left:261.336px;top:319.872px;width:64.594px;height:121.772px;color:rgb(255,255,255)">
+            <path d="M 61.939 103.768 C 65.381 107.966 65.841 114.036 61.131 118.304 C 56.413 122.572 38.659 121.699 38.659 121.699 L 12.971 121.699 C 12.971 121.699 5.457 120.986 2.563 112.806 C 0.325 106.461 1.651 80.27 0.848 50.365 C 0.68 44.015 0.414 37.499 0 30.969 L 64.592 0 C 63.588 11.663 62.488 23.077 61.375 33.772 C 57.57 70.486 53.706 98.648 53.706 98.648 C 53.706 98.648 58.987 100.163 61.939 103.768 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <div style="position:absolute;left:263.069px;top:426.31px;width:62.858px;height:15.334px;opacity:0.29;overflow:hidden">
+            <svg width="62.858" height="15.334" viewBox="0 0 62.858 15.334" fill="none" style="position:absolute;left:0px;top:0px;width:62.858px;height:15.334px;color:rgb(55,26,69)">
+              <path d="M 59.398 11.868 C 54.682 16.13 36.93 15.261 36.93 15.261 L 11.241 15.261 C 11.241 15.261 3.725 14.546 0.834 6.372 C 0.471 5.349 0.199 3.806 0 1.808 C 3.291 4.318 6.626 4.634 6.626 4.634 L 35.669 4.634 C 35.669 4.634 55.736 5.616 61.072 0.792 C 61.357 0.533 61.629 0.273 61.87 0 C 63.628 3.849 63.18 8.44 59.398 11.87 L 59.398 11.868 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <div style="position:absolute;left:261.339px;top:319.873px;width:64.592px;height:50.375px;opacity:0.29;overflow:hidden">
+            <svg width="64.592" height="50.375" viewBox="0 0 64.592 50.375" fill="none" style="position:absolute;left:0px;top:0px;width:64.592px;height:50.375px;color:rgb(55,26,69)">
+              <path d="M 64.592 0 C 63.588 11.663 62.488 23.077 61.375 33.772 C 57.039 35.249 52.139 37.269 46.781 40.047 C 28.005 49.785 8.058 50.48 0.848 50.365 C 0.68 44.015 0.414 37.499 0 30.969 L 64.592 0 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <svg width="70.290" height="127.401" viewBox="0 0 70.290 127.401" fill="none" style="position:absolute;left:258.487px;top:317.071px;width:70.29px;height:127.401px;color:rgb(55,26,69)">
+            <path d="M 45.613 127.401 C 43.723 127.401 42.229 127.345 41.439 127.308 L 15.822 127.308 C 15.731 127.308 15.64 127.304 15.549 127.295 C 15.168 127.259 6.174 126.299 2.722 116.533 C 1.157 112.106 1.155 101.024 1.153 84.252 C 1.151 69.824 1.148 51.868 0.006 33.951 C -0.093 32.405 1.1 31.073 2.671 30.976 C 4.234 30.885 5.595 32.055 5.692 33.599 C 6.845 51.69 6.849 69.743 6.85 84.248 C 6.852 98.687 6.854 111.156 8.104 114.689 C 10.182 120.566 15.166 121.569 16.007 121.697 L 41.509 121.697 C 41.556 121.697 41.604 121.697 41.649 121.7 C 48.532 122.034 59.405 121.431 62.045 119.04 C 65.734 115.704 64.966 111.256 62.569 108.328 C 60.232 105.475 55.795 104.152 55.749 104.139 C 54.403 103.746 53.542 102.443 53.73 101.073 C 53.794 100.604 60.21 53.597 64.601 2.567 C 64.734 1.025 66.115 -0.122 67.68 0.01 C 69.249 0.142 70.411 1.499 70.28 3.041 C 66.418 47.927 60.992 89.71 59.675 99.617 C 61.779 100.523 64.86 102.19 67.007 104.811 C 71.739 110.589 71.274 118.311 65.903 123.171 C 61.872 126.819 51.69 127.401 45.612 127.401 L 45.613 127.401 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="62.563" height="11.213" viewBox="0 0 62.563 11.213" fill="none" style="position:absolute;left:259.612px;top:383.178px;width:62.563px;height:11.213px;color:rgb(55,26,69)">
+            <path d="M 27.673 11.213 C 13.991 11.213 3.06 9.024 2.268 8.861 C 0.728 8.545 -0.261 7.06 0.061 5.545 C 0.38 4.028 1.888 3.058 3.43 3.37 C 3.755 3.437 36.277 9.927 58.561 0.241 C 59.998 -0.387 61.682 0.255 62.319 1.674 C 62.955 3.09 62.302 4.746 60.863 5.372 C 50.422 9.911 38.227 11.213 27.671 11.213 L 27.673 11.213 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="62.317" height="9.995" viewBox="0 0 62.317 9.995" fill="none" style="position:absolute;left:195.133px;top:379.999px;width:62.317px;height:9.995px;color:rgb(55,26,69)">
+            <path d="M 33.752 9.995 C 14.712 9.995 2.567 5.693 1.863 5.436 C 0.387 4.899 -0.368 3.287 0.177 1.834 C 0.723 0.382 2.357 -0.361 3.833 0.174 C 4.061 0.256 27.002 8.316 58.889 1.816 C 60.429 1.499 61.939 2.477 62.257 3.992 C 62.576 5.51 61.585 6.993 60.044 7.307 C 50.348 9.285 41.48 9.995 33.75 9.995 L 33.752 9.995 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="43.204" height="14.730" viewBox="0 0 43.204 14.730" fill="none" style="position:absolute;left:196.154px;top:414.767px;width:43.204px;height:14.73px;color:rgb(55,26,69)">
+            <path d="M 0.52 3.834 C 9.764 -2.823 30.962 0.933 42.003 2.256 C 43.78 2.532 43.51 5.148 41.695 5.044 C 38.356 4.805 35.021 4.601 31.694 4.468 C 24.382 4.225 25.794 9.458 18.69 11.042 C 27.179 17.033 13.037 13.153 11.667 14.381 C 8.65 16.769 -2.527 6.209 0.522 3.832 L 0.52 3.834 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="24.264" height="6.179" viewBox="0 0 24.264 6.179" fill="none" style="position:absolute;left:293.828px;top:415.199px;width:24.264px;height:6.179px;color:rgb(55,26,69)">
+            <path d="M 20.548 6.046 C 14.537 4.183 7.829 3.832 1.459 4.012 C -0.291 4.057 -0.559 1.536 1.16 1.224 C 8.015 0.075 14.873 -0.521 21.884 0.594 C 25.861 1.393 24.467 7.116 20.548 6.046 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="47.714" height="58.648" viewBox="0 0 47.714 58.648" fill="none" style="position:absolute;left:315.555px;top:252.697px;width:47.714px;height:58.648px;color:rgb(216,216,216)">
+            <path d="M 0 50.818 C 0 50.818 28.166 65.892 40.261 54.211 C 58.918 36.192 36.669 0 36.669 0 L 0.002 50.818 L 0 50.818 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="53.446" height="64.235" viewBox="0 0 53.446 64.235" fill="none" style="position:absolute;left:312.703px;top:249.892px;width:53.446px;height:64.235px;color:rgb(55,26,69)">
+            <path d="M 30.182 64.235 C 16.932 64.235 2.352 56.549 1.49 56.086 C 0.773 55.704 0.258 55.037 0.074 54.255 C -0.11 53.474 0.054 52.651 0.526 51.998 L 37.193 1.18 C 37.749 0.41 38.665 -0.019 39.621 0.001 C 40.581 0.037 41.458 0.543 41.955 1.351 C 42.91 2.906 65.142 39.663 45.105 59.014 C 41.117 62.865 35.766 64.232 30.18 64.232 L 30.182 64.235 Z M 7.096 52.585 C 16 56.702 33.402 62.463 41.115 55.016 C 54.577 42.013 44.047 17.54 39.193 8.102 L 7.096 52.585 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="115.040" height="110.847" viewBox="0 0 115.040 110.847" fill="none" style="position:absolute;left:130.384px;top:156.859px;width:115.04px;height:110.847px;color:rgb(255,255,255)">
+            <path d="M 108.782 81.832 C 104.017 88.787 97.413 96.387 92.204 102.052 C 87.474 107.19 83.898 110.738 83.898 110.738 C 83.898 110.738 21.686 115.022 4.568 69.921 C 2.574 64.669 1.326 59.376 0.657 54.188 C -3.083 25.597 10.366 0 10.366 0 L 43.968 15.586 L 53.664 47.304 C 53.664 47.304 60.874 50.697 73.368 54.68 C 83.035 57.771 95.866 61.213 110.975 63.716 C 118.049 64.886 114.965 72.81 108.78 81.832 L 108.782 81.832 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <div style="position:absolute;left:131.042px;top:211.047px;width:91.548px;height:56.66px;opacity:0.29;overflow:hidden">
+            <svg width="91.548" height="56.660" viewBox="0 0 91.548 56.660" fill="none" style="position:absolute;left:0px;top:0px;width:91.548px;height:56.66px;color:rgb(55,26,69)">
+              <path d="M 91.548 47.864 C 86.817 53.003 83.241 56.55 83.241 56.55 C 83.241 56.55 21.029 60.834 3.911 15.733 C 1.917 10.482 0.67 5.189 0 0 C 3.276 8.925 19.962 45.087 75.176 46.609 C 81.822 46.792 87.215 47.232 91.546 47.864 L 91.548 47.864 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <div style="position:absolute;left:203.754px;top:211.537px;width:41.672px;height:27.154px;opacity:0.29;overflow:hidden">
+            <svg width="41.672" height="27.154" viewBox="0 0 41.672 27.154" fill="none" style="position:absolute;left:0px;top:0px;width:41.672px;height:27.154px;color:rgb(55,26,69)">
+              <path d="M 35.412 27.154 C 20.401 21.769 7.936 12.144 0 0 C 9.667 3.092 22.497 6.534 37.606 9.036 C 44.681 10.207 41.596 18.13 35.412 27.152 L 35.412 27.154 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <svg width="90.117" height="47.360" viewBox="0 0 90.117 47.360" fill="none" style="position:absolute;left:218.472px;top:196.09px;width:90.117px;height:47.36px;color:rgb(216,216,216)">
+            <path d="M 90.115 35.939 C 78.325 43.131 63.935 47.36 48.414 47.36 C 29.806 47.36 12.838 41.28 0 31.291 L 20.033 0 L 89.811 35.413 C 89.911 35.589 90.017 35.763 90.117 35.939 L 90.115 35.939 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="120.800" height="116.468" viewBox="0 0 120.800 116.468" fill="none" style="position:absolute;left:127.492px;top:154.054px;width:120.8px;height:116.468px;color:rgb(55,26,69)">
+            <path d="M 82.386 116.467 C 76.368 116.467 65.156 115.946 52.823 112.763 C 28.739 106.545 12.13 93.042 4.791 73.712 C -8.477 38.761 9.938 3.021 10.729 1.517 C 11.452 0.141 13.17 -0.397 14.569 0.314 C 15.967 1.025 16.514 2.718 15.792 4.093 C 15.566 4.527 -2.221 39.211 10.131 71.748 C 25.109 111.202 77.47 111.061 85.552 110.797 C 101.186 95.167 116.709 75.429 114.989 70.161 C 114.927 69.969 114.779 69.518 113.398 69.288 C 78.776 63.548 56.27 53.081 55.328 52.639 C 54.604 52.298 54.06 51.673 53.829 50.918 L 44.134 19.203 C 43.68 17.72 44.536 16.156 46.042 15.709 C 47.549 15.266 49.138 16.104 49.593 17.587 L 58.915 48.083 C 63.879 50.248 84.827 58.864 114.347 63.758 C 118.522 64.45 119.942 66.992 120.418 68.444 C 121.523 71.834 121.202 78.486 105.714 97.067 C 97.574 106.831 88.903 115.44 88.817 115.526 C 88.33 116.007 87.682 116.3 86.995 116.346 C 86.79 116.361 85.128 116.468 82.39 116.468 L 82.386 116.467 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="130.342" height="167.312" viewBox="0 0 130.342 167.312" fill="none" style="position:absolute;left:198.919px;top:196.093px;width:130.342px;height:167.312px;color:rgb(255,255,255)">
+            <path d="M 130.2 114.875 C 129.474 127.929 125.884 139.757 118.054 148.316 C 90.791 178.127 17.78 172.301 3.133 134.701 C 0.732 128.545 -0.151 120.126 0.021 110.682 C 0.44 87.378 7.294 57.813 13.67 40.481 L 39.586 0 L 109.364 35.413 C 120.549 54.504 131.727 87.392 130.202 114.875 L 130.2 114.875 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <div style="position:absolute;left:218.473px;top:196.091px;width:90.117px;height:47.36px;opacity:0.29;overflow:hidden">
+            <svg width="90.117" height="47.360" viewBox="0 0 90.117 47.360" fill="none" style="position:absolute;left:0px;top:0px;width:90.117px;height:47.36px;color:rgb(55,26,69)">
+              <path d="M 90.115 35.939 C 78.325 43.131 63.935 47.36 48.414 47.36 C 29.806 47.36 12.838 41.28 0 31.291 L 20.033 0 L 89.811 35.413 C 89.911 35.589 90.017 35.763 90.117 35.939 L 90.115 35.939 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <div style="position:absolute;left:198.919px;top:306.775px;width:130.2px;height:56.63px;opacity:0.29;overflow:hidden">
+            <svg width="130.200" height="56.630" viewBox="0 0 130.200 56.630" fill="none" style="position:absolute;left:0px;top:0px;width:130.2px;height:56.63px;color:rgb(55,26,69)">
+              <path d="M 130.2 4.192 C 129.474 17.247 125.884 29.075 118.054 37.634 C 90.791 67.445 17.78 61.619 3.133 24.019 C 0.732 17.863 -0.151 9.444 0.021 0 C 25.986 4.612 89.16 13.945 130.2 4.192 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <svg width="11.677" height="79.594" viewBox="0 0 11.677 79.594" fill="none" style="position:absolute;left:195.945px;top:256.367px;width:11.677px;height:79.594px;color:rgb(55,26,69)">
+            <path d="M 6.617 78.955 C -5.996 58.887 2.096 22.365 8.888 0.953 C 9.432 -0.651 11.94 -0.098 11.654 1.626 C 9.408 14.388 7.515 27.229 6.581 40.113 C 5.935 49.659 5.229 59.198 6.699 68.638 C 7.161 71.744 7.963 74.764 9.157 77.691 C 9.751 79.242 7.537 80.355 6.617 78.953 L 6.617 78.955 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="41.842" height="6.570" viewBox="0 0 41.842 6.570" fill="none" style="position:absolute;left:245.442px;top:359.671px;width:41.842px;height:6.57px;color:rgb(55,26,69)">
+            <path d="M 40.991 2.731 C 28.529 7.803 13.608 7.668 0.929 3.391 C -0.585 2.837 -0.138 0.589 1.473 0.637 C 10.888 0.998 21.225 1.14 30.572 0.547 C 33.8 0.371 37.029 0.138 40.343 0.002 C 41.923 -0.068 42.434 2.111 40.991 2.731 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="26.859" height="116.958" viewBox="0 0 26.859 116.958" fill="none" style="position:absolute;left:305.442px;top:228.733px;width:26.859px;height:116.958px;color:rgb(55,26,69)">
+            <path d="M 5.308 1.37 C 21.297 28.392 34.439 73.896 21.808 103.971 C 19.659 108.739 16.608 113.222 12.589 116.618 C 11.987 117.126 11.081 117.057 10.564 116.465 C 10.13 115.968 10.11 115.255 10.471 114.741 C 27.058 89.821 20.751 57.676 12.08 30.992 C 8.924 21.731 5.086 12.659 0.361 4.152 C -1.319 0.953 3.3 -1.722 5.308 1.368 L 5.308 1.37 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <div style="position:absolute;left:190.314px;top:284.181px;width:143.92px;height:57.254px;overflow:hidden">
+            <div style="position:absolute;left:119.296px;top:13.876px;width:24.625px;height:24.235px;overflow:hidden">
+              <svg width="18.925" height="18.626" viewBox="0 0 18.925 18.626" fill="none" style="position:absolute;left:2.849px;top:2.804px;width:18.925px;height:18.626px;color:rgb(255,255,255)">
+                <path d="M 9.463 18.626 C 14.689 18.626 18.925 14.456 18.925 9.313 C 18.925 4.17 14.689 0 9.463 0 C 4.237 0 0 4.17 0 9.313 C 0 14.456 4.237 18.626 9.463 18.626 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="24.625" height="24.235" viewBox="0 0 24.625 24.235" fill="none" style="position:absolute;left:0px;top:0px;width:24.625px;height:24.235px;color:rgb(55,26,69)">
+                <path d="M 12.312 24.235 C 5.524 24.235 0 18.8 0 12.117 C 0 5.435 5.522 0 12.312 0 C 19.102 0 24.625 5.437 24.625 12.117 C 24.625 18.798 19.101 24.235 12.312 24.235 Z M 12.312 5.609 C 8.665 5.609 5.699 8.528 5.699 12.117 C 5.699 15.706 8.665 18.626 12.312 18.626 C 15.959 18.626 18.925 15.706 18.925 12.117 C 18.925 8.528 15.959 5.609 12.312 5.609 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+            </div>
+            <div style="position:absolute;left:53.48px;top:0px;width:82.636px;height:57.254px;overflow:hidden">
+              <svg width="76.991" height="51.688" viewBox="0 0 76.991 51.688" fill="none" style="position:absolute;left:2.846px;top:2.758px;width:76.991px;height:51.688px;color:rgb(255,255,255)">
+                <path d="M 65.725 50.606 L 12.32 51.685 C 5.999 51.815 0.716 46.829 0.584 40.6 L 0.002 12.631 C -0.111 7.179 3.761 2.52 8.973 1.358 C 9.71 1.189 10.478 1.099 11.266 1.081 L 64.661 0.002 C 70.99 -0.127 76.273 4.859 76.397 11.087 L 76.864 33.239 L 76.988 39.056 C 77.12 45.285 72.044 50.475 65.725 50.606 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="76.991" height="51.688" viewBox="0 0 76.991 51.688" fill="none" style="position:absolute;left:2.846px;top:2.758px;width:76.991px;height:51.688px;color:rgb(255,255,255)">
+                <path d="M 65.725 50.606 L 12.32 51.685 C 5.999 51.815 0.716 46.829 0.584 40.6 L 0.002 12.631 C -0.111 7.179 3.761 2.52 8.973 1.358 C 9.71 1.189 10.478 1.099 11.266 1.081 L 64.661 0.002 C 70.99 -0.127 76.273 4.859 76.397 11.087 L 76.864 33.239 L 76.988 39.056 C 77.12 45.285 72.044 50.475 65.725 50.606 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="76.991" height="51.688" viewBox="0 0 76.991 51.688" fill="none" style="position:absolute;left:2.846px;top:2.758px;width:76.991px;height:51.688px;color:rgb(255,255,255)">
+                <path d="M 65.725 50.606 L 12.32 51.685 C 5.999 51.815 0.716 46.829 0.584 40.6 L 0.002 12.631 C -0.111 7.179 3.761 2.52 8.973 1.358 C 9.71 1.189 10.478 1.099 11.266 1.081 L 64.661 0.002 C 70.99 -0.127 76.273 4.859 76.397 11.087 L 76.864 33.239 L 76.988 39.056 C 77.12 45.285 72.044 50.475 65.725 50.606 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <div style="position:absolute;left:2.924px;top:4.12px;width:76.991px;height:50.33px;opacity:0.29;overflow:hidden">
+                <svg width="76.991" height="50.330" viewBox="0 0 76.991 50.330" fill="none" style="position:absolute;left:0px;top:0px;width:76.991px;height:50.33px;color:rgb(55,26,69)">
+                  <path d="M 65.725 49.248 L 12.32 50.327 C 5.999 50.457 0.716 45.471 0.584 39.242 L 0.002 11.273 C -0.111 5.821 3.76 1.162 8.973 0 C 12.047 1.921 13.999 3.149 13.999 3.149 C 17.067 25.547 23.797 36.61 52.134 36.494 C 64.366 36.44 72.046 34.449 76.864 31.881 L 76.988 37.698 C 77.12 43.927 72.044 49.117 65.725 49.248 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+              <svg width="82.590" height="57.205" viewBox="0 0 82.590 57.205" fill="none" style="position:absolute;left:0.046px;top:0px;width:82.59px;height:57.205px;color:rgb(55,26,69)">
+                <path d="M 17.258 57.205 C 8.166 57.205 0.677 50.021 0.489 41.033 L 0.004 17.833 C -0.186 8.73 7.182 1.173 16.432 0.986 L 64.984 0.004 C 69.457 -0.096 73.691 1.55 76.933 4.611 C 80.173 7.673 82.008 11.779 82.101 16.172 L 82.586 39.373 C 82.776 48.474 75.408 56.03 66.159 56.219 L 17.606 57.201 C 17.49 57.203 17.375 57.205 17.258 57.205 Z M 65.332 5.61 C 65.256 5.61 65.179 5.61 65.102 5.61 L 16.55 6.592 C 13.607 6.651 10.855 7.845 8.799 9.955 C 6.743 12.062 5.643 14.82 5.703 17.716 L 6.188 40.917 C 6.314 46.926 11.365 51.698 17.49 51.592 L 66.042 50.61 C 72.148 50.486 77.015 45.497 76.889 39.487 L 76.404 16.287 C 76.344 13.391 75.131 10.68 72.987 8.656 C 70.9 6.685 68.191 5.608 65.332 5.608 L 65.332 5.61 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="46.831" height="50.836" viewBox="0 0 46.831 50.836" fill="none" style="position:absolute;left:2.847px;top:3.613px;width:46.831px;height:50.836px;color:rgb(255,255,255)">
+                <path d="M 46.831 49.94 L 46.728 50.141 L 12.316 50.834 C 7.683 50.922 3.613 48.275 1.719 44.392 C 1.024 42.984 0.623 41.415 0.592 39.749 L 0.327 27.323 L 0.24 23.222 L 0.094 16.022 L 0.002 11.78 C -0.125 5.55 4.941 0.359 11.264 0.228 L 22.803 0 C 17.505 1.093 13.553 5.792 13.663 11.293 L 13.832 19.595 L 13.978 26.403 L 14.241 39.277 C 14.378 45.491 19.659 50.482 25.979 50.36 L 46.829 49.94 L 46.831 49.94 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <div style="position:absolute;left:2.94px;top:19.512px;width:52.188px;height:34.937px;opacity:0.29;overflow:hidden">
+                <svg width="52.188" height="34.937" viewBox="0 0 52.188 34.937" fill="none" style="position:absolute;left:0px;top:0px;width:52.188px;height:34.937px;color:rgb(55,26,69)">
+                  <path d="M 52.188 33.928 L 52.086 34.129 L 12.223 34.935 C 7.589 35.023 3.519 32.376 1.625 28.493 C 0.93 27.085 0.529 25.516 0.498 23.85 L 0.234 11.424 L 0.146 7.323 L 0 0.124 C 2.308 -0.237 5.384 0.014 7.122 3.346 C 9.534 7.962 11.953 6.359 13.739 3.698 L 13.885 10.506 L 14.148 23.38 C 14.284 29.594 19.566 34.585 25.885 34.463 L 52.186 33.929 L 52.188 33.928 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+              <svg width="66.378" height="56.450" viewBox="0 0 66.378 56.450" fill="none" style="position:absolute;left:0px;top:0.804px;width:66.378px;height:56.45px;color:rgb(55,26,69)">
+                <path d="M 14.919 56.45 C 11.215 56.45 7.705 55.057 5.005 52.507 C 2.233 49.888 0.664 46.374 0.587 42.616 L 0.003 14.643 C -0.077 10.886 1.344 7.311 4.006 4.582 C 6.666 1.855 10.236 0.309 14.056 0.23 L 25.593 0 L 26.239 5.548 C 22.17 6.392 19.279 9.966 19.365 14.051 L 19.948 42.024 C 19.994 44.286 20.943 46.403 22.617 47.984 C 24.29 49.566 26.459 50.396 28.771 50.362 C 28.789 50.362 62.535 49.875 63.466 49.862 L 66.324 49.805 L 66.377 52.626 C 66.406 54.667 64.974 55.243 63.566 55.414 L 63.566 55.469 L 15.227 56.446 C 15.125 56.448 15.023 56.45 14.921 56.45 L 14.919 56.45 Z M 16.249 5.796 L 14.173 5.837 C 11.876 5.885 9.725 6.819 8.116 8.465 C 6.509 10.114 5.651 12.265 5.701 14.525 L 6.284 42.501 C 6.33 44.762 7.277 46.878 8.951 48.46 C 10.624 50.04 12.797 50.879 15.107 50.839 L 17.5 50.791 C 15.457 48.349 14.313 45.331 14.249 42.137 L 13.665 14.166 C 13.602 11.085 14.556 8.18 16.251 5.796 L 16.249 5.796 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="14.935" height="18.860" viewBox="0 0 14.935 18.860" fill="none" style="position:absolute;left:22.929px;top:19.334px;width:14.935px;height:18.86px;color:rgb(34,167,240)">
+                <path d="M 14.935 9.365 C 14.952 10.399 13.598 18.771 13.598 18.771 C 13.598 18.771 10.911 18.811 7.609 18.859 C 3.486 18.918 0.08 14.766 0.001 9.582 C -0.077 4.399 3.203 0.149 7.326 0.088 C 10.108 0.047 13.315 0 13.315 0 C 13.315 0 14.91 7.679 14.933 9.363 L 14.935 9.365 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="14.935" height="18.860" viewBox="0 0 14.935 18.860" fill="none" style="position:absolute;left:22.929px;top:19.334px;width:14.935px;height:18.86px;color:rgb(28,122,234)">
+                <path d="M 14.935 9.365 C 14.952 10.399 13.598 18.771 13.598 18.771 C 13.598 18.771 10.911 18.811 7.609 18.859 C 3.486 18.918 0.08 14.766 0.001 9.582 C -0.077 4.399 3.203 0.149 7.326 0.088 C 10.108 0.047 13.315 0 13.315 0 C 13.315 0 14.91 7.679 14.933 9.363 L 14.935 9.365 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="19.207" height="23.039" viewBox="0 0 19.207 23.039" fill="none" style="position:absolute;left:20.794px;top:17.259px;width:19.207px;height:23.039px;color:rgb(55,26,69)">
+                <path d="M 9.654 23.037 C 7.034 23.037 4.591 21.813 2.762 19.583 C 1.027 17.466 0.045 14.663 0.002 11.69 C -0.042 8.715 0.853 5.885 2.523 3.718 C 4.312 1.399 6.766 0.101 9.431 0.061 L 13.611 0 L 13.675 0 C 15.734 0 17.508 1.431 17.902 3.426 C 18.752 7.701 19.191 10.386 19.206 11.41 C 19.21 11.713 19.221 12.424 18.126 19.391 C 17.805 21.437 16.043 22.945 13.936 22.978 L 9.776 23.039 C 9.736 23.039 9.694 23.039 9.652 23.039 L 9.654 23.037 Z M 13.708 4.232 L 9.495 4.268 C 8.171 4.287 6.905 4.995 5.927 6.262 C 4.83 7.683 4.245 9.589 4.274 11.627 C 4.305 13.667 4.949 15.554 6.087 16.942 C 7.102 18.179 8.404 18.847 9.712 18.83 L 13.872 18.769 C 14.643 14.031 14.919 11.877 14.932 11.457 C 14.917 10.873 14.589 8.675 13.706 4.232 L 13.708 4.232 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="14.934" height="18.773" viewBox="0 0 14.934 18.773" fill="none" style="position:absolute;left:0px;top:0px;transform:matrix(1.000,-0.015,0.015,1.000,28.790,19.434);transform-origin:0 0;width:14.934px;height:18.773px;color:rgb(34,167,240)">
+                <path d="M 7.467 18.773 C 11.591 18.773 14.934 14.571 14.934 9.386 C 14.934 4.202 11.591 0 7.467 0 C 3.343 0 0 4.202 0 9.386 C 0 14.571 3.343 18.773 7.467 18.773 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <div style="position:absolute;left:28.923px;top:19.336px;width:14.933px;height:11.495px;opacity:0.7;overflow:hidden">
+                <svg width="14.933" height="11.495" viewBox="0 0 14.933 11.495" fill="none" style="position:absolute;left:0px;top:0px;width:14.933px;height:11.495px;color:rgb(255,255,255)">
+                  <path d="M 0.001 9.497 C 0.007 9.888 0.031 10.267 0.074 10.64 C 0.804 6.516 3.703 3.415 7.22 3.363 C 11.038 3.308 14.233 6.859 14.755 11.495 C 14.886 10.784 14.944 10.039 14.932 9.276 C 14.853 4.092 11.449 -0.057 7.324 0.001 C 3.199 0.058 -0.077 4.313 0.001 9.497 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+              <svg width="14.933" height="12.700" viewBox="0 0 14.933 12.700" fill="none" style="position:absolute;left:28.923px;top:25.408px;width:14.933px;height:12.7px;color:rgb(28,122,234)">
+                <path d="M 0.001 3.424 C 0.08 8.602 3.484 12.756 7.609 12.699 C 11.733 12.634 15.01 8.386 14.931 3.203 C 14.92 2.386 14.825 1.591 14.656 0.84 C 13.62 4.352 10.951 6.862 7.789 6.907 C 4.319 6.961 1.353 4.027 0.457 0 C 0.147 1.061 -0.015 2.216 0.001 3.422 L 0.001 3.424 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="19.209" height="22.978" viewBox="0 0 19.209 22.978" fill="none" style="position:absolute;left:26.784px;top:17.231px;width:19.209px;height:22.978px;color:rgb(55,26,69)">
+                <path d="M 9.659 22.978 C 4.416 22.978 0.096 17.917 0.002 11.629 C -0.093 5.295 4.137 0.077 9.431 0 C 9.47 0 9.51 0 9.55 0 C 14.793 0 19.113 5.061 19.208 11.349 C 19.303 17.683 15.072 22.901 9.778 22.978 C 9.74 22.978 9.7 22.978 9.659 22.978 Z M 9.548 4.205 C 9.53 4.205 9.512 4.205 9.493 4.205 C 6.606 4.246 4.216 7.618 4.274 11.564 C 4.332 15.487 6.793 18.769 9.659 18.769 C 9.678 18.769 9.696 18.769 9.714 18.769 C 12.602 18.728 14.992 15.356 14.934 11.41 C 14.875 7.487 12.414 4.205 9.548 4.205 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="13.268" height="54.789" viewBox="0 0 13.268 54.789" fill="none" style="position:absolute;left:49.827px;top:0.812px;width:13.268px;height:54.789px;color:rgb(55,26,69)">
+                <path d="M 2.138 54.789 L 2.131 54.789 C 0.95 54.786 -0.004 53.841 0 52.68 L 0.044 38.525 C 0.057 34.526 2.089 30.829 5.482 28.634 C 7.726 27.179 9.039 24.734 8.994 22.089 L 8.647 2.139 C 8.627 0.977 9.567 0.02 10.747 0 C 11.913 -0.018 12.9 0.905 12.92 2.067 L 13.266 22.017 C 13.338 26.109 11.305 29.898 7.83 32.147 C 5.637 33.567 4.324 35.955 4.316 38.537 L 4.273 52.692 C 4.269 53.852 3.313 54.789 2.136 54.789 L 2.138 54.789 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+            </div>
+            <svg width="58.596" height="24.934" viewBox="0 0 58.596 24.934" fill="none" style="position:absolute;left:2.855px;top:16.103px;width:58.596px;height:24.934px;color:rgb(255,255,255)">
+              <path d="M 8.174 0 C 8.174 0 1.048 2.223 0.142 8.395 C -1.126 17.04 6.53 20.994 6.53 20.994 C 6.53 20.994 37.626 29.143 54.025 22.003 C 54.025 22.003 64.671 13.428 53.47 3.774 C 53.47 3.774 29.298 6.11 8.172 0 L 8.174 0 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+            <div style="position:absolute;left:2.855px;top:21.115px;width:58.599px;height:19.924px;opacity:0.29;overflow:hidden">
+              <svg width="58.599" height="19.924" viewBox="0 0 58.599 19.924" fill="none" style="position:absolute;left:0px;top:0px;width:58.599px;height:19.924px;color:rgb(55,26,69)">
+                <path d="M 54.026 16.994 C 37.628 24.13 6.532 15.985 6.532 15.985 C 6.532 15.985 -1.126 12.031 0.142 3.386 C 0.333 2.09 0.797 0.968 1.417 0 C 2.03 2.052 3.15 3.657 4.261 4.839 C 5.73 6.401 7.665 7.449 9.772 7.93 C 16.739 9.518 37.945 13.706 51.91 9.496 C 54.437 8.735 56.606 7.069 57.947 4.828 L 57.987 4.76 C 60.594 11.708 54.026 16.994 54.026 16.994 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+            </div>
+            <svg width="64.306" height="30.673" viewBox="0 0 64.306 30.673" fill="none" style="position:absolute;left:0px;top:13.17px;width:64.306px;height:30.673px;color:rgb(55,26,69)">
+              <path d="M 39.008 30.673 C 24.295 30.673 9.547 26.872 8.652 26.637 L 8.343 26.556 L 8.061 26.411 C 7.676 26.211 -1.362 21.414 0.176 10.927 C 1.323 3.104 9.806 0.372 10.168 0.26 L 10.998 0 L 11.833 0.242 C 32.158 6.121 55.814 3.937 56.051 3.916 L 57.279 3.799 L 58.207 4.598 C 62.323 8.146 64.375 12.049 64.304 16.2 C 64.195 22.599 58.913 26.926 58.689 27.107 L 58.39 27.348 L 58.036 27.5 C 52.621 29.858 45.82 30.673 39.012 30.673 L 39.008 30.673 Z M 10.471 21.306 C 13.869 22.148 40.836 28.517 55.325 22.541 C 56.124 21.793 58.567 19.247 58.603 16.071 C 58.627 13.92 57.521 11.749 55.314 9.605 C 50.018 9.999 29.779 11.044 11.171 5.891 C 9.662 6.553 6.307 8.381 5.817 11.728 C 4.961 17.556 9.38 20.638 10.471 21.304 L 10.471 21.306 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <div style="position:absolute;left:152.353px;top:17.143px;width:239.262px;height:215.239px;overflow:hidden">
+            <div style="position:absolute;left:190.915px;top:67.316px;width:48.346px;height:83.857px;overflow:hidden">
+              <svg width="41.989" height="77.436" viewBox="0 0 41.989 77.436" fill="none" style="position:absolute;left:3.509px;top:3.227px;width:41.989px;height:77.436px;color:rgb(255,255,255)">
+                <path d="M 41.883 42.864 C 41.366 54.963 38.973 66.608 33.482 71.1 C 29.537 74.327 0 77.436 0 77.436 L 14.808 0 C 14.808 0 16.813 0.339 19.655 0.977 C 25.56 2.309 35.089 4.963 37.606 8.636 C 40.343 12.624 42.506 28.088 41.881 42.864 L 41.883 42.864 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <div style="position:absolute;left:3.508px;top:3.226px;width:41.883px;height:77.436px;opacity:0.29;overflow:hidden">
+                <svg width="41.883" height="77.436" viewBox="0 0 41.883 77.436" fill="none" style="position:absolute;left:0px;top:0px;width:41.883px;height:77.436px;color:rgb(55,26,69)">
+                  <path d="M 41.883 42.864 C 41.366 54.963 38.973 66.608 33.482 71.1 C 29.537 74.327 0 77.436 0 77.436 L 14.808 0 C 14.808 0 16.813 0.339 19.655 0.977 C 23.194 9.853 27.381 23.335 28.603 39.591 C 29.448 50.812 37.329 50.769 41.881 42.864 L 41.883 42.864 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+              <svg width="48.346" height="83.857" viewBox="0 0 48.346 83.857" fill="none" style="position:absolute;left:0px;top:0px;width:48.346px;height:83.857px;color:rgb(55,25,68)">
+                <path d="M 0 83.857 L 16.038 0 L 18.798 0.463 C 22.182 1.031 39.276 4.169 43.479 10.297 C 46.79 15.123 48.456 30.283 48.341 42.101 C 48.244 52.107 46.877 69.88 38.812 76.48 C 34.54 79.977 10.944 82.702 3.813 83.455 L 0 83.857 Z M 20.593 6.505 L 7.024 77.453 C 19.682 75.97 33.137 73.689 35.176 72.162 C 45.943 63.348 43.132 19.812 38.757 13.435 C 36.902 10.731 27.806 7.973 20.595 6.505 L 20.593 6.505 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+            </div>
+            <div style="position:absolute;left:0px;top:0px;width:230.02px;height:215.239px;overflow:hidden">
+              <svg width="212.992" height="209.619" viewBox="0 0 212.992 209.619" fill="none" style="position:absolute;left:14.053px;top:2.807px;width:212.992px;height:209.619px;color:rgb(255,255,255)">
+                <path d="M 106.496 209.619 C 165.312 209.619 212.992 162.694 212.992 104.809 C 212.992 46.925 165.312 0 106.496 0 C 47.68 0 0 46.925 0 104.809 C 0 162.694 47.68 209.619 106.496 209.619 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="206.626" height="170.187" viewBox="0 0 206.626 170.187" fill="none" style="position:absolute;left:20.422px;top:42.246px;width:206.626px;height:170.187px;color:rgb(216,216,216)">
+                <path d="M 0 101.125 C 15.602 143.522 58.033 172.689 106.126 170.017 C 164.848 166.755 209.768 117.257 206.454 59.466 C 205.158 36.898 196.704 16.398 183.383 0 C 177.301 52.629 112.376 96.84 30.774 101.371 C 20.288 101.953 9.992 101.854 0.002 101.125 L 0 101.125 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="218.700" height="215.237" viewBox="0 0 218.700 215.237" fill="none" style="position:absolute;left:11.199px;top:0px;width:218.7px;height:215.237px;color:rgb(55,26,69)">
+                <path d="M 109.21 215.237 C 82.327 215.237 56.723 205.646 36.511 187.88 C 14.727 168.732 1.824 142.38 0.178 113.682 C -1.468 84.983 8.34 57.371 27.796 35.932 C 47.253 14.493 74.028 1.794 103.188 0.174 C 132.344 -1.44 160.405 8.207 182.189 27.355 C 203.974 46.503 216.877 72.855 218.522 101.553 C 220.168 130.252 210.36 157.864 190.904 179.303 C 171.448 200.742 144.673 213.441 115.513 215.061 C 113.407 215.178 111.302 215.237 109.21 215.237 Z M 109.416 5.609 C 107.455 5.609 105.492 5.663 103.511 5.774 C 46.45 8.943 2.648 57.209 5.87 113.366 C 8.978 167.574 54.791 209.621 109.286 209.626 C 111.247 209.626 113.21 209.572 115.192 209.463 C 172.252 206.294 216.054 158.027 212.832 101.87 C 209.724 47.663 163.912 5.611 109.416 5.611 L 109.416 5.609 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="218.700" height="215.237" viewBox="0 0 218.700 215.237" fill="none" style="position:absolute;left:11.199px;top:0.002px;width:218.7px;height:215.237px;color:rgb(55,26,69)">
+                <path d="M 109.282 215.237 C 51.782 215.237 3.456 170.876 0.176 113.684 C -3.221 54.437 42.991 3.517 103.189 0.172 C 130.218 -1.33 156.72 7.026 177.805 23.698 C 201.941 42.771 216.782 71.149 218.528 101.553 C 218.561 102.129 218.586 102.713 218.61 103.289 C 218.935 111.173 218.385 119.062 216.981 126.739 C 210.734 160.967 187.868 190.248 155.813 205.066 C 143.153 210.917 129.594 214.282 115.514 215.063 C 113.427 215.178 111.348 215.235 109.282 215.235 L 109.282 215.237 Z M 5.866 113.367 C 7.426 140.569 19.658 165.545 40.307 183.697 C 60.958 201.848 87.557 211.005 115.191 209.463 C 128.54 208.721 141.392 205.534 153.389 199.988 C 183.775 185.943 205.449 158.187 211.369 125.746 C 212.701 118.469 213.221 110.991 212.912 103.519 C 212.891 102.973 212.865 102.416 212.834 101.869 C 211.181 73.049 197.112 46.151 174.233 28.072 C 154.246 12.268 129.126 4.347 103.507 5.772 C 46.448 8.941 2.648 57.213 5.862 113.367 L 5.866 113.367 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="209.593" height="202.640" viewBox="0 0 209.593 202.640" fill="none" style="position:absolute;left:20.427px;top:8.468px;width:209.593px;height:202.64px;color:rgb(55,26,69)">
+                <path d="M 109.07 202.638 C 51.44 202.638 3.238 161.116 0.157 107.417 C -1.394 80.369 8.594 54.313 28.282 34.05 C 47.919 13.841 74.868 1.815 104.161 0.187 C 126.875 -1.072 149.022 4.045 168.221 14.992 C 168.346 15.064 168.466 15.143 168.577 15.232 C 192.713 34.307 207.555 62.684 209.299 93.089 C 209.331 93.637 209.354 94.191 209.378 94.739 C 209.413 95.082 209.433 95.42 209.453 95.764 C 209.889 103.366 209.31 110.957 207.738 118.352 C 201.506 152.501 178.64 181.785 146.587 196.602 C 146.487 196.649 146.383 196.69 146.279 196.724 C 136.484 199.945 126.219 201.872 115.763 202.453 C 113.52 202.577 111.288 202.64 109.072 202.64 L 109.07 202.638 Z M 110.903 5.609 C 108.769 5.609 106.629 5.668 104.482 5.789 C 76.636 7.336 51.037 18.75 32.402 37.928 C 13.815 57.055 4.386 81.62 5.847 107.101 C 8.755 157.819 54.441 197.028 109.072 197.031 C 111.184 197.031 113.302 196.974 115.441 196.854 C 125.334 196.304 135.046 194.489 144.312 191.457 C 174.618 177.388 196.23 149.672 202.143 117.282 C 203.63 110.291 204.17 103.192 203.763 96.105 C 203.744 95.798 203.73 95.522 203.699 95.238 C 203.693 95.177 203.688 95.118 203.686 95.057 C 203.662 94.509 203.639 93.953 203.608 93.405 C 201.958 64.657 187.955 37.819 165.177 19.741 C 148.802 10.446 130.161 5.609 110.903 5.609 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="193.568" height="178.035" viewBox="0 0 193.568 178.035" fill="none" style="position:absolute;left:33.603px;top:20.768px;width:193.568px;height:178.035px;color:rgb(55,26,69)">
+                <path d="M 0.137 94.383 C 2.952 143.452 48.505 180.836 101.88 177.87 C 147.125 175.357 183.471 144.657 191.771 105.475 C 193.269 98.434 193.86 91.119 193.432 83.645 C 193.412 83.305 193.393 82.975 193.357 82.637 C 189.991 34.062 144.695 -2.78 91.688 0.165 C 38.314 3.129 -2.678 45.313 0.137 94.381 L 0.137 94.383 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <svg width="187.913" height="106.396" viewBox="0 0 187.913 106.396" fill="none" style="position:absolute;left:33.605px;top:92.407px;width:187.913px;height:106.396px;color:rgb(34,15,45)">
+                <path d="M 0.135 22.744 C 2.95 71.813 48.503 109.197 101.878 106.231 C 142.021 104.001 175.157 79.586 187.913 46.735 C 169.909 67.75 142.614 81.891 111.4 83.625 C 56.119 86.695 8.589 49.755 1.997 0 C 0.346 7.324 -0.31 14.949 0.137 22.744 L 0.135 22.744 Z" fill="currentColor" fill-rule="nonzero" />
+              </svg>
+              <div style="position:absolute;left:86.002px;top:35.831px;width:123.681px;height:90.774px;opacity:0.5;overflow:hidden">
+                <svg width="123.681" height="90.774" viewBox="0 0 123.681 90.774" fill="none" style="position:absolute;left:0px;top:0px;width:123.681px;height:90.774px;color:rgb(255,255,255)">
+                  <path d="M 0.131 22.883 C 0.131 22.883 46.654 9.168 81.325 25.431 C 81.362 25.449 81.398 25.465 81.435 25.483 C 88.728 28.912 94.925 34.202 99.415 40.748 C 105.353 49.405 108.133 56.222 110.343 62.316 C 117.052 80.852 116.618 90.774 116.618 90.774 C 123.952 77.224 126.059 63.988 120.628 48.493 C 120.088 46.967 119.473 45.414 118.791 43.838 C 118.636 43.475 118.472 43.118 118.302 42.76 C 118.309 42.753 118.302 42.748 118.289 42.741 C 116.675 39.645 114.394 35.656 111.434 31.367 C 102.513 18.425 87.444 2.73 65.89 0.475 C 25.585 -3.743 -2.146 21.492 0.131 22.883 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+              <div style="position:absolute;left:52.597px;top:94.665px;width:31.407px;height:34.876px;opacity:0.5;overflow:hidden">
+                <svg width="29.176" height="32.988" viewBox="0 0 29.176 32.988" fill="none" style="position:absolute;left:0px;top:0px;transform:matrix(0.998,-0.067,0.070,0.998,0,1.968);transform-origin:0 0;width:29.176px;height:32.988px;color:rgb(255,255,255)">
+                  <path d="M 14.588 32.988 C 22.645 32.988 29.176 25.603 29.176 16.494 C 29.176 7.385 22.645 0 14.588 0 C 6.531 0 0 7.385 0 16.494 C 0 25.603 6.531 32.988 14.588 32.988 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+              <div style="position:absolute;left:64.431px;top:138.841px;width:12.377px;height:13.911px;opacity:0.5;overflow:hidden">
+                <svg width="13.624" height="12.044" viewBox="0 0 13.624 12.044" fill="none" style="position:absolute;left:0px;top:0px;transform:matrix(0.025,-1.000,1.000,0.024,0,13.620);transform-origin:0 0;width:13.624px;height:12.044px;color:rgb(255,255,255)">
+                  <path d="M 6.812 12.044 C 10.574 12.044 13.624 9.348 13.624 6.022 C 13.624 2.696 10.574 0 6.812 0 C 3.05 0 0 2.696 0 6.022 C 0 9.348 3.05 12.044 6.812 12.044 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+              <div style="position:absolute;left:0px;top:90.67px;width:46.199px;height:77.616px;overflow:hidden">
+                <div style="position:absolute;left:8.997px;top:2.809px;width:34.37px;height:71.939px;overflow:hidden">
+                  <svg width="34.370" height="71.939" viewBox="0 0 34.370 71.939" fill="none" style="position:absolute;left:0px;top:0px;width:34.37px;height:71.939px;color:rgb(255,255,255)">
+                    <path d="M 0 5.932 L 7.255 46.603 L 11.774 71.939 L 26.341 71.811 L 27.719 71.797 C 34 70.581 36.225 53.514 32.69 33.705 C 32.613 33.26 32.526 32.802 32.438 32.357 C 28.797 13.223 21.054 -1.128 14.919 0.07 L 13.631 0.573 L 0 5.932 Z" fill="currentColor" fill-rule="nonzero" />
+                  </svg>
+                  <div style="position:absolute;left:7.254px;top:30.052px;width:27.117px;height:41.887px;opacity:0.29;overflow:hidden">
+                    <svg width="27.117" height="41.887" viewBox="0 0 27.117 41.887" fill="none" style="position:absolute;left:0px;top:0px;width:27.117px;height:41.887px;color:rgb(55,26,69)">
+                      <path d="M 0.002 16.552 L 4.521 41.887 L 19.088 41.76 L 20.465 41.745 C 26.746 40.53 28.972 23.463 25.436 3.654 C 25.36 3.208 25.272 2.751 25.185 2.305 L 24.086 0 C 24.086 0 23.083 8.71 19.077 10.282 C 14.841 11.954 10.977 1.898 10.977 1.898 L 0 16.552 L 0.002 16.552 Z" fill="currentColor" fill-rule="nonzero" />
+                    </svg>
+                  </div>
+                </div>
+                <svg width="40.052" height="77.556" viewBox="0 0 40.052 77.556" fill="none" style="position:absolute;left:6.147px;top:0px;width:40.052px;height:77.556px;color:rgb(55,26,69)">
+                  <path d="M 14.625 77.556 C 13.242 77.556 12.058 76.579 11.819 75.236 L 0.043 9.227 C -0.19 7.92 0.539 6.631 1.793 6.139 L 16.71 0.27 C 16.874 0.206 17.042 0.155 17.216 0.121 C 18.551 -0.139 20.649 -0.107 23.075 1.529 C 29.369 5.771 35.362 19.316 38.345 36.033 C 41.765 55.203 40.382 75.554 31.122 77.362 C 30.949 77.396 30.77 77.414 30.593 77.416 L 14.651 77.556 L 14.625 77.556 Z M 6.056 10.502 L 17.015 71.925 L 30.194 71.809 C 33.089 70.76 36.482 58.027 32.731 37.003 C 29.78 20.463 24.018 8.965 19.853 6.157 C 19.536 5.944 18.967 5.612 18.494 5.61 L 6.056 10.502 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+                <svg width="24.021" height="66.136" viewBox="0 0 24.021 66.136" fill="none" style="position:absolute;left:2.872px;top:8.677px;width:24.021px;height:66.136px;color:rgb(255,255,255)">
+                  <path d="M 0.805 30.347 C 0.805 30.347 0.816 30.358 0.816 30.369 C 1.011 31.929 1.257 33.507 1.544 35.118 C 4.793 53.337 12.112 67.205 17.897 66.071 C 23.507 64.977 25.614 50.131 22.739 32.552 C 22.658 32.051 22.567 31.539 22.476 31.028 C 19.227 12.808 11.897 -1.06 6.121 0.064 C 0.852 1.096 -1.313 14.222 0.803 30.347 L 0.805 30.347 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+                <svg width="23.207" height="35.767" viewBox="0 0 23.207 35.767" fill="none" style="position:absolute;left:3.686px;top:39.045px;width:23.207px;height:35.767px;color:rgb(216,216,216)">
+                  <path d="M 0.002 0 C 0.197 1.56 0.443 3.138 0.73 4.749 C 3.979 22.969 11.298 36.837 17.083 35.702 C 22.693 34.609 24.8 19.762 21.925 2.183 C 20.199 8.921 16.318 20.902 10.926 18.222 C 7.777 16.645 3.307 7.607 0 0.002 L 0.002 0 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+                <svg width="29.762" height="71.738" viewBox="0 0 29.762 71.738" fill="none" style="position:absolute;left:0px;top:5.878px;width:29.762px;height:71.738px;color:rgb(55,26,69)">
+                  <path d="M 20.112 71.738 C 18.925 71.738 17.42 71.413 15.756 70.291 C 9.916 66.354 4.361 53.834 1.608 38.396 C -1.46 21.199 -0.63 1.886 8.438 0.116 C 9.71 -0.132 11.708 -0.102 14.006 1.446 C 19.846 5.383 25.401 17.905 28.154 33.342 C 31.222 50.538 30.394 69.851 21.324 71.622 C 20.973 71.69 20.566 71.737 20.112 71.737 L 20.112 71.738 Z M 7.222 37.426 C 9.925 52.585 15.183 63.106 18.978 65.664 C 19.488 66.009 19.941 66.178 20.214 66.121 C 22.528 65.67 26.107 54.303 22.54 34.311 C 19.837 19.152 14.579 8.633 10.785 6.073 C 10.274 5.73 9.821 5.561 9.546 5.617 C 7.234 6.067 3.653 17.436 7.22 37.426 L 7.222 37.426 Z" fill="currentColor" fill-rule="nonzero" />
+                </svg>
+              </div>
+            </div>
+          </div>
+          <svg width="53.600" height="66.137" viewBox="0 0 53.600 66.137" fill="none" style="position:absolute;left:130.446px;top:138.023px;width:53.6px;height:66.137px;color:rgb(255,255,255)">
+            <path d="M 0.003 66.137 C -0.11 46.55 2.96 32.485 10.305 18.835 C 18.465 3.667 46.714 -5.669 52.432 3.843 C 56.413 10.463 49.139 14.513 46.724 15.635 C 46.339 15.813 46.198 16.274 46.419 16.632 C 47.877 18.975 52.487 27.11 52.602 36.365 C 52.711 45.146 50.509 53.129 39.578 56.741" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="59.275" height="71.696" viewBox="0 0 59.275 71.696" fill="none" style="position:absolute;left:127.593px;top:135.247px;width:59.275px;height:71.696px;color:rgb(55,26,69)">
+            <path d="M 0.006 68.928 C -0.122 54.349 1.701 39.354 7.874 25.903 C 9.009 23.452 10.098 21.159 11.51 18.809 C 15.465 12.649 21.537 8.079 28.035 4.815 C 34.633 1.629 42.009 -0.774 49.503 0.232 C 55.427 0.943 60.3 6.035 59.088 12.22 C 58.182 16.324 54.61 19.053 51.153 20.771 L 50.821 20.931 C 51.578 20.619 52.209 19.545 51.984 18.638 C 51.964 18.41 51.797 18.084 51.724 17.96 L 51.745 17.996 L 51.926 18.288 C 57.811 27.887 60.745 40.232 56.005 50.9 C 54.38 54.338 51.479 57.321 48.049 58.976 C 46.387 59.85 44.632 60.398 42.89 60.845 C 42.128 61.041 41.347 60.59 41.15 59.84 C 40.967 59.15 41.34 58.452 41.984 58.186 C 46.384 56.22 49.866 53.367 51.43 49.002 C 54.292 39.657 51.769 29.231 46.873 20.92 C 45.649 19.085 46.568 16.516 48.628 15.746 C 51.005 14.525 54.053 12.527 53.521 9.704 C 52.977 7.331 51.156 6.14 48.588 5.767 C 38.273 4.708 26.167 10.841 19.145 18.157 C 16.398 21.048 14.737 24.605 13.09 28.176 C 10.069 34.855 8.082 41.947 6.977 49.211 C 6.006 55.683 5.685 62.283 5.711 68.908 C 5.636 72.578 0.141 72.664 0.012 68.93 L 0.006 68.928 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <div style="position:absolute;left:181.135px;top:201.16px;width:7.534px;height:22.743px;overflow:hidden">
+            <svg width="3.129" height="18.430" viewBox="0 0 3.129 18.430" fill="none" style="position:absolute;left:2.912px;top:3px;width:3.129px;height:18.43px;color:rgb(255,255,255)">
+              <path d="M 0 0 C 0 0 3.129 11.625 3.129 18.43 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+            <svg width="7.534" height="22.743" viewBox="0 0 7.534 22.743" fill="none" style="position:absolute;left:0px;top:0px;width:7.534px;height:22.743px;color:rgb(55,26,69)">
+              <path d="M 5.666 2.281 C 6.526 7.032 7.193 11.732 7.462 16.548 C 7.538 18.156 7.575 19.774 7.465 21.43 C 7.414 22.203 6.735 22.79 5.947 22.74 C 5.223 22.695 4.659 22.123 4.616 21.43 C 3.977 15.472 2.069 9.422 0.155 3.712 C -1.012 -0.108 4.762 -1.616 5.666 2.281 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <svg width="40.340" height="53.283" viewBox="0 0 40.340 53.283" fill="none" style="position:absolute;left:323.149px;top:250.26px;width:40.34px;height:53.283px;color:rgb(255,255,255)">
+            <path d="M 39.907 18.683 C 38.774 25.499 37.535 31.183 36.174 35.838 C 36.174 35.838 36.174 35.846 36.167 35.867 C 32.606 48.115 28.253 53.29 23.045 53.283 C -2.68 53.254 -3.121 31.352 3.811 18.859 C 11.398 5.182 30.824 10.467 30.824 10.467 L 34.306 0 C 34.306 0 42.257 4.53 39.905 18.685 L 39.907 18.683 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <div style="position:absolute;left:323.149px;top:269.119px;width:36.167px;height:34.424px;opacity:0.29;overflow:hidden">
+            <svg width="36.167" height="34.424" viewBox="0 0 36.167 34.424" fill="none" style="position:absolute;left:0px;top:0px;width:36.167px;height:34.424px;color:rgb(55,26,69)">
+              <path d="M 36.167 17.008 C 32.606 29.256 28.253 34.431 23.045 34.424 C -2.68 34.395 -3.121 12.493 3.811 0 C 3.811 0 -0.135 19.735 14.952 24.412 C 31.037 29.391 35.924 17.618 36.167 17.008 Z" fill="currentColor" fill-rule="nonzero" />
+            </svg>
+          </div>
+          <svg width="46.037" height="58.895" viewBox="0 0 46.037 58.895" fill="none" style="position:absolute;left:320.304px;top:247.45px;width:46.037px;height:58.895px;color:rgb(55,26,69)">
+            <path d="M 25.9 58.895 L 25.888 58.895 C 12.335 58.881 6.034 53.137 3.133 48.32 C -2.085 39.654 -0.114 28.016 4.153 20.326 C 11.008 7.97 25.694 8.986 31.755 10.008 L 34.444 1.932 C 34.712 1.127 35.332 0.486 36.135 0.185 C 36.937 -0.117 37.835 -0.047 38.579 0.377 C 38.973 0.601 48.203 6.059 45.563 21.945 C 41.316 47.494 35.25 58.893 25.9 58.893 L 25.9 58.895 Z M 25.105 15.035 C 19.668 15.035 12.774 16.491 9.155 23.014 C 5.775 29.105 3.983 38.729 8.035 45.46 C 11.156 50.643 17.164 53.277 25.893 53.284 L 25.897 53.284 C 29.857 53.284 35.505 47.688 39.937 21.04 C 40.998 14.658 39.761 10.605 38.353 8.201 L 36.374 14.148 C 35.899 15.572 34.371 16.378 32.908 15.977 C 32.603 15.897 29.284 15.035 25.105 15.035 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="28.878" height="52.661" viewBox="0 0 28.878 52.661" fill="none" style="position:absolute;left:158.24px;top:205.359px;width:28.878px;height:52.661px;color:rgb(55,26,69)">
+            <path d="M 2.137 52.661 C 1.258 52.661 0.433 52.122 0.123 51.26 C -0.271 50.165 0.311 48.964 1.422 48.574 C 27.065 39.622 24.523 2.635 24.494 2.263 C 24.405 1.105 25.286 0.094 26.463 0.006 C 27.643 -0.083 28.666 0.784 28.756 1.942 C 28.885 3.594 31.587 42.508 2.851 52.539 C 2.615 52.621 2.373 52.661 2.135 52.661 L 2.137 52.661 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="34.686" height="80.925" viewBox="0 0 34.686 80.925" fill="none" style="position:absolute;left:133.919px;top:5.609px;width:34.686px;height:80.925px;color:rgb(255,255,255)">
+            <path d="M 19.405 56.1 C 14.917 54.548 7.157 48.938 7.157 42.253 C 7.157 37.718 9.946 34.018 17.709 27.931 C 24.378 22.8 27.773 19.337 27.773 14.922 C 27.773 10.507 24.864 6.925 19.527 6.925 C 11.522 6.925 6.792 14.324 5.216 14.324 C 3.397 14.324 0 11.579 0 8.715 C 0 7.043 0.607 5.849 2.304 4.298 C 6.186 1.075 11.643 0 15.403 0 C 26.438 0 34.686 9.43 34.686 18.741 C 34.686 23.753 32.987 28.05 26.075 33.659 C 20.011 38.672 16.736 40.939 16.736 44.878 C 16.736 48.101 18.435 50.25 21.709 53.234 L 19.405 56.1 Z M 16.373 80.925 C 12.008 80.925 8.855 77.822 8.855 73.285 C 8.855 68.989 11.887 65.646 16.373 65.646 C 20.618 65.646 23.893 68.989 23.893 73.285 C 23.893 77.821 20.618 80.925 16.373 80.925 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+          <svg width="46.086" height="92.145" viewBox="0 0 46.086 92.145" fill="none" style="position:absolute;left:128.218px;top:0px;width:46.086px;height:92.145px;color:rgb(55,26,69)">
+            <path d="M 21.104 5.609 C 32.139 5.609 40.387 15.038 40.387 24.349 C 40.387 29.362 38.69 33.659 31.776 39.269 C 25.712 44.282 22.439 46.55 22.439 50.489 C 22.439 53.712 24.136 55.861 27.412 58.845 L 25.108 61.71 C 20.62 60.159 12.86 54.548 12.86 47.864 C 12.86 43.329 15.649 39.629 23.411 33.542 C 30.081 28.411 33.476 24.947 33.476 20.532 C 33.476 16.117 30.566 12.536 25.23 12.536 C 17.225 12.536 12.495 19.935 10.918 19.935 C 9.1 19.935 5.703 17.189 5.703 14.326 C 5.703 12.654 6.31 11.46 8.007 9.909 C 11.887 6.686 17.346 5.611 21.105 5.611 M 22.074 71.258 C 26.319 71.258 29.594 74.601 29.594 78.898 C 29.594 83.433 26.319 86.537 22.074 86.537 C 17.829 86.537 14.556 83.435 14.556 78.898 C 14.556 74.601 17.588 71.258 22.074 71.258 Z M 21.104 0 C 18.756 0 10.608 0.406 4.329 5.62 C 4.26 5.677 4.192 5.735 4.127 5.796 C 2.206 7.552 0 10.106 0 14.322 C 0 20.364 6.002 25.54 10.915 25.54 C 13.6 25.54 15.377 23.953 17.096 22.418 C 19.115 20.613 21.883 18.141 25.227 18.141 C 25.989 18.141 27.773 18.141 27.773 20.529 C 27.773 22.351 25.566 24.759 19.898 29.12 C 19.883 29.131 19.87 29.141 19.856 29.152 C 11.812 35.46 7.157 40.542 7.157 47.862 C 7.157 55.933 14.126 62.59 20.319 65.754 C 13.673 66.562 8.855 71.942 8.855 78.896 C 8.855 86.448 14.538 92.145 22.072 92.145 C 29.607 92.145 35.291 86.449 35.291 78.896 C 35.291 73.427 32.144 68.831 27.527 66.786 C 28.308 66.425 29.012 65.887 29.574 65.19 L 31.878 62.324 C 33.726 60.028 33.465 56.717 31.281 54.728 C 28.136 51.862 28.136 51.164 28.136 50.489 C 28.136 49.554 30.743 47.417 33.764 44.941 C 34.292 44.508 34.844 44.056 35.423 43.578 C 42.897 37.508 46.086 31.757 46.086 24.349 C 46.086 18.319 43.501 12.214 38.991 7.6 C 34.202 2.699 27.85 0 21.104 0 Z" fill="currentColor" fill-rule="nonzero" />
+          </svg>
+        </div>
+    <div style="width:100%;max-width:891px;display:flex;flex-direction:column;gap:60px;">
+      <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};line-height:1.2;color:#fff;">Залишилась питання?</span>
+      <div style="display:flex;flex-direction:column;gap:0;width:100%;">
+        <sc-for list="{{ faqItems }}" as="item" hint-placeholder-count="5">
+          <div style="border-bottom:1px solid rgba(255,255,255,0.1);padding:24px 0;display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;cursor:pointer;" onClick="{{ item.toggle }}">
+              <span style="font-size:22px;font-weight:500;color:#fff;">{{ item.q }}</span>
+              <div style="width:36px;height:36px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:transform 0.35s ease;transform:{{ item.iconRotate }};">
+                <span style="color:#fff;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;height:20px;transform:translateY(-1px);">+</span>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-rows:{{ item.rows }};transition:grid-template-rows 0.35s ease;">
+              <div style="overflow:hidden;">
+                <span style="display:block;font-size:18px;line-height:1.7;color:rgba(255,255,255,0.7);padding-top:{{ item.answerPad }};">{{ item.a }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ REVIEWS ============ -->
+  <div id="reviews" data-reveal="1" style="{{ revealReviews }}position:relative;width:100%;background:radial-gradient(1300px 600px at 50% 110%, rgba(12,27,82,0.7) 0%, rgb(0,4,21) 60%);display:flex;flex-direction:column;gap:{{ g.reviewsGap }};padding:{{ g.reviewsPad }};box-sizing:border-box;">
+    <div style="display:flex;flex-direction:{{ mCol }};justify-content:space-between;align-items:{{ al.reviewsHeader }};gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};color:#fff;white-space:{{ wsN }};">Відгуки</span>
+        <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><span style="color:rgb(242,176,5);font-size:18px;">★★★★★</span><span style="font-size:16px;font-weight:600;color:#fff;">4.9</span><span style="font-size:16px;color:rgba(255,255,255,0.6);">· 120+ відгуків</span></div>
+      </div>
+      <a href="#" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;white-space:{{ wsN }};transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись всі відгуки</a>
+    </div>
+    <div style="display:flex;flex-direction:{{ mCol }};gap:{{ g.reviewsRowGap }};align-items:center;">
+      <div style="position:relative;width:{{ w.reviewsMain }};height:{{ h.reviewsMain }};border-radius:20px;overflow:hidden;box-shadow:0 0 0 1px rgb(240,240,240);flex-shrink:0;">
+        <img src="assets/testimonial-main.jpg" alt="Клієнтка" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div>
+      </div>
+      <div style="height:{{ h.reviewsSide }};width:{{ w.reviewsSideWidth }};border-radius:20px;background:linear-gradient(135deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:flex-start;box-sizing:border-box;flex-grow:1;">
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <span style="color:rgb(242,176,5);font-size:20px;">★★★★★</span>
+          <span style="font-family:Montserrat,sans-serif;font-weight:500;font-size:24px;line-height:1.6;color:#fff;">Настя - найкращий тренер, з яким я коли-небудь працювала! Вона завжди надихає мене досягати нових висот і створює індивідуальні тренувальні програми, які допомагають мені досягти своїх цілей.</span>
+        </div>
+        <div style="display:flex;flex-direction:row;gap:16px;align-items:center;">
+          <img src="assets/avatar-1.jpg" alt="Anna Ivanova" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+          <span style="font-size:16px;font-weight:600;color:#fff;">Anna Ivanova</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:{{ mCol }};gap:{{ g.reviewsRowGap }};align-items:stretch;">
+      <div style="border-radius:20px;background:linear-gradient(130deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:flex-start;box-sizing:border-box;flex-grow:1;gap:24px;">
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <span style="color:rgb(242,176,5);font-size:18px;">★★★★★</span>
+          <span style="font-family:Montserrat,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#fff;">Дякую Насті за те, що вона віддана своїм клієнтам і завжди готова підтримати. Її енергія і веселі тренування роблять фітнес приємним і результативним!</span>
+        </div>
+        <div style="display:flex;flex-direction:row;gap:16px;align-items:center;">
+          <img src="assets/avatar-2.jpg" alt="Olena Petrenko" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+          <span style="font-size:16px;font-weight:600;color:#fff;">Olena Petrenko</span>
+        </div>
+      </div>
+      <div style="border-radius:20px;background:linear-gradient(130deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:flex-start;box-sizing:border-box;flex-grow:1;gap:24px;">
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <span style="color:rgb(242,176,5);font-size:18px;">★★★★★</span>
+          <span style="font-family:Montserrat,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#fff;">Настя - професіонал своєї справи! Вона розуміє потреби кожного клієнта і створює тренувальні програми, які дійсно працюють. Я вдячна їй за її ефективну роботу і підтримку.</span>
+        </div>
+        <div style="display:flex;flex-direction:row;gap:16px;align-items:center;">
+          <img src="assets/avatar-3.jpg" alt="Kateryna Moroz" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+          <span style="font-size:16px;font-weight:600;color:#fff;">Kateryna Moroz</span>
+        </div>
+      </div>
+      <div style="border-radius:20px;background:linear-gradient(130deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:flex-start;box-sizing:border-box;flex-grow:1;gap:24px;">
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <span style="color:rgb(242,176,5);font-size:18px;">★★★★★</span>
+          <span style="font-family:Montserrat,sans-serif;font-weight:500;font-size:16px;line-height:1.6;color:#fff;">Завдяки Насті я відчуваю себе сильною та впевненою. Вона допомогла мені перетворити мої фітнес-мрії на реальність, і я завжди рада її радам і підтримці.</span>
+        </div>
+        <div style="display:flex;flex-direction:row;gap:16px;align-items:center;">
+          <img src="assets/avatar-4.jpg" alt="Yulia Kovalenko" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+          <span style="font-size:16px;font-weight:600;color:#fff;">Yulia Kovalenko</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div style="position:relative;width:100%;background:rgb(0,4,21);border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:{{ mCol }};justify-content:space-between;align-items:{{ al.footer }};padding:{{ g.footerPad }};box-sizing:border-box;flex-wrap:wrap;gap:{{ g.footerGap }};">
+    <div style="display:flex;flex-direction:column;gap:56px;">
+      <div style="display:flex;flex-direction:column;">
+        <span style="font-family:'Martel Sans',sans-serif;font-weight:700;font-size:26px;line-height:1;color:#fff;text-transform:uppercase;">Anastasiia</span>
+        <span style="font-family:'Martel Sans',sans-serif;font-weight:300;font-size:18px;line-height:1.1;letter-spacing:-0.06em;color:rgba(255,255,255,0.6);text-transform:uppercase;">personal trainer</span>
+      </div>
+      <nav style="display:flex;flex-direction:row;gap:24px;flex-wrap:wrap;">
+        <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Головна</a>
+        <a href="#about" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Про мене</a>
+        <a href="#training" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Тренування</a>
+        <a href="Blog.dc.html" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Раціон</a>
+        <a href="#pricing" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Ціни</a>
+        <a href="#faq" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">FAQ</a>
+      </nav>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:32px;">
+      <span style="font-family:Inter,sans-serif;font-weight:700;font-size:{{ f.footerBig }};line-height:1.2;color:#fff;">Let's train</span>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <a href="#" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;text-align:center;">Обрати тренування</a>
+        <div style="display:flex;flex-direction:row;gap:24px;">
+          <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Instagram</a>
+          <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Telegram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;padding:24px 40px 40px;font-size:14px;color:rgba(255,255,255,0.4);">© 2026 Anastasiia. Всі права захищено.</div>
+  <a href="#top" aria-label="Нагору" style="{{ backToTopStyle }}" style-hover="background:rgb(249,93,0);"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 15V3M9 3L3.5 8.5M9 3L14.5 8.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</div>
+
+<!-- Contact modal -->
+<div style="{{ contactOverlayStyle }}" onClick="{{ closeContact }}">
+  <div style="{{ contactCardStyle }}" onClick="{{ stopProp }}">
+    <div onClick="{{ closeContact }}" style="position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;cursor:pointer;transition:background 0.2s ease;" style-hover="background:rgba(255,255,255,0.16);">✕</div>
+
+    <sc-if value="{{ showContactForm }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:28px;color:#fff;">Дроп мі е меседж</span>
+          <span style="font-size:15px;color:rgba(255,255,255,0.6);">Напиши мені, і я відповім найближчим часом</span>
+        </div>
+        <form onSubmit="{{ submitContact }}" style="display:flex;flex-direction:column;gap:16px;">
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label style="font-size:14px;color:rgba(255,255,255,0.7);">Ім'я</label>
+            <input required="true" type="text" value="{{ contactForm.name }}" onChange="{{ setName }}" placeholder="Як до тебе звертатись" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:12px 16px;color:#fff;font-size:16px;box-sizing:border-box;outline:none;transition:border-color 0.2s ease;" style-focus="border-color:rgb(14,61,204);">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label style="font-size:14px;color:rgba(255,255,255,0.7);">Email</label>
+            <input required="true" type="email" value="{{ contactForm.email }}" onChange="{{ setEmail }}" placeholder="Твій email для зв'язку" style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:12px 16px;color:#fff;font-size:16px;box-sizing:border-box;outline:none;transition:border-color 0.2s ease;" style-focus="border-color:rgb(14,61,204);">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <label style="font-size:14px;color:rgba(255,255,255,0.7);">Повідомлення</label>
+            <textarea required="true" value="{{ contactForm.message }}" onChange="{{ setMessage }}" placeholder="Про що хочеш запитати?" style="width:100%;min-height:120px;resize:vertical;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:12px 16px;color:#fff;font-size:16px;font-family:inherit;box-sizing:border-box;outline:none;transition:border-color 0.2s ease;" style-focus="border-color:rgb(14,61,204);"></textarea>
+          </div>
+          <button type="submit" style="margin-top:8px;width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:14px 24px;color:#fff;font-size:18px;font-weight:500;border:none;cursor:pointer;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Надіслати</button>
+        </form>
+      </div>
+    </sc-if>
+    <sc-if value="{{ contactSent }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;padding:24px 0;">
+        <div style="width:56px;height:56px;border-radius:50%;background:rgb(14,61,204);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="26" height="21" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:26px;color:#fff;">Дякую!</span>
+        <span style="font-size:15px;color:rgba(255,255,255,0.7);">Повідомлення відправлено. Я відповім найближчим часом на пошту.</span>
+        <div onClick="{{ closeContact }}" style="margin-top:8px;background:rgb(245,245,245);border-radius:8px;padding:12px 24px;color:#000;font-size:16px;font-weight:500;cursor:pointer;transition:all 0.2s ease;" style-hover="background:rgb(224,224,224);">Закрити</div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    scrolled: false,
+    isMobile: false,
+    revealed: { about: false, training: false, pricing: false, nutrition: false, faq: false, reviews: false },
+    mobileNavOpen: false,
+    contactOpen: false,
+    contactSent: false,
+    contactForm: { name: '', email: '', message: '' },
+    faq: [
+      { q: "Який інвентар мені буде потрібен на курсі?", a: "Для більшості тренувань достатньо коврика для йоги, зручного одягу та пляшки води. Для окремих програм знадобляться легкі гантелі та еластична стрічка — повний список я надсилаю після оплати курсу.", open: true },
+      { q: "Скільки часу займає одне тренування?", a: "Залежно від програми — від 20 до 45 хвилин. Розтяжка та МФР зазвичай коротші, силові тренування з власною вагою — довші.", open: false },
+      { q: "Чи підійде програма початківцям?", a: "Так, всі курси адаптовані під різний рівень підготовки, а в особистому кабінеті доступні полегшені варіанти вправ.", open: false },
+      { q: "Як довго діє доступ до матеріалів?", a: "Доступ до відео та особистого кабінету безстроковий — можна повертатись до тренувань у будь-який момент.", open: false },
+    ],
+  };
+  componentDidMount() {
+    this._revealIds = ['about', 'training', 'pricing', 'nutrition', 'faq', 'reviews'];
+    this._onScroll = () => {
+      const shouldShow = window.scrollY > 600;
+      const updates = {};
+      let hasUpdates = false;
+      this._revealIds.forEach((id) => {
+        if (this.state.revealed[id]) return;
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.88) {
+          updates[id] = true;
+          hasUpdates = true;
+        }
+      });
+      if (shouldShow !== this.state.scrolled || hasUpdates) {
+        this.setState((s) => ({
+          scrolled: shouldShow,
+          revealed: hasUpdates ? { ...s.revealed, ...updates } : s.revealed,
+        }));
+      }
+    };
+    this._onResize = () => {
+      const mobile = window.innerWidth <= 1100;
+      if (mobile !== this.state.isMobile) {
+        this.setState((s) => ({ isMobile: mobile, mobileNavOpen: mobile ? s.mobileNavOpen : false }));
+      }
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onResize, { passive: true });
+    this._onScroll();
+    this._onResize();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    window.removeEventListener('resize', this._onResize);
+  }
+  renderVals() {
+    const m = this.state.isMobile;
+    const backToTopStyle = `position:fixed;right:32px;bottom:32px;width:52px;height:52px;border-radius:50%;background:rgb(14,61,204);align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.35);z-index:40;transition:opacity 0.25s ease,transform 0.25s ease;display:${this.state.scrolled ? 'flex' : 'none'};opacity:${this.state.scrolled ? 1 : 0};pointer-events:${this.state.scrolled ? 'auto' : 'none'};`;
+    const faqItems = this.state.faq.map((f, i) => ({
+      q: f.q, a: f.a, open: f.open,
+      rows: f.open ? '1fr' : '0fr',
+      answerPad: f.open ? '0px' : '0px',
+      iconRotate: f.open ? 'rotate(135deg)' : 'rotate(0deg)',
+      toggle: () => this.setState(s => {
+        const faq = s.faq.map((x, j) => j === i ? { ...x, open: !x.open } : x);
+        return { faq };
+      }),
+    }));
+    const reveal = (id) => this.state.revealed[id]
+      ? 'opacity:1;transform:translateY(0);transition:opacity 0.7s ease,transform 0.7s ease;'
+      : 'opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease;';
+    const revealAbout = reveal('about');
+    const revealTraining = reveal('training');
+    const revealPricing = reveal('pricing');
+    const revealNutrition = reveal('nutrition');
+    const revealFaq = reveal('faq');
+    const revealReviews = reveal('reviews');
+    const mobileNavOpen = this.state.mobileNavOpen;
+    const mobileNavToggle = () => this.setState(s => ({ mobileNavOpen: !s.mobileNavOpen }));
+    const mobileNavStyle = `position:fixed;inset:0;background:rgb(0,4,21);z-index:50;display:flex;flex-direction:column;padding:24px 20px;box-sizing:border-box;gap:8px;transform:${mobileNavOpen ? 'translateX(0)' : 'translateX(100%)'};transition:transform 0.3s ease;`;
+
+    const mCol = m ? 'column' : 'row';
+    const rCol = m ? 'row' : 'column';
+    const wsN = m ? 'normal' : 'nowrap';
+
+    const heroPhotoWrapStyle = m
+      ? 'position:relative;width:100%;height:300px;overflow:hidden;order:2;'
+      : 'position:absolute;left:106px;top:0;width:800px;height:1200px;z-index:1;pointer-events:none;';
+    const heroPhotoImgStyle = m
+      ? 'position:absolute;left:50%;top:-20px;width:480px;max-width:none;transform:translateX(-50%);object-fit:cover;filter:grayscale(0.15) contrast(1.05);mask-image:radial-gradient(65% 65% at 50% 40%, black 55%, rgba(0,0,0,0) 100%);-webkit-mask-image:radial-gradient(65% 65% at 50% 40%, black 55%, rgba(0,0,0,0) 100%);'
+      : 'position:absolute;left:-176px;top:-40px;width:1058px;height:1587px;object-fit:cover;filter:grayscale(0.15) contrast(1.05);mask-image:radial-gradient(60% 58% at 50% 38%, black 55%, rgba(0,0,0,0) 100%);-webkit-mask-image:radial-gradient(60% 58% at 50% 38%, black 55%, rgba(0,0,0,0) 100%);';
+    const heroPhotoGlowStyle = m
+      ? 'position:absolute;left:50%;top:30px;width:240px;height:240px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side, rgba(120,150,255,0.28) 0%, rgba(120,150,255,0.1) 55%, rgba(120,150,255,0) 100%);filter:blur(6px);'
+      : 'position:absolute;left:50%;top:220px;width:640px;height:640px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side, rgba(120,150,255,0.3) 0%, rgba(120,150,255,0.12) 55%, rgba(120,150,255,0) 100%);filter:blur(10px);';
+
+    const w = {
+      stats: m ? '100%' : '140px',
+      heroText: m ? '100%' : '594px',
+      heroDesc: m ? '100%' : '533px',
+      aboutText1: m ? '100%' : '621px',
+      aboutText2: m ? '100%' : '594px',
+      aboutImg: m ? '100%' : '656px',
+      trainImg1: m ? '100%' : '656px',
+      trainImg2: m ? '100%' : '646px',
+      trainingDesc: m ? '100%' : '705px',
+      pricingHead: m ? '100%' : '640px',
+      pricingCard: m ? '100%' : '421px',
+      nutritionHead: m ? '100%' : '767px',
+      bannerText: m ? '100%' : '497px',
+      reviewsMain: m ? '100%' : '60%',
+      reviewsSideWidth: m ? '100%' : 'auto',
+    };
+    const h = {
+      heroSection: m ? 'auto' : '1024px',
+      heroBody: m ? 'auto' : '540px',
+      header: 'auto',
+      statBox: m ? 'auto' : '114px',
+      aboutImg: m ? '340px' : '767px',
+      trainImg: m ? '220px' : '449px',
+      banner: m ? 'auto' : '404px',
+      recipeImg: m ? '260px' : '596px',
+      reviewsMain: m ? '220px' : '524px',
+      reviewsSide: m ? 'auto' : '524px',
+    };
+    const g = {
+      heroSectionGap: m ? '0px' : '160px',
+      headerPad: m ? '12px 20px' : '20px 40px',
+      heroBodyPad: m ? '0 20px 32px' : '0 40px',
+      heroBodyGap: m ? '28px' : '0px',
+      statsGap: m ? '10px' : '24px',
+      aboutGap: m ? '24px' : '48px',
+      aboutPad: m ? '48px 20px' : '80px 40px',
+      trainingContainerGap: m ? '48px' : '100px',
+      trainingContainerPad: m ? '48px 20px' : '80px 40px',
+      trainingRowGap: m ? '24px' : '48px',
+      bannerPad: m ? '32px 24px' : '98px 56px',
+      pricingGap: m ? '28px' : '64px',
+      pricingPad: m ? '48px 20px' : '80px 40px',
+      nutritionGap: m ? '24px' : '64px',
+      nutritionPad: m ? '48px 20px' : '80px 40px',
+      nutritionHeadPad: m ? '0' : '0 40px',
+      nutritionRowGap: m ? '20px' : '56px',
+      faqGap: m ? '0px' : '64px',
+      faqPad: m ? '48px 20px' : '80px 40px',
+      reviewsGap: m ? '24px' : '80px',
+      reviewsPad: m ? '48px 20px' : '80px 40px',
+      reviewsRowGap: m ? '20px' : '32px',
+      footerPad: m ? '40px 20px 24px' : '64px 40px 32px',
+      footerGap: m ? '32px' : '40px',
+    };
+    const f = {
+      heroTitle: m ? '40px' : '110px',
+      heroDesc: m ? '16px' : '18px',
+      sectionHead: m ? '28px' : '48px',
+      trainHead1: m ? '22px' : '36px',
+      trainHead2: m ? '22px' : '40px',
+      bannerHead: m ? '26px' : '48px',
+      recipeName: m ? '24px' : '36px',
+      footerBig: m ? '32px' : '64px',
+    };
+    const d = {
+      nav: m ? 'none' : 'flex',
+      headerCta: m ? 'none' : 'flex',
+      hamburger: m ? 'flex' : 'none',
+      decor: m ? 'none' : 'block',
+    };
+    const al = {
+      stat: m ? 'center' : 'flex-end',
+      heroText: m ? 'center' : 'flex-start',
+      banner: m ? 'center' : 'flex-end',
+      recipe: m ? 'stretch' : 'flex-start',
+      reviewsHeader: m ? 'flex-start' : 'flex-end',
+      footer: m ? 'flex-start' : 'center',
+    };
+    const ta = {
+      stat: m ? 'center' : 'right',
+      hero: m ? 'center' : 'left',
+      banner: m ? 'center' : 'right',
+    };
+    const order = {
+      stats: m ? 2 : 0,
+      text: m ? 1 : 0,
+      header: m ? 1 : 0,
+      heroBody: m ? 3 : 0,
+    };
+
+    const contactOpen = this.state.contactOpen;
+    const contactSent = this.state.contactSent;
+    const showContactForm = !contactSent;
+    const contactForm = this.state.contactForm;
+    const contactOverlayStyle = `position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;background:rgba(0,4,21,0.75);backdrop-filter:blur(6px);opacity:${contactOpen ? 1 : 0};pointer-events:${contactOpen ? 'auto' : 'none'};transition:opacity 0.25s ease;`;
+    const contactCardStyle = `width:480px;max-width:100%;background:linear-gradient(147deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);border-radius:20px;padding:40px;box-sizing:border-box;box-shadow:0 24px 60px rgba(0,0,0,0.5);position:relative;transform:${contactOpen ? 'translateY(0)' : 'translateY(24px)'};transition:transform 0.25s ease;`;
+    const openContact = () => this.setState({ contactOpen: true, contactSent: false, contactForm: { name: '', email: '', message: '' } });
+    const closeContact = () => this.setState({ contactOpen: false });
+    const stopProp = (e) => e.stopPropagation();
+    const setName = (e) => this.setState(s => ({ contactForm: { ...s.contactForm, name: e.target.value } }));
+    const setEmail = (e) => this.setState(s => ({ contactForm: { ...s.contactForm, email: e.target.value } }));
+    const setMessage = (e) => this.setState(s => ({ contactForm: { ...s.contactForm, message: e.target.value } }));
+    const submitContact = (e) => {
+      e.preventDefault();
+      const { name, email, message } = this.state.contactForm;
+      const subject = encodeURIComponent(`Повідомлення з сайту від ${name}`);
+      const body = encodeURIComponent(`${message}\n\nEmail для зв'язку: ${email}`);
+      window.location.href = `mailto:cosmodiva@gmail.com?subject=${subject}&body=${body}`;
+      this.setState({ contactSent: true });
+    };
+
+    return { faqItems, backToTopStyle, revealAbout, revealTraining, revealPricing, revealNutrition, revealFaq, revealReviews, mobileNavOpen, mobileNavToggle, mobileNavStyle, mCol, rCol, wsN, heroPhotoGlowStyle, heroPhotoWrapStyle, heroPhotoImgStyle, w, h, g, f, d, al, ta, order, contactOpen, contactSent, showContactForm, contactForm, contactOverlayStyle, contactCardStyle, openContact, closeContact, stopProp, setName, setEmail, setMessage, submitContact };
+  }
+}
+
+</script>
+</body>
+</html>
