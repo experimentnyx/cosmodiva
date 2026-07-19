@@ -5,10 +5,13 @@
  * Those uploads-ssl.webflow.com URLs stop resolving once the Webflow site is
  * unpublished, so the images must live in the repo.
  *
- * Re-runnable: skips photos already on disk.
+ * Re-runnable: skips photos already on disk, matching on slug regardless of
+ * extension. scripts/optimize-images.mjs rewrites these to .webp (and deletes
+ * the original), so an extension-sensitive check would re-download every
+ * optimised photo and point recipes.json back at the heavier CDN original.
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import { join, extname, basename } from "node:path";
 
 const CSV = join("data", "Cosmo Diva Foods Export.csv");
 const CAT_CSV = join("data", "Cosmo Diva Categories.csv");
@@ -61,6 +64,17 @@ const catNames = new Map(
 
 mkdirSync(IMG_DIR, { recursive: true });
 
+/* slug -> the photo actually on disk. The optimiser converts to .webp where that
+   wins and keeps the original where it does not (see D9), so the extension a
+   slug ends up with is not knowable from the CDN URL. .webp first, so a leftover
+   pre-optimisation original never shadows the optimised file. */
+const onDisk = new Map();
+for (const f of readdirSync(IMG_DIR).sort()) {
+  if (!/\.(png|jpe?g|webp)$/i.test(f)) continue;
+  const stem = basename(f, extname(f));
+  if (!onDisk.has(stem) || extname(f).toLowerCase() === ".webp") onDisk.set(stem, f);
+}
+
 const recipes = [];
 for (const r of rows.slice(1)) {
   if (!r[col("Name")]) continue;
@@ -71,15 +85,18 @@ for (const r of rows.slice(1)) {
   let image = null;
 
   if (remote) {
-    const ext = (remote.split("?")[0].match(/\.(jpe?g|png|webp)$/i) || [, "jpg"])[1];
-    const file = `${slug}.${ext.toLowerCase()}`;
-    const dest = join(IMG_DIR, file);
-    image = `/assets/recipes/${file}`;
-    if (!existsSync(dest)) {
+    const have = onDisk.get(slug);
+    if (have) {
+      image = `/assets/recipes/${have}`;
+      console.log(`  have ${have}`);
+    } else {
+      const ext = (remote.split("?")[0].match(/\.(jpe?g|png|webp)$/i) || [, "jpg"])[1];
+      const file = `${slug}.${ext.toLowerCase()}`;
+      image = `/assets/recipes/${file}`;
       try {
         const res = await fetch(remote);
         if (res.ok) {
-          writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
+          writeFileSync(join(IMG_DIR, file), Buffer.from(await res.arrayBuffer()));
           console.log(`  downloaded ${file}`);
         } else {
           console.warn(`  FAILED ${res.status} ${file} — ${remote}`);
@@ -89,8 +106,6 @@ for (const r of rows.slice(1)) {
         console.warn(`  FAILED ${file} — ${e.message}`);
         image = null;
       }
-    } else {
-      console.log(`  have ${file}`);
     }
   }
 

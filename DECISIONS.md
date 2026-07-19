@@ -713,3 +713,50 @@ Needs resolution before the header is built.
 Тарілка). The real collection is also 3 items (Баунті, Сирна запіканка, Шоколадний
 бісквіт) but with real photos. The recipe *card* fields in the design — cook time,
 kcal, protein, carbs, fats — map cleanly onto the CSV columns, so the schema fits.
+
+---
+
+## D18 — The importer's "already on disk" check matches on slug, not filename
+
+**Decision:** `scripts/import-recipes.mjs` scans `src/assets/recipes/` once and keys
+what it finds by **basename**, then derives `image` from the file that is actually
+there. It no longer reconstructs the filename from the CDN URL's extension.
+
+The two scripts contradicted each other. The importer's skip check tested for
+`<slug>.<ext-from-CDN-URL>` — `bounty.jpeg`. But D9's optimiser converts recipe
+photos to `.webp` and deletes the original. After optimising, `bounty.jpeg` is gone,
+so the check missed, and a re-run would:
+
+1. re-download `bounty.jpeg` and `sirna-zapikanka.jpeg` from Webflow's CDN, and
+2. rewrite `recipes.json` to point at them — `bounty` 38KB → 50KB,
+   `sirna-zapikanka` 21KB → 34KB.
+
+A silent size regression plus two untracked strays, undoing part of D9. Easy to
+trigger by accident: the header comment promised "re-runnable", and it looked it.
+
+**Why the extension cannot be assumed.** D9's judgement call 2 keeps whichever
+format is smaller per photo, so `shokoladniy-biskvit` is legitimately still a
+tracked `.jpeg` (its WebP came out at 63KB vs 62KB). That outcome is *measured, not
+configured* — the optimiser globs the directory rather than working from a list, so
+which photos survive as JPEG can change if a photo is ever re-uploaded. Nothing may
+hardcode the set. Matching on basename is agnostic to all of it.
+
+Where both extensions exist — the residue of a re-run that already went wrong —
+`.webp` wins, so a leftover original cannot shadow the optimised file.
+
+**Rejected — preserve the existing `image` value from `recipes.json`.** Makes the
+importer's own output its input, and breaks the recovery path D9 depends on: on a
+fresh clone `recipes.json` names `bounty.webp` while `src/assets/recipes/` is empty,
+and the importer would preserve a path to a file that does not exist instead of
+re-downloading. The disk is the truth here, not the JSON.
+
+**Rejected — fold optimisation into the import.** One command to the optimised end
+state is appealing, but it puts `sharp` behind a CSV importer and drags in the
+optimiser's unrelated design-asset `PLAN`. Both scripts are one-shot recovery tools
+that are run years apart, if ever; coupling them buys convenience nobody needs.
+
+**Verified:** re-running the importer over the current tree re-downloads nothing and
+leaves `recipes.json` byte-identical; against an empty image dir it still downloads
+all three from the CDN; with a stray `bounty.jpeg` beside `bounty.webp` it picks the
+WebP. Build output references `bounty.webp`, `sirna-zapikanka.webp`,
+`shokoladniy-biskvit.jpeg` — unchanged.
