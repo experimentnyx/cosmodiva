@@ -193,19 +193,27 @@
       { "label": "FAQ", "href": "/#faq" }
     ],
     "social": [
-      { "label": "Instagram", "href": "#" },
+      { "label": "Instagram", "href": "https://www.instagram.com/naastya.sh/" },
       { "label": "Telegram", "href": "#" }
     ],
     "copyright": "© 2026 Anastasiia. Всі права захищено."
   },
 
   "contact": {
+    "_note": "accessKey comes from web3forms.com — request one for cosmodiva@gmail.com and paste it below. Web3Forms keys are designed to live in client-side HTML, so this is not a secret and is safe in the repo. While it is empty the form falls back to opening a mailto: draft, so nothing is silently swallowed.",
+    "endpoint": "https://api.web3forms.com/submit",
+    "accessKey": "",
+    "subject": "Нове повідомлення з сайту cosmodiva",
     "title": "Дроп мі е меседж",
     "sub": "Напиши мені, і я відповім найближчим часом",
     "fields": { "name": "Ім'я", "email": "Email", "message": "Про що хочеш запитати?" },
     "submit": "Надіслати",
+    "sending": "Надсилаю…",
     "sentTitle": "Дякую!",
     "sentBody": "Повідомлення відправлено. Я відповім найближчим часом на пошту.",
+    "errorText": "Не вдалося надіслати. Спробуй ще раз або напиши напряму на cosmodiva@gmail.com",
+    "unconfiguredText": "Форму ще не підключено. Напиши, будь ласка, напряму на cosmodiva@gmail.com — зараз відкриється поштова програма.",
+    "invalidText": "Заповни, будь ласка, всі поля — і перевір email.",
     "close": "Закрити"
   }
 }

@@ -602,6 +602,53 @@ An earlier check failed for this reason when the behaviour was actually correct.
 independence (opening one leaves others untouched), no stranded `.is-closing`,
 and the icon rotating in step with the panel rather than after it.
 
+## D17 — Contact form: Web3Forms
+
+**Decision:** Web3Forms. The form POSTs JSON straight from the browser to
+`api.web3forms.com/submit`; submissions arrive at `cosmodiva@gmail.com`. Free tier
+is 250/month, no account signup — the access key is requested by email.
+
+**Rejected:**
+- *Formspree* — equivalent model, 50/month free, and requires an account.
+- *Telegram bot via a Vercel function* — appealing because Anastasiia already
+  runs a Telegram channel, but it ends the purely-static architecture (a
+  function, `vercel dev` for local testing, env vars), and gives no durable,
+  searchable record. Decisive detail: the design's own confirmation copy says
+  *«Я відповім найближчим часом на пошту»* — she replies by **email** regardless,
+  so Telegram could only ever be a notification layer while email stayed the real
+  conversation. If phone alerts are the goal, Gmail already does that.
+
+**Configuration:** `site.contact.accessKey` in `src/_data/site.json`, currently
+**empty**. Web3Forms keys are public by design — they identify a destination
+inbox, are rate-limited, and their docs place them directly in markup — so this is
+not a credential and is safe in the repo.
+
+**Behaviour while unconfigured:** the form falls back to opening a pre-filled
+`mailto:` draft. It never shows the success panel without having sent anything.
+
+**Implementation notes:**
+- Honeypot `botcheck` checkbox; a filled one is dropped client-side before any
+  request. Hidden via `.cd-visually-hidden` and `tabindex="-1"` rather than
+  `display:none`, since bots read the DOM either way.
+- Failure — HTTP error, `success !== true`, or a thrown request — shows an error
+  message and **never** the thank-you panel. A visitor who believes a message was
+  delivered does not follow up.
+- Button disables and swaps to «Надсилаю…» while in flight, then restores on both
+  success and failure.
+- Status line is `role="status" aria-live="polite"`; invalid submit focuses the
+  first bad field.
+- Reopening the modal clears any stale status and returns to the form panel.
+
+**Verified by stubbing `fetch`:** empty submit blocked with a message and no
+success panel; honeypot submission makes no request; success posts to the right
+endpoint with `access_key / subject / from_name / name / email / message` and
+swaps panels; `success: false` and a rejected request both surface an error and
+leave the thank-you panel hidden; the button restores in every case; failure then
+reopen clears the stale error; success then reopen returns to an empty form.
+
+**Remaining step (yours):** get a key at web3forms.com for `cosmodiva@gmail.com`
+and paste it into `site.contact.accessKey`. No code change needed.
+
 ### Still open
 
 1. **Payment provider (D5)** — all 3 "Обрати" buttons are `href="#"`, as they are in

@@ -53,7 +53,16 @@
     el.addEventListener("click", function () {
       if (formWrap) formWrap.hidden = false;
       if (sentWrap) sentWrap.hidden = true;
-      if (form) form.reset();
+      if (form) {
+        form.reset();
+        // Clear any error left over from a previous attempt, otherwise a stale
+        // failure message greets the next visitor to open the modal.
+        var prevStatus = form.querySelector("[data-form-status]");
+        if (prevStatus) {
+          prevStatus.textContent = "";
+          prevStatus.className = "cd-form-status";
+        }
+      }
       setModal(true);
     });
   });
@@ -75,18 +84,80 @@
   });
 
   if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      // TODO: no endpoint wired yet (see contact-modal.njk). Showing the
-      // confirmation state without actually sending would lie to the visitor,
-      // so fall back to the real mail channel instead.
-      var data = new FormData(form);
+    var status = form.querySelector("[data-form-status]");
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    function setStatus(text, kind) {
+      if (!status) return;
+      status.textContent = text || "";
+      status.className = "cd-form-status" + (kind ? " is-" + kind : "");
+    }
+
+    /* Used when no access key is configured yet. A mailto: does nothing at all
+       on a machine with no mail client registered, which reads as a broken
+       button — so say what is happening on screen first, then attempt the
+       draft. The address stays visible either way. */
+    function mailtoFallback(data) {
+      var to = form.dataset.fallbackEmail || "";
       var subject = encodeURIComponent("Питання з сайту — " + (data.get("name") || ""));
       var body = encodeURIComponent(
         (data.get("message") || "") + "\n\n" + (data.get("email") || "")
       );
-      window.location.href =
-        "mailto:cosmodiva@gmail.com?subject=" + subject + "&body=" + body;
+      setStatus(submitBtn.dataset.unconfiguredText, "error");
+      window.location.href = "mailto:" + to + "?subject=" + subject + "&body=" + body;
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var data = new FormData(form);
+
+      // Honeypot: a real person never checks a field they cannot see.
+      if (data.get("botcheck")) return;
+
+      if (!form.checkValidity()) {
+        setStatus(submitBtn.dataset.invalidText, "error");
+        var firstInvalid = form.querySelector(":invalid");
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      var endpoint = form.dataset.endpoint;
+      var key = (data.get("access_key") || "").trim();
+      if (!endpoint || !key) {
+        mailtoFallback(data);
+        return;
+      }
+
+      var payload = {};
+      data.forEach(function (value, name) { payload[name] = value; });
+
+      setStatus("", null);
+      submitBtn.disabled = true;
+      submitBtn.textContent = submitBtn.dataset.sendingLabel;
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) { return res.json().catch(function () { return {}; }); })
+        .then(function (result) {
+          if (!result || result.success !== true) throw new Error(result && result.message);
+          if (formWrap) formWrap.hidden = true;
+          if (sentWrap) sentWrap.hidden = false;
+          form.reset();
+          setStatus("", null);
+        })
+        .catch(function () {
+          // Never show the success panel on failure — the visitor would think
+          // the message was delivered and would not follow up.
+          setStatus(submitBtn.dataset.errorText, "error");
+        })
+        .then(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = submitBtn.dataset.submitLabel;
+        });
     });
   }
 

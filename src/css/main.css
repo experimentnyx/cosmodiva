@@ -984,6 +984,18 @@ blockquote, figure { margin: 0; }
 .cd-field input:focus,
 .cd-field textarea:focus { border-color: var(--c-blue); }
 
+.cd-form-status {
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0 0 12px;
+  min-height: 0;
+}
+.cd-form-status:empty { display: none; }
+.cd-form-status.is-error { color: rgb(255, 138, 108); }
+
+.cd-modal .cd-btn[disabled] { opacity: 0.6; cursor: default; transform: none; }
+.cd-modal .cd-btn[disabled]:hover { transform: none; background: var(--c-blue); }
+
 /* ============================================================
    Blog listing
    ============================================================ */

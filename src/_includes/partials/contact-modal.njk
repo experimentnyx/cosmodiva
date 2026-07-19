@@ -6,11 +6,25 @@
       <h2 class="cd-modal-title" id="contactTitle">{{ site.contact.title }}</h2>
       <p class="cd-modal-sub">{{ site.contact.sub }}</p>
 
-      <!-- TODO: no submit endpoint yet. Decide between a form service
-           (Formspree / Web3Forms), a Vercel serverless function, or replacing
-           this modal with a direct Telegram link. Until then the form is
-           inert and the email address in the banner is the real channel. -->
-      <form id="contactForm" novalidate>
+      <form id="contactForm" novalidate
+            data-endpoint="{{ site.contact.endpoint }}"
+            data-fallback-email="{{ site.email }}">
+        {#- Web3Forms routes on this key. It is public by design (their docs put
+            it straight in the markup); it identifies the destination inbox and
+            is rate-limited, it is not a credential. Empty until configured, in
+            which case site.js falls back to a mailto: draft. #}
+        <input type="hidden" name="access_key" value="{{ site.contact.accessKey }}">
+        <input type="hidden" name="subject" value="{{ site.contact.subject }}">
+        <input type="hidden" name="from_name" value="{{ site.brand.name }}">
+
+        {#- Honeypot. Web3Forms discards any submission where this is filled.
+            Hidden from sight and from the tab order, never from screen readers
+            by `display:none` alone — bots read the DOM either way. #}
+        <label class="cd-visually-hidden" aria-hidden="true">
+          Не заповнюй це поле
+          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
+        </label>
+
         <div class="cd-field">
           <label for="cf-name">{{ site.contact.fields.name }}</label>
           <input type="text" id="cf-name" name="name" required autocomplete="name">
@@ -23,7 +37,15 @@
           <label for="cf-message">{{ site.contact.fields.message }}</label>
           <textarea id="cf-message" name="message" required placeholder="{{ site.contact.fields.message }}"></textarea>
         </div>
-        <button type="submit" class="cd-btn cd-btn--blue cd-btn--block">{{ site.contact.submit }}</button>
+
+        <p class="cd-form-status" data-form-status role="status" aria-live="polite"></p>
+
+        <button type="submit" class="cd-btn cd-btn--blue cd-btn--block"
+                data-submit-label="{{ site.contact.submit }}"
+                data-sending-label="{{ site.contact.sending }}"
+                data-error-text="{{ site.contact.errorText }}"
+                data-invalid-text="{{ site.contact.invalidText }}"
+                data-unconfigured-text="{{ site.contact.unconfiguredText }}">{{ site.contact.submit }}</button>
       </form>
     </div>
 

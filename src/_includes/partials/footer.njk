@@ -18,7 +18,9 @@
       <a href="{{ site.footer.cta.href }}" class="cd-btn cd-btn--blue">{{ site.footer.cta.label }}</a>
       <div class="cd-footer-social">
         {%- for s in site.footer.social %}
-        <a href="{{ s.href }}">
+        {#- External links open in a new tab so the site is not lost; the guard
+            keeps it off placeholder hrefs like "#", which would open a blank tab. #}
+        <a href="{{ s.href }}"{% if s.href.startsWith("http") %} target="_blank" rel="noopener noreferrer"{% endif %}>
           {%- if s.label == "Instagram" %}
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <rect x="1" y="1" width="14" height="14" rx="4" stroke="#fff" stroke-width="1.3"/>
