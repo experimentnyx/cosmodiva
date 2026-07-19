@@ -212,7 +212,11 @@ permalink: /index.html
           </svg>
         </span>
       </summary>
-      <p class="cd-faq-a">{{ item.a }}</p>
+      {#- Wrapper exists purely so its height can be animated; <details> itself
+          jumps straight to auto and cannot be transitioned. #}
+      <div class="cd-faq-body">
+        <p class="cd-faq-a">{{ item.a }}</p>
+      </div>
     </details>
     {%- endfor %}
   </div>
@@ -232,12 +236,15 @@ permalink: /index.html
     <a href="{{ site.reviews.cta.href }}" class="cd-btn cd-btn--orange">{{ site.reviews.cta.label }}</a>
   </div>
 
-  <div class="cd-reviews-main">
+  {#- One bento grid rather than two rows separated by an 80px gap: 6 columns,
+      uniform gutters, blocks of different spans tiled together. #}
+  <div class="cd-reviews-bento">
     <div class="cd-media cd-reviews-photo">
       <img src="{{ site.reviews.featured.image }}"
            srcset="{{ site.reviews.featured.image }} 1x, {{ site.reviews.featured.image | retina }} 2x"
            alt="" width="807" height="524" loading="lazy">
     </div>
+
     <blockquote class="cd-review-featured">
       <span class="cd-stars" aria-hidden="true">★★★★★</span>
       <p class="cd-review-text">{{ site.reviews.featured.text }}</p>
@@ -248,9 +255,7 @@ permalink: /index.html
         <span>{{ site.reviews.featured.author }}</span>
       </footer>
     </blockquote>
-  </div>
 
-  <div class="cd-reviews-grid">
     {%- for r in site.reviews.items %}
     <blockquote class="cd-review-card">
       <span class="cd-stars" aria-hidden="true">★★★★★</span>

@@ -22,6 +22,12 @@ a:hover { color: var(--c-gold); }
 
 img { display: block; max-width: 100%; }
 
+/* Browsers default <blockquote> to `margin: 1em 40px`. The review tiles are
+   blockquotes, and that inherited margin was insetting them 40px per side
+   inside their grid tracks and adding a stray 16px above — which showed up as
+   uneven bento gutters (56 / 64 / 96px against a declared 16px gap). */
+blockquote, figure { margin: 0; }
+
 .cd-page {
   position: relative;
   width: 100%;
@@ -776,6 +782,13 @@ img { display: block; max-width: 100%; }
   transition: transform 0.25s ease;
 }
 .cd-faq-item[open] .cd-faq-icon { transform: rotate(45deg); }
+/* While closing, `open` is still set until the collapse finishes, so the icon
+   would otherwise snap back only after the panel had gone. This rotates it
+   back in step with the content. */
+.cd-faq-item.is-closing .cd-faq-icon { transform: rotate(0deg); }
+
+/* Clips the panel while its height animates. */
+.cd-faq-body { overflow: hidden; }
 .cd-faq-a {
   font-size: 18px;
   line-height: 1.7;
@@ -810,37 +823,41 @@ img { display: block; max-width: 100%; }
 .cd-reviews-rating-value { font-size: 18px; font-weight: 600; }
 .cd-reviews-rating-suffix { font-size: 16px; color: var(--c-w-60); }
 
-.cd-reviews-main {
-  display: flex;
-  flex-direction: var(--dir-main);
-  gap: var(--g-reviews-row);
-  align-items: stretch;
+/* ---- bento grid ----
+   Six columns so the tiles divide cleanly: the photo takes 4, the featured
+   quote 2, and each of the three small quotes 2 — filling a second row exactly.
+   One grid means a single uniform gutter everywhere instead of a 32px row gap
+   plus an 80px gap between two separate rows. */
+.cd-reviews-bento {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--g-bento);
 }
 .cd-reviews-photo {
-  width: var(--w-reviews-main);
+  grid-column: span 4;
   height: var(--h-reviews-main);
-  flex-shrink: 0;
 }
 .cd-review-featured {
-  flex: 1;
+  grid-column: span 2;
   height: var(--h-reviews-side);
   border-radius: var(--r-xl);
   background: linear-gradient(147deg, var(--c-card-grad-a) 0%, var(--c-card-grad-b) 100%);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 32px;
-  padding: 40px;
+  /* Was space-between, which spread ~200px of content over a 524px card and
+     left 85px voids above and below the quote. Content now groups at the top;
+     the author is pinned to the bottom by margin-top:auto below. */
+  justify-content: flex-start;
+  gap: 24px;
+  padding: 32px;
 }
-.cd-review-text { font-size: 20px; line-height: 1.5; margin: 0; }
+/* One size across every tile in the bento — the featured quote used to be 20px
+   against 16px in the small cards. 18px sits between the two: still substantial
+   in the large tile, without pushing the small cards much taller. */
+.cd-review-text { font-size: 18px; line-height: 1.5; margin: 0; }
 
-.cd-reviews-grid {
-  display: flex;
-  flex-direction: var(--dir-main);
-  gap: var(--g-reviews-row);
-}
 .cd-review-card {
-  flex: 1;
+  grid-column: span 2;
   border-radius: var(--r-xl);
   background: linear-gradient(147deg, var(--c-card-grad-a) 0%, var(--c-card-grad-b) 100%);
   display: flex;
@@ -848,8 +865,20 @@ img { display: block; max-width: 100%; }
   gap: 20px;
   padding: 28px;
 }
-.cd-review-card .cd-review-text { font-size: 16px; }
-.cd-review-author { display: flex; flex-direction: row; gap: 12px; align-items: center; }
+
+@media (max-width: 1100px) {
+  /* Single column — the 6-track grid would leave unusable ~50px tiles. */
+  .cd-reviews-bento { grid-template-columns: 1fr; }
+  .cd-reviews-photo,
+  .cd-review-featured,
+  .cd-review-card { grid-column: span 1; }
+  .cd-review-featured { height: auto; }
+}
+
+/* Pins the author to the bottom of the card. The cards are equal height (flex
+   stretch), but quotes differ in length — without this the avatars sat at
+   212 / 236 / 212px from the card top and visibly failed to line up. */
+.cd-review-author { display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: auto; }
 .cd-review-author img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
 .cd-review-author span { font-size: 16px; font-weight: 500; }
 

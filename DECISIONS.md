@@ -512,6 +512,96 @@ section). **0 broken links and 0 broken anchors across all 5 pages.**
 "Дивитись всі відгуки", and the footer Instagram / Telegram links. The last three
 need only URLs and could be filled in immediately.
 
+## D13 — Reviews grid alignment
+
+Two measured defects, both visible on the live page:
+
+1. **Author rows did not line up.** The three cards are equal height (304px, flex
+   stretch) but content stacked from the top, so a quote running to 6 lines
+   instead of 5 pushed that card's avatar down. Measured offsets from card top:
+   **212 / 236 / 212px**. Fixed with `margin-top: auto` on `.cd-review-author`,
+   pinning attribution to the bottom of each equal-height card — now **236 /
+   236 / 236**, identical absolute Y.
+
+2. **Featured card had two 85px voids.** `justify-content: space-between` spread
+   roughly 200px of content across a 524px card, leaving dead space above *and*
+   below the quote. Changed to `flex-start` with `gap: 24px`; the author is
+   pinned to the bottom by the same `margin-top: auto`. Stars-to-text is now
+   24px, with a single trailing gap rather than two holes.
+
+**Mobile unaffected:** the grid is `column` there and cards size to content
+(304 / 328 / 304), so `margin-top: auto` has no free space to consume and the
+text-to-author gap stays at 20px. No horizontal overflow.
+
+## D14 — Reviews rebuilt as a bento grid
+
+`.cd-reviews-main` + `.cd-reviews-grid` (two flex rows, 32px internal gap and an
+80px gap between them) collapse into one `.cd-reviews-bento` CSS grid.
+
+Six columns, so the tiles divide evenly: photo spans 4, featured quote spans 2,
+each of the three small quotes spans 2 — filling a second row exactly. A single
+`--g-bento` gutter (16px desktop / 12px mobile) replaces all previous spacing.
+`--g-reviews` drops 80px → 32px and now only separates the header from the grid.
+
+**Latent bug this exposed:** browsers default `<blockquote>` to
+`margin: 1em 40px`, and every review tile is a `<blockquote>`. That margin was
+insetting each tile 40px per side *inside its grid track* and adding 16px above —
+measured gutters came out **56 / 64 / 96px** against a declared 16px gap, and
+tiles rendered 358px wide in 437px tracks. It had been skewing the old flex
+layout too; the tight bento just made it visible. Fixed with a
+`blockquote, figure { margin: 0 }` reset.
+
+**Verified at 1440px:** gutters uniform 16px (one 15px from sub-pixel rounding on
+fractional tracks), photo and featured tile share y and height (524px), all three
+cards share y and width (438px), photo's left edge matches card 1, featured's
+right edge matches card 3. **At 420px:** single 380px column, 12px gutter, every
+tile flush at x=20, no horizontal overflow.
+
+## D15 — Uniform quote type size in reviews
+
+The featured quote was 20px against 16px in the three small cards. Unified to a
+single `.cd-review-text` rule at **18px** — between the two, so the large tile
+keeps presence without the small cards growing much. The
+`.cd-review-card .cd-review-text` override is deleted; there is now exactly one
+font-size declaration for review text.
+
+Verified: all four quotes report 18px, no tile overflows its box
+(`scrollHeight === clientHeight` on all four), and the three cards remain equal
+height (295px, up from 256px) with author rows still aligned.
+
+## D16 — FAQ open/close animation
+
+`<details>` snaps its height to `auto`, so it cannot be transitioned. The answer
+is wrapped in `.cd-faq-body` (`overflow: hidden`) and driven with the Web
+Animations API: 240ms open, 220ms close, `ease`. `open` is only cleared once the
+collapse finishes, so native `<details>` semantics — keyboard, find-in-page,
+screen readers — stay intact. `prefers-reduced-motion` bypasses the animation
+entirely.
+
+**Two bugs found and fixed while testing, neither visible without measuring:**
+
+1. **Mid-animation clicks stranded the panel.** `open` stays `true` for the whole
+   collapse, so a click during a close read as "close again". Three rapid clicks
+   from closed ended *closed* instead of open. Now a click while `.is-closing`
+   is treated as a reversal.
+
+2. **Opening never actually animated.** A closed `<details>` still reports its
+   intrinsic body height, so measuring `startHeight` before setting `open = true`
+   returned the full height — the animation ran 85px → 85px and the item snapped
+   open. Now it starts from 0 unless reversing an in-flight collapse. Confirmed
+   by sampling per frame: item height eases 77 → 78 → 80 → 82 → 85 → 89 → 93 →
+   98 → … → 162 on open and 162 → 161 → 159 → 156 → … → 77 on close, both
+   monotonic, with downstream content moving smoothly rather than jumping.
+
+**Measurement note:** a closed `<details>` body reports a stale non-zero
+`getBoundingClientRect().height` (Chrome renders it via `content-visibility`).
+Assert on the `<details>` element's height (77px collapsed), not the panel's.
+An earlier check failed for this reason when the behaviour was actually correct.
+
+**Verified:** open/close, mid-flight reversal, the item that ships `open`,
+independence (opening one leaves others untouched), no stranded `.is-closing`,
+and the icon rotating in step with the panel rather than after it.
+
 ### Still open
 
 1. **Payment provider (D5)** — all 3 "Обрати" buttons are `href="#"`, as they are in

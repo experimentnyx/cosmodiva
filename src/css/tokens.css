@@ -107,9 +107,13 @@
   --g-nutrition-row: 56px;
   --g-faq: 64px;
   --g-faq-pad: 80px 40px;
-  --g-reviews: 80px;
+  /* Reviews render as one bento grid, so the old 80px row separation is gone;
+     --g-reviews is now only the gap between the section header and the grid,
+     and --g-bento is the uniform gutter between every tile. */
+  --g-reviews: 32px;
   --g-reviews-pad: 80px 40px;
   --g-reviews-row: 32px;
+  --g-bento: 16px;
   --g-footer-pad: 64px 40px 32px;
   --g-footer: 40px;
 
@@ -218,6 +222,7 @@
     --g-reviews: 24px;
     --g-reviews-pad: 48px 20px;
     --g-reviews-row: 20px;
+    --g-bento: 12px;
     --g-footer-pad: 40px 20px 24px;
     --g-footer: 32px;
 

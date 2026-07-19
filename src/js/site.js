@@ -108,6 +108,66 @@
     revealables.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---- FAQ open/close animation ----
+     <details> switches height straight to auto, so it cannot be transitioned.
+     The panel is animated with the Web Animations API instead, and `open` is
+     only cleared once the collapse has finished — that keeps native <details>
+     semantics (keyboard, find-in-page, screen readers) intact. */
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll(".cd-faq-item").forEach(function (item) {
+    var summary = item.querySelector("summary");
+    var body = item.querySelector(".cd-faq-body");
+    if (!summary || !body || !body.animate) return;
+
+    var running = null;
+
+    summary.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      if (reduceMotion.matches) {
+        item.open = !item.open;
+        item.classList.remove("is-closing");
+        return;
+      }
+
+      /* `open` stays true for the whole collapse, so it cannot be used alone to
+         decide intent — a click mid-close would read as "close again" and strand
+         the panel shut. Treat a click while closing as a reversal. */
+      var closing = item.classList.contains("is-closing");
+      var willOpen = !item.open || closing;
+
+      if (running) { running.cancel(); running = null; }
+
+      if (willOpen) {
+        /* A closed <details> still reports its intrinsic height here, so
+           measuring it would animate from full-height to full-height — i.e.
+           no visible change. Only trust a measurement when reversing a
+           collapse that is still in flight; otherwise start from zero. */
+        var startHeight = closing ? body.getBoundingClientRect().height : 0;
+        item.classList.remove("is-closing");
+        item.open = true;
+        running = body.animate(
+          { height: [startHeight + "px", body.scrollHeight + "px"], opacity: [closing ? 1 : 0, 1] },
+          { duration: 240, easing: "ease" }
+        );
+        running.onfinish = function () { running = null; };
+      } else {
+        // Open, so this measurement is real.
+        item.classList.add("is-closing");
+        running = body.animate(
+          { height: [body.getBoundingClientRect().height + "px", "0px"], opacity: [1, 0] },
+          { duration: 220, easing: "ease" }
+        );
+        running.onfinish = function () {
+          item.open = false;
+          item.classList.remove("is-closing");
+          running = null;
+        };
+      }
+    });
+  });
+
   /* ---- blog category filter ----
      Only rendered when the collection spans 2+ categories. */
   var filters = document.querySelectorAll(".cd-filter");
