@@ -1,5 +1,5 @@
 /**
- * One-shot importer: Webflow CSV export -> src/_data/recipes.json
+ * One-shot importer: data/*.csv (Webflow export) -> src/_data/recipes.json
  *
  * Also downloads each recipe photo off Webflow's CDN into src/assets/recipes/.
  * Those uploads-ssl.webflow.com URLs stop resolving once the Webflow site is
@@ -10,8 +10,8 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
-const CSV = "Cosmo Diva Foods Export.csv";
-const CAT_CSV = "Cosmo Diva Categories.csv";
+const CSV = join("data", "Cosmo Diva Foods Export.csv");
+const CAT_CSV = join("data", "Cosmo Diva Categories.csv");
 const IMG_DIR = join("src", "assets", "recipes");
 const OUT = join("src", "_data", "recipes.json");
 

@@ -3,6 +3,18 @@
 Running log of architecture decisions for migrating the Webflow export to the new
 design while preserving CMS content. Newest decisions appended at the bottom.
 
+> **File locations (moved 2026-07-20).** Entries below name source files as they sat
+> at the repo root when written. They now live in subfolders — the names are
+> unchanged, only the paths:
+>
+> | Referenced as | Now at |
+> | --- | --- |
+> | `Cosmo Diva *.csv` (4 files) | `data/` |
+> | `Untitled.fig`, `Dark Landing.png` | `source-material/` |
+> | `Cosmo Diva Webflow.zip`, `Сайт з Figma файлу.zip` | `source-material/` |
+>
+> `source-material/` is gitignored (see `.gitignore` for why); `data/` is versioned.
+
 ## Context (established 2026-07-19)
 
 - Static Webflow export, hosted on Vercel as flat files. No `vercel.json`, no build step.

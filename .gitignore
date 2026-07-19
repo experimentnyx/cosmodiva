@@ -6,13 +6,12 @@ node_modules/
 _site/
 _tmp_astro/
 
-# Large design binaries — kept locally, deliberately not versioned.
-# Untitled.fig is ~43MB and Dark Landing.png ~7MB; git history is permanent, so
-# committing them would bloat every future clone. The design source of truth is
-# the Claude Design project (see DECISIONS.md F2), and the exported .dc.html
-# files in design-reference/ are versioned instead — those are what the CSS was
-# ported from. Dark Landing.png is additionally a *stale* export and must not be
-# treated as a reference.
+# source-material/ — original design/export binaries, kept locally, deliberately
+# not versioned. Untitled.fig is ~43MB, Dark Landing.png ~7MB, and the two .zips
+# ~80MB combined; git history is permanent, so committing them would bloat every
+# future clone. The design source of truth is the Claude Design project (see
+# DECISIONS.md F2), and the exported .dc.html files in design-reference/ are
+# versioned instead — those are what the CSS was ported from. Dark Landing.png is
+# additionally a *stale* export and must not be treated as a reference.
 # If these ever need versioning, use Git LFS rather than committing directly.
-Untitled.fig
-Dark Landing.png
+source-material/
