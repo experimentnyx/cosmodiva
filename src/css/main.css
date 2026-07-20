@@ -978,6 +978,10 @@ blockquote, figure { margin: 0; }
   grid-template-columns: repeat(6, 1fr);
   gap: var(--g-bento);
 }
+/* Transparent to the grid: the quotes inside remain direct grid items, so the
+   bento lays out exactly as it did before the wrapper existed. The wrapper only
+   becomes a real box at the mobile breakpoint, where it is the scroll track. */
+.cd-reviews-track { display: contents; }
 .cd-reviews-photo {
   grid-column: span 4;
   height: var(--h-reviews-main);
@@ -1019,6 +1023,41 @@ blockquote, figure { margin: 0; }
   .cd-review-featured,
   .cd-review-card { grid-column: span 1; }
   .cd-review-featured { height: auto; }
+
+  /* Quotes become a swipeable row rather than a tall vertical stack — five
+     stacked tiles pushed the footer a long way down. The photo stays a full
+     width tile above; only the quotes scroll. */
+  .cd-reviews-track {
+    display: flex;
+    flex-direction: row;
+    gap: var(--g-bento);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* Cards run edge to edge of the section's 20px gutter, so the track is
+       pulled out and re-padded — otherwise the first card starts inset and the
+       next one is clipped mid-card at the right. */
+    margin-inline: calc(var(--g-reviews-pad-x) * -1);
+    padding-inline: var(--g-reviews-pad-x);
+    scroll-padding-inline: var(--g-reviews-pad-x);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cd-reviews-track::-webkit-scrollbar { display: none; }
+
+  /* 85% leaves the next card peeking, which is what signals the row scrolls at
+     all once the scrollbar is hidden. */
+  .cd-reviews-track > * {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+  }
+  /* The track takes focus for keyboard scrolling, so it needs a visible ring —
+     but only from the keyboard, not on the tap that starts a swipe. */
+  .cd-reviews-track:focus { outline: none; }
+  .cd-reviews-track:focus-visible {
+    outline: 2px solid var(--c-orange);
+    outline-offset: 4px;
+    border-radius: var(--r-sm);
+  }
 }
 
 /* Pins the author to the bottom of the card. The cards are equal height (flex

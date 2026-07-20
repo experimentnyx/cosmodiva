@@ -120,7 +120,10 @@
      --g-reviews is now only the gap between the section header and the grid,
      and --g-bento is the uniform gutter between every tile. */
   --g-reviews: 32px;
-  --g-reviews-pad: 80px 40px;
+  /* Split out because the mobile reviews scroller needs the horizontal value on
+     its own, to break out of the gutter and re-pad itself. */
+  --g-reviews-pad-x: 40px;
+  --g-reviews-pad: 80px var(--g-reviews-pad-x);
   --g-reviews-row: 32px;
   --g-bento: 16px;
   --g-footer-pad: 64px 40px 32px;
@@ -231,7 +234,8 @@
     --g-faq: 0px;
     --g-faq-pad: 48px 20px;
     --g-reviews: 24px;
-    --g-reviews-pad: 48px 20px;
+    --g-reviews-pad-x: 20px;
+    --g-reviews-pad: 48px var(--g-reviews-pad-x);
     --g-reviews-row: 20px;
     --g-bento: 12px;
     --g-footer-pad: 40px 20px 24px;

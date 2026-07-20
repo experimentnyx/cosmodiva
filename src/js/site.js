@@ -291,6 +291,31 @@
     });
   }
 
+  /* ---- reviews scroller keyboard access ----
+     The track holds only blockquotes, so it has no focusable children and a
+     keyboard user could not reach or scroll it. tabindex makes it focusable and
+     arrow-scrollable. Applied only at the breakpoint where it is genuinely a
+     scroll container — above it the track is display:contents and generates no
+     box, so a focusable-but-invisible element would be a trap of its own. */
+  var reviewsTrack = document.querySelector(".cd-reviews-track");
+  if (reviewsTrack) {
+    var syncTrack = function (isMobile) {
+      if (isMobile) {
+        reviewsTrack.setAttribute("tabindex", "0");
+        reviewsTrack.setAttribute("role", "group");
+        reviewsTrack.setAttribute("aria-label", "Відгуки клієнтів");
+      } else {
+        reviewsTrack.removeAttribute("tabindex");
+        reviewsTrack.removeAttribute("role");
+        reviewsTrack.removeAttribute("aria-label");
+      }
+    };
+    syncTrack(mq.matches);
+    var onTrackMq = function (e) { syncTrack(e.matches); };
+    if (mq.addEventListener) mq.addEventListener("change", onTrackMq);
+    else if (mq.addListener) mq.addListener(onTrackMq);
+  }
+
   /* ---- blog category filter ----
      Only rendered when the collection spans 2+ categories. */
   var filters = document.querySelectorAll(".cd-filter");

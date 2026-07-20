@@ -273,29 +273,34 @@ permalink: /index.html
            alt="" width="807" height="524" loading="lazy">
     </div>
 
-    <blockquote class="cd-review-featured">
-      <span class="cd-stars" aria-hidden="true">★★★★★</span>
-      <p class="cd-review-text">{{ site.reviews.featured.text }}</p>
-      <footer class="cd-review-author">
-        <img src="{{ site.reviews.featured.avatar }}"
-             srcset="{{ site.reviews.featured.avatar }} 1x, {{ site.reviews.featured.avatar | retina }} 2x"
-             alt="" width="40" height="40" loading="lazy">
-        <span>{{ site.reviews.featured.author }}</span>
-      </footer>
-    </blockquote>
+    {#- Wrapper is display:contents on desktop, so the quotes stay direct grid
+        items and the bento is unchanged; below 1100px it becomes the horizontal
+        scroll track. #}
+    <div class="cd-reviews-track">
+      <blockquote class="cd-review-featured">
+        <span class="cd-stars" aria-hidden="true">★★★★★</span>
+        <p class="cd-review-text">{{ site.reviews.featured.text }}</p>
+        <footer class="cd-review-author">
+          <img src="{{ site.reviews.featured.avatar }}"
+               srcset="{{ site.reviews.featured.avatar }} 1x, {{ site.reviews.featured.avatar | retina }} 2x"
+               alt="" width="40" height="40" loading="lazy">
+          <span>{{ site.reviews.featured.author }}</span>
+        </footer>
+      </blockquote>
 
-    {%- for r in site.reviews.items %}
-    <blockquote class="cd-review-card">
-      <span class="cd-stars" aria-hidden="true">★★★★★</span>
-      <p class="cd-review-text">{{ r.text }}</p>
-      <footer class="cd-review-author">
-        <img src="{{ r.avatar }}"
-             srcset="{{ r.avatar }} 1x, {{ r.avatar | retina }} 2x"
-             alt="" width="40" height="40" loading="lazy">
-        <span>{{ r.author }}</span>
-      </footer>
-    </blockquote>
-    {%- endfor %}
+      {%- for r in site.reviews.items %}
+      <blockquote class="cd-review-card">
+        <span class="cd-stars" aria-hidden="true">★★★★★</span>
+        <p class="cd-review-text">{{ r.text }}</p>
+        <footer class="cd-review-author">
+          <img src="{{ r.avatar }}"
+               srcset="{{ r.avatar }} 1x, {{ r.avatar | retina }} 2x"
+               alt="" width="40" height="40" loading="lazy">
+          <span>{{ r.author }}</span>
+        </footer>
+      </blockquote>
+      {%- endfor %}
+    </div>
   </div>
 </section>
 
