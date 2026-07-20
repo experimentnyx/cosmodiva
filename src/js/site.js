@@ -239,6 +239,58 @@
     });
   });
 
+  /* ---- hero stat count-up ----
+     The final figures are rendered server-side, so they are already correct
+     with JS off, before this runs, or under reduced motion — the animation only
+     rewinds them to zero and counts back up. Parsing the rendered text rather
+     than a data attribute keeps the markup as the single source of the value. */
+  var statValues = document.querySelectorAll(".cd-stat-value");
+
+  if (statValues.length && !reduceMotion.matches && "IntersectionObserver" in window) {
+    var countUp = function (el, delay) {
+      // Splits "100+" into prefix / 100 / "+", so suffixes survive the count.
+      var parts = /^(\D*?)(\d[\d\s,]*)(.*)$/.exec(el.textContent.trim());
+      if (!parts) return;
+
+      var prefix = parts[1];
+      var suffix = parts[3];
+      var target = parseInt(parts[2].replace(/[\s,]/g, ""), 10);
+      if (!isFinite(target)) return;
+
+      var duration = 1100;
+      var startedAt = null;
+
+      var frame = function (now) {
+        if (startedAt === null) startedAt = now;
+        var p = Math.min((now - startedAt) / duration, 1);
+        // easeOutCubic: quick off the mark, settling gently onto the figure.
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + Math.round(target * eased) + suffix;
+        if (p < 1) requestAnimationFrame(frame);
+      };
+
+      el.textContent = prefix + "0" + suffix;
+      window.setTimeout(function () { requestAnimationFrame(frame); }, delay);
+    };
+
+    var statsIo = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          statsIo.unobserve(entry.target);
+          countUp(entry.target, Number(entry.target.dataset.countDelay) || 0);
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    statValues.forEach(function (el, i) {
+      // Staggered so the row reads left-to-right rather than snapping at once.
+      el.dataset.countDelay = i * 120;
+      statsIo.observe(el);
+    });
+  }
+
   /* ---- blog category filter ----
      Only rendered when the collection spans 2+ categories. */
   var filters = document.querySelectorAll(".cd-filter");

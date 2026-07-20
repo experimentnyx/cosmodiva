@@ -87,20 +87,29 @@ blockquote, figure { margin: 0; }
   margin: 0;
 }
 
+/* The rule now leads the label rather than trailing it, and both turned orange:
+   the eyebrow is the accent marker for every section, so it carries the brand
+   colour and the heading below it stays plain white. */
 .cd-eyebrow {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  padding: 6px 12px;
   align-items: center;
 }
 .cd-eyebrow span {
   font-family: var(--font-alt);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--c-orange);
   white-space: nowrap;
 }
-.cd-eyebrow-line { width: 100px; height: 1px; background: var(--c-white); }
+.cd-eyebrow-line { width: 32px; height: 2px; background: var(--c-orange); flex-shrink: 0; }
+
+/* Sections whose heading is centred get a rule on both sides so the label sits
+   symmetrically; left-aligned sections use the single leading rule. */
+.cd-eyebrow--center { justify-content: center; }
 
 /* ---- buttons ---- */
 .cd-btn {
@@ -182,7 +191,11 @@ blockquote, figure { margin: 0; }
   gap: var(--g-hero-section);
   align-items: center;
 }
-/* Hero gradient spans the viewport; the photo and text stay on the 1440 grid. */
+/* Hero gradient spans the viewport; the photo and text stay on the 1440 grid.
+   The glow is now a tight 480px bloom anchored 18% across the *content box*,
+   not the viewport — so it stays behind the headline instead of drifting out
+   to the left margin on wide screens. Past its 480px radius the gradient is
+   already flat --c-bg, which is what fills the bleed. */
 .cd-hero::before {
   content: "";
   position: absolute;
@@ -191,7 +204,10 @@ blockquote, figure { margin: 0; }
   left: 50%;
   width: 100vw;
   transform: translateX(-50%);
-  background: radial-gradient(1145px 814px at 50% 1.6%, var(--c-bg-grad-top) 0%, var(--c-bg) 100%);
+  --hero-glow-x: calc(
+    max(0px, (100vw - var(--w-page)) / 2) + min(100vw, var(--w-page)) * 0.18
+  );
+  background: radial-gradient(480px 480px at var(--hero-glow-x) 0%, var(--c-bg-grad-top) 0%, var(--c-bg) 100%);
   z-index: 0;
   pointer-events: none;
 }
@@ -201,61 +217,76 @@ blockquote, figure { margin: 0; }
    Geometry is rebased, not changed:
      old img absolute x = wrapper 106px + img -176px = -70px
      old glow centre x  = wrapper 106px + 50% of 800px = 506px */
-.cd-hero-photo {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  z-index: 1;
-  pointer-events: none;
-}
-.cd-hero-photo img {
-  position: absolute;
-  left: -70px;
-  top: -40px;
-  width: 1058px;
-  height: 1587px;
-  max-width: none;
-  object-fit: cover;
-  filter: grayscale(0.15) contrast(1.05);
-  -webkit-mask-image: radial-gradient(60% 58% at 50% 38%, black 55%, rgba(0, 0, 0, 0) 100%);
-  mask-image: radial-gradient(60% 58% at 50% 38%, black 55%, rgba(0, 0, 0, 0) 100%);
-}
-.cd-hero-glow {
-  position: absolute;
-  left: 506px;
-  top: 220px;
-  width: 640px; height: 640px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(120, 150, 255, 0.3) 0%, rgba(120, 150, 255, 0.12) 55%, rgba(120, 150, 255, 0) 100%);
-  filter: blur(10px);
+/* The hero photo is desktop-only: it forms the hero's right-hand column, while
+   below 1100px the hero is text alone. Everything here sits behind a min-width
+   query so the background image is never even declared on mobile, let alone
+   fetched. Right edge is flush to the 1440 box; the text column (594px + 40px
+   padding) ends well clear of the 54% start, so the two never overlap. */
+@media (min-width: 1101px) {
+  .cd-hero-photo {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 40px;
+    left: 54%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+  }
+  /* Photo on ::before so the mask below applies to it alone — masking the
+     element itself would take the ::after scrim with it. Geometry mirrors the
+     <img> this replaced: 680px wide, centred, pulled up 110px. */
+  .cd-hero-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Plain url() first so browsers without image-set() (Safari < 17) still get
+       the 1x photo rather than an empty column. */
+    background-image: url("/assets/hero-photo-2.webp");
+    background-image: image-set(
+      url("/assets/hero-photo-2.webp") 1x,
+      url("/assets/hero-photo-2@2x.webp") 2x
+    );
+    background-size: 680px auto;
+    background-position: center -110px;
+    background-repeat: no-repeat;
+    filter: grayscale(0.15) contrast(1.05);
+    /* Fades in on the inward edge so the crop never butts against the headline,
+       and out again on the outward one. The right fade matters now the photo is
+       inset to the 40px gutter instead of bleeding off-page: without it the
+       image's own edge tone meets the background on a hard vertical seam. */
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 12%, black 90%, rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 12%, black 90%, rgba(0, 0, 0, 0) 100%);
+  }
+  /* Bottom scrim: the photo crops at the legs, so it dissolves into the page
+     colour rather than ending on a hard horizontal line. */
+  .cd-hero-photo::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 45%;
+    background: linear-gradient(180deg, rgba(0, 4, 21, 0) 0%, rgba(0, 4, 21, 0.75) 40%, var(--c-bg) 65%);
+    pointer-events: none;
+  }
 }
 
+/* Below 1100px the hero is text only — the photo block and its glow disc are
+   gone entirely, which frees the vertical room the headline now takes. */
 @media (max-width: 1100px) {
-  .cd-hero-photo {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    order: 2;
-  }
-  .cd-hero-photo img {
-    left: 50%;
-    top: -20px;
-    width: 480px;
-    height: auto;
-    transform: translateX(-50%);
-    -webkit-mask-image: radial-gradient(65% 65% at 50% 40%, black 55%, rgba(0, 0, 0, 0) 100%);
-    mask-image: radial-gradient(65% 65% at 50% 40%, black 55%, rgba(0, 0, 0, 0) 100%);
-  }
-  .cd-hero-glow {
-    /* wrapper is full-width on mobile, so centre normally */
-    left: 50%;
-    top: 30px;
-    width: 240px; height: 240px;
-    filter: blur(6px);
-    background: radial-gradient(closest-side, rgba(120, 150, 255, 0.28) 0%, rgba(120, 150, 255, 0.1) 55%, rgba(120, 150, 255, 0) 100%);
+  .cd-hero-photo { display: none; }
+
+  /* The hero eyebrow is centred on mobile, so it gets a matching rule on the
+     trailing side — the same symmetric framing the centred sections use. Added
+     as a pseudo-element rather than a second span in the shared macro, since it
+     is purely decorative and only wanted at this breakpoint. */
+  .cd-hero-text .cd-eyebrow::after {
+    content: "";
+    width: 32px;
+    height: 2px;
+    background: var(--c-orange);
+    flex-shrink: 0;
   }
 }
 
@@ -359,41 +390,55 @@ blockquote, figure { margin: 0; }
   flex-direction: var(--dir-main);
   padding: var(--g-hero-body-pad);
   justify-content: space-between;
-  align-items: center;
+  align-items: var(--al-hero-body);
   z-index: 2;
   gap: var(--g-hero-body);
   order: var(--o-hero-body);
 }
 
+/* Stats moved out of their own boxed column and into the foot of the text
+   column: a plain row hung under a hairline rule, with 1px rules between the
+   figures. Boxes competed with the pricing cards further down the page; the
+   rule reads as a footnote to the headline, which is what they are. */
 .cd-stats {
-  width: var(--w-stats);
   display: flex;
-  flex-direction: var(--dir-rev);
-  gap: var(--g-stats);
-  flex-shrink: 0;
-  z-index: 2;
-  order: var(--o-stats);
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--g-hero-stats);
+  padding-top: 32px;
+  border-top: 1px solid var(--c-w-15);
+  width: 100%;
+  justify-content: var(--j-hero-stats);
 }
 .cd-stat {
-  flex: 1;
-  height: var(--h-stat-box);
-  border-radius: var(--r-md);
-  background: var(--c-w-05);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
-  align-items: var(--al-stat);
-  justify-content: center;
+  gap: 8px;
+  align-items: var(--al-hero-text);
 }
-.cd-stat-value { font-size: 32px; }
-.cd-stat-label { font-size: 16px; text-align: var(--ta-stat); }
+/* Tabular figures so each digit occupies the same width — without it the number
+   visibly jitters as it counts up and digits swap in and out. */
+.cd-stat-value {
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--c-white);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.cd-stat-label { font-size: 15px; color: var(--c-w-70); }
+.cd-stat-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--c-w-15);
+  display: var(--d-stat-divider);
+}
 
 .cd-hero-text {
   width: var(--w-hero-text);
   display: flex;
   flex-direction: column;
-  gap: 46px;
+  justify-content: center;
+  gap: 32px;
   flex-shrink: 0;
   z-index: 2;
   align-items: var(--al-hero-text);
@@ -406,15 +451,21 @@ blockquote, figure { margin: 0; }
   align-items: var(--al-hero-text);
   margin: 0;
 }
+/* Oswald is condensed — its impact comes from density, so the display setting is
+   heavy, tight and negatively tracked. Positive tracking dilutes the very thing
+   the face is for. 700 is loaded in base.njk; without it this synthesises. */
 .cd-hero-title span {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--fs-hero-title);
-  line-height: 1.1;
-  letter-spacing: 0.05em;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
   text-align: var(--ta-hero);
 }
+/* Final line carries the accent, so the headline resolves into the brand colour
+   rather than reading as three flat white rows. */
+.cd-hero-title-accent { color: var(--c-orange); }
 .cd-hero-desc {
   width: var(--w-hero-desc);
   font-size: var(--fs-hero-desc);
@@ -423,6 +474,7 @@ blockquote, figure { margin: 0; }
   text-align: var(--ta-hero);
   margin: 0;
 }
+
 
 /* ============================================================
    About
@@ -437,9 +489,12 @@ blockquote, figure { margin: 0; }
   padding: var(--g-about-pad);
   align-items: center;
 }
+/* Section glows were pulled back across the page — the old ones were large and
+   strong enough to lift the whole background, which flattened the contrast
+   between sections. These read as a local bloom instead of ambient haze. */
 .cd-about::before {
   background:
-    radial-gradient(900px 900px at 0% 50%, rgba(12, 27, 82, 0.55) 0%, rgba(0, 4, 21, 0) 60%),
+    radial-gradient(500px 500px at 0% 30%, rgba(12, 27, 82, 0.4) 0%, rgba(0, 4, 21, 0) 70%),
     var(--c-bg);
 }
 .cd-about-col { flex-grow: 1; display: flex; flex-direction: column; gap: 32px; }
@@ -457,15 +512,29 @@ blockquote, figure { margin: 0; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(0.25) contrast(1.05);
+  filter: grayscale(0.15) contrast(1.05);
 }
+/* Edge fade, not a colour cast. The old blue multiply tinted every photo and
+   greyed the skin tones; this dissolves the bottom 35% into the page colour so
+   the crop has no hard edge, and leaves the image itself untouched. */
 .cd-media::after {
   content: "";
   position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  background: linear-gradient(180deg, rgba(0, 4, 21, 0) 0%, rgba(0, 4, 21, 0.85) 100%);
+  pointer-events: none;
+}
+
+/* The reviews testimonial is the one photo that keeps the tinted vignette —
+   it sits on the gradient card and needs to read as part of it. */
+.cd-media--tint::after {
   inset: 0;
+  height: auto;
   background: linear-gradient(160deg, var(--c-blue-soft) 0%, rgba(0, 4, 21, 0.3) 100%);
   mix-blend-mode: multiply;
-  pointer-events: none;
 }
 .cd-about-media { width: var(--w-about-img); height: var(--h-about-img); }
 .cd-about-media img { object-position: center top; }
@@ -606,9 +675,17 @@ blockquote, figure { margin: 0; }
   align-items: center;
 }
 .cd-pricing::before {
-  background: radial-gradient(1300px 800px at 50% 45%, rgba(30, 16, 80, 0.45) 0%, var(--c-bg) 70%);
+  background:
+    radial-gradient(700px 500px at 50% 20%, rgba(30, 16, 80, 0.3) 0%, rgba(0, 4, 21, 0) 70%),
+    var(--c-bg);
 }
-.cd-pricing > .cd-section-head { width: var(--w-pricing-head); text-align: center; }
+.cd-pricing-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+.cd-pricing-heading .cd-section-head { width: var(--w-pricing-head); text-align: center; }
 .cd-pricing-grid {
   width: 100%;
   display: flex;
@@ -628,11 +705,16 @@ blockquote, figure { margin: 0; }
   justify-content: space-between;
   align-items: center;
   gap: 32px;
-  transition: transform 0.2s ease;
+  box-shadow: var(--sh-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.cd-price-card:hover { transform: translateY(-6px); }
-.cd-price-card--featured {
-  box-shadow: 0 0 0 2px var(--c-orange), 0 16px 40px 0 rgba(249, 93, 0, 0.25);
+.cd-price-card:hover { transform: translateY(-6px); box-shadow: var(--sh-card-hover); }
+/* Re-states the edge highlight: box-shadow does not cascade per-layer, so the
+   ring and glow would otherwise drop the modelling the other cards get. */
+.cd-price-card--featured,
+.cd-price-card--featured:hover {
+  box-shadow: inset 0 1px 0 var(--c-w-10), 0 0 0 2px var(--c-orange),
+    0 16px 40px 0 rgba(249, 93, 0, 0.25);
 }
 .cd-price-badge {
   position: absolute;
@@ -705,22 +787,57 @@ blockquote, figure { margin: 0; }
 }
 .cd-nutrition-actions { display: flex; flex-direction: row; gap: 16px; }
 
+/* Stretch, not flex-start: the cards are framed panels now, so uneven heights
+   would leave ragged bottom edges. Equal height also lets margin-top:auto sit
+   every CTA on the same baseline regardless of title wrap. */
 .cd-recipe-row {
   width: 100%;
   display: flex;
   flex-direction: var(--dir-main);
   gap: var(--g-nutrition-row);
-  align-items: var(--al-recipe);
+  align-items: stretch;
 }
-.cd-recipe-card { display: flex; flex-direction: column; gap: 32px; flex: 1; min-width: 0; }
-.cd-recipe-media { height: var(--h-recipe-img); }
-.cd-recipe-info { display: flex; flex-direction: column; gap: 12px; }
-.cd-recipe-top {
+/* Recipe cards are framed now: a glass panel that contains the photo rather
+   than a loose photo with text under it. The photo is flush to the card edges
+   (the card clips it), so the image itself carries no radius. */
+.cd-recipe-card {
   display: flex;
-  flex-direction: row;
-  gap: 24px;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--c-w-08);
+  overflow: hidden;
+}
+.cd-recipe-media {
+  position: relative;
+  height: var(--h-recipe-img);
+  border-radius: 0;
+  flex-shrink: 0;
+}
+/* No edge fade here — the photo ends at the card's info panel, which already
+   provides the visual break the fade exists to create elsewhere. */
+.cd-recipe-media::after { content: none; }
+.cd-recipe-time {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--c-orange);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-white);
+  white-space: nowrap;
+  z-index: 1;
+}
+.cd-recipe-info {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
 }
 .cd-recipe-name {
   font-family: var(--font-display);
@@ -728,17 +845,41 @@ blockquote, figure { margin: 0; }
   font-size: var(--fs-recipe-name);
   margin: 0;
 }
-.cd-recipe-time { font-size: 16px; color: var(--c-w-70); white-space: nowrap; }
-.cd-recipe-macros { font-size: 16px; line-height: 1.4; color: var(--c-w-70); margin: 0; }
+/* Macros were one run-on sentence; as discrete chips each number is scannable
+   and the row wraps cleanly at narrow widths. */
+.cd-recipe-macros {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cd-recipe-macros li {
+  background: var(--c-w-06);
+  border-radius: 100px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
 .cd-recipe-link {
+  margin-top: auto;
+  align-self: flex-start;
+  background: var(--c-orange);
+  border-radius: var(--r-sm);
+  padding: 10px 18px;
   font-size: 16px;
   font-weight: 500;
-  width: fit-content;
-  border-bottom: 1px solid var(--c-w-30);
-  padding-bottom: 2px;
-  transition: border-color 0.2s ease;
+  color: var(--c-white);
+  text-align: center;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-.cd-recipe-link:hover { border-color: var(--c-gold); }
+.cd-recipe-link:hover {
+  background: var(--c-orange-dark);
+  color: var(--c-white);
+  transform: translateY(-2px);
+}
 
 /* ============================================================
    FAQ
@@ -752,6 +893,7 @@ blockquote, figure { margin: 0; }
   gap: var(--g-faq);
   padding: var(--g-faq-pad);
 }
+.cd-faq-heading { display: flex; flex-direction: column; gap: 24px; }
 .cd-faq-list { display: flex; flex-direction: column; width: 100%; }
 .cd-faq-item { border-bottom: 1px solid var(--c-w-08); }
 .cd-faq-q {
@@ -805,7 +947,9 @@ blockquote, figure { margin: 0; }
 .cd-reviews {
   position: relative;
   width: 100%;
-  background: var(--c-bg);
+  background:
+    radial-gradient(700px 400px at 50% 100%, rgba(12, 27, 82, 0.4) 0%, rgba(0, 4, 21, 0) 70%),
+    var(--c-bg);
   display: flex;
   flex-direction: column;
   gap: var(--g-reviews);
@@ -818,7 +962,8 @@ blockquote, figure { margin: 0; }
   justify-content: space-between;
   align-items: var(--al-reviews-header);
 }
-.cd-reviews-rating { display: flex; flex-direction: row; gap: 12px; align-items: center; margin-top: 12px; }
+.cd-reviews-heading { display: flex; flex-direction: column; gap: 12px; }
+.cd-reviews-rating { display: flex; flex-direction: row; gap: 12px; align-items: center; }
 .cd-stars { color: var(--c-gold); font-size: 18px; letter-spacing: 2px; }
 .cd-reviews-rating-value { font-size: 18px; font-weight: 600; }
 .cd-reviews-rating-suffix { font-size: 16px; color: var(--c-w-60); }
@@ -864,6 +1009,7 @@ blockquote, figure { margin: 0; }
   flex-direction: column;
   gap: 20px;
   padding: 28px;
+  box-shadow: var(--sh-card);
 }
 
 @media (max-width: 1100px) {
@@ -1009,7 +1155,6 @@ blockquote, figure { margin: 0; }
   align-items: flex-start;
 }
 .cd-blog-intro { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; max-width: 768px; }
-.cd-blog-intro .cd-eyebrow { padding: 6px 0; }
 .cd-blog-heading {
   font-family: var(--font-display);
   font-weight: 500;
@@ -1028,7 +1173,11 @@ blockquote, figure { margin: 0; }
   align-items: var(--al-featured);
   gap: 32px;
 }
+/* The category + kcal pair moved out of a separate meta row and onto the photo
+   as a single orange pill, so the body below is just title → copy → CTA. */
 .cd-featured-img {
+  position: relative;
+  overflow: hidden;
   height: var(--h-featured-img);
   width: 100%;
   border-radius: var(--r-lg);
@@ -1036,6 +1185,29 @@ blockquote, figure { margin: 0; }
   background-size: cover;
   background-repeat: no-repeat;
   flex-grow: 1;
+}
+.cd-featured-img::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  background: linear-gradient(180deg, rgba(0, 4, 21, 0) 0%, rgba(0, 4, 21, 0.85) 100%);
+  pointer-events: none;
+}
+.cd-featured-badge {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  z-index: 1;
+  background: var(--c-orange);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-white);
+  white-space: nowrap;
 }
 .cd-featured-body {
   position: relative;
@@ -1049,26 +1221,63 @@ blockquote, figure { margin: 0; }
 .cd-featured-text { display: flex; flex-direction: column; gap: 16px; }
 .cd-featured-title {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 32px;
   line-height: 1.3;
   margin: 0;
 }
 .cd-featured-desc { font-size: 16px; line-height: 1.5; max-width: 417px; margin: 0; }
+/* Body chip is the mobile presentation only; on desktop the category lives in
+   the pill on the photo. */
+.cd-featured-tag { display: none; }
 
-/* ---- meta chips ---- */
-.cd-meta { display: flex; flex-direction: row; gap: 16px; align-items: center; }
-.cd-tag {
-  border-radius: var(--r-sm);
-  background: rgb(244, 244, 244);
-  padding: 4px 8px;
-  font-weight: 600;
-  font-size: 14px;
-  color: #000;
-  white-space: nowrap;
+/* Below 1100px the featured recipe stops being a split hero and becomes the
+   same framed card as every other recipe, so the listing reads as one
+   consistent stack rather than a one-off banner followed by cards. */
+@media (max-width: 1100px) {
+  /* With the featured item rendering as a card, the container's 80px gap left
+     it stranded 80px from a grid whose own cards sit 32px apart. One uniform
+     32px step makes the whole listing read as a single stack. */
+  .cd-blog { gap: 32px; }
+
+  .cd-featured {
+    border-radius: var(--r-lg);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--c-w-08);
+    overflow: hidden;
+    gap: 0;
+  }
+  .cd-featured-img {
+    height: 200px;
+    border-radius: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  /* The card treatment has no bottom scrim — the body panel already provides
+     the break the fade exists to create. */
+  .cd-featured-img::after { content: none; }
+  /* Pill drops to kcal-only, top-right, matching .cd-card-kcal. */
+  .cd-featured-badge {
+    left: auto;
+    right: 14px;
+    top: 14px;
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+  .cd-featured-badge-cat { display: none; }
+  .cd-featured-tag { display: inline-block; }
+
+  .cd-featured-body {
+    padding: 20px;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .cd-featured-text { gap: 8px; }
+  .cd-featured-title { font-size: 22px; line-height: 1.3; }
+  /* Other cards carry no description, so the macro line is dropped here too. */
+  .cd-featured-desc { display: none; }
+  .cd-featured .cd-btn { font-size: 14px; padding: 9px 16px; }
 }
-.cd-tag--light { background: rgb(230, 230, 230); width: fit-content; }
-.cd-meta-kcal { font-weight: 600; font-size: 14px; white-space: nowrap; }
 
 /* ---- filters ---- */
 .cd-blog-list { display: flex; flex-direction: column; gap: 64px; align-items: flex-start; width: 100%; }
@@ -1096,31 +1305,76 @@ blockquote, figure { margin: 0; }
 .cd-recipe-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  /* min(340px, 100%) — a bare 340px floor is larger than the available width at
+     375px viewport (335px after padding), which pushed the cards 5px past the
+     container and out of alignment with the featured card above. */
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
   gap: 32px;
 }
-.cd-card { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; }
+/* Framed glass panels, matching the landing page's recipe cards: the photo is
+   clipped by the card rather than floating above the text, the kcal figure
+   rides the photo as an orange pill, and the CTA is a solid orange button. */
+.cd-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--c-w-08);
+  overflow: hidden;
+}
 .cd-card[hidden] { display: none; }
 .cd-card-img {
-  height: 300px;
+  position: relative;
+  height: 200px;
   width: 100%;
-  border-radius: var(--r-lg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  flex-shrink: 0;
 }
-.cd-card-body { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; width: 100%; }
-.cd-card-title { font-weight: 700; font-size: 24px; line-height: 1.4; margin: 0; }
-.cd-card-desc { font-size: 16px; line-height: 1.5; margin: 0; }
-
-.cd-btn--outline {
-  font-size: 16px;
-  padding: 8px 16px;
-  box-shadow: inset 0 0 0 1px var(--c-w-30);
+.cd-card-kcal {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--c-orange);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-white);
+  white-space: nowrap;
 }
-.cd-btn--outline:hover {
-  background: var(--c-w-10);
-  box-shadow: inset 0 0 0 1px var(--c-w-60);
+.cd-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  flex: 1;
+  box-sizing: border-box;
+}
+.cd-card-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.3;
+  margin: 0;
+}
+/* Category is a subdued glass chip now, not a white pill — the orange kcal
+   badge is the only high-contrast element on the card. */
+.cd-card-tag {
+  background: var(--c-w-06);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  width: fit-content;
+}
+.cd-card .cd-btn {
+  margin-top: auto;
+  font-size: 14px;
+  padding: 9px 16px;
 }
 
 /* ============================================================
@@ -1133,15 +1387,45 @@ blockquote, figure { margin: 0; }
   gap: 18px;
   padding: var(--g-post-head-pad);
 }
-.cd-back-link { font-size: 16px; color: var(--c-w-70); width: fit-content; }
-.cd-back-link:hover { color: var(--c-gold); }
-.cd-post-title-row {
+/* ---- hero photo ----
+   Full-bleed within the content padding, with the badge and title overlaid at
+   the bottom over a scrim. Replaces the old header-title + photo-grid + gradient
+   card arrangement, which repeated the recipe name twice. */
+.cd-post-hero {
+  position: relative;
+  height: var(--h-post-hero);
+  width: 100%;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.cd-post-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 4, 21, 0) 45%, rgba(0, 4, 21, 0.9) 100%);
+  pointer-events: none;
+}
+.cd-post-hero-content {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 20px;
+  z-index: 1;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: column;
+  gap: 10px;
+}
+.cd-post-badge {
+  background: var(--c-orange);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-white);
+  width: fit-content;
 }
 .cd-post-title {
   font-family: var(--font-display);
@@ -1150,81 +1434,80 @@ blockquote, figure { margin: 0; }
   line-height: 1.2;
   margin: 0;
 }
+
+/* ---- macro stats row ---- */
 .cd-macros { display: flex; flex-direction: row; gap: 8px; align-items: center; flex-wrap: wrap; }
-.cd-macros span { font-size: 16px; color: var(--c-w-70); }
-.cd-macro-sep { width: 1px; height: 24px; background: var(--c-w-70); display: inline-block; }
+.cd-macros span { font-size: 15px; color: var(--c-w-70); }
+.cd-macro-sep { width: 1px; height: 18px; background: var(--c-w-30); display: inline-block; }
 
 .cd-post-body {
   position: relative;
   display: flex;
-  flex-direction: var(--dir-main);
+  flex-direction: column;
   gap: 24px;
-  align-items: stretch;
   padding: 0 var(--g-post-pad-x) 80px;
 }
-.cd-post-photos {
-  width: var(--w-photos-col);
-  flex-shrink: 0;
+
+/* ---- ingredients / instructions columns ---- */
+.cd-post-cols {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  flex-direction: var(--dir-main);
+  gap: 32px;
 }
-.cd-post-photo-main {
-  height: var(--h-main-photo);
-  width: 100%;
-  border-radius: var(--r-lg);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+.cd-post-col { display: flex; flex-direction: column; gap: 16px; }
+.cd-post-col--ingredients {
+  width: var(--w-ingredients-col);
+  flex-shrink: 0;
+  border-right: 1px solid var(--c-w-10);
+  padding-right: 24px;
+  box-sizing: border-box;
 }
-.cd-post-photo-row { display: flex; flex-direction: row; gap: 24px; }
-.cd-post-photo-side {
-  height: var(--h-side-photo);
-  flex: 1;
-  border-radius: var(--r-lg);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+.cd-post-col--instructions { flex: 1; min-width: 0; }
+.cd-post-section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+  margin: 0;
 }
 
-.cd-post-card {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  border-radius: var(--r-xl);
-  background: linear-gradient(147deg, var(--c-card-grad-a) 0%, var(--c-card-grad-b) 100%);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 32px;
-}
-.cd-post-card-top { display: flex; flex-direction: column; gap: 18px; width: 100%; }
-.cd-post-card-meta {
+.cd-post-footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 24px;
 }
-.cd-post-card-meta span { font-weight: 600; font-size: 14px; color: var(--c-w-70); }
-.cd-post-card-meta strong { font-weight: 600; font-size: 14px; }
-.cd-post-card-title {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 32px;
-  line-height: 1.2;
-  margin: 0;
-}
-.cd-rule { width: 100%; height: 1px; background: var(--c-w-30); border: 0; margin: 0; }
-.cd-post-section { display: flex; flex-direction: column; gap: 18px; width: 100%; }
-.cd-post-section-title { font-weight: 500; font-size: 28px; line-height: 1.2; margin: 0; }
 
 /* CMS rich text (Webflow <ul>/<ol> markup) */
-.cd-rich { font-size: 18px; line-height: 1.6; }
+.cd-rich { font-size: 16px; line-height: 1.7; color: rgba(255, 255, 255, 0.85); }
+/* Ingredients run tighter and looser-leaded than instructions — short lines,
+   scanned rather than read. The design's mock used plain unbulleted text here;
+   the CMS supplies a <ul>, so the marker is pulled in tight to stop 22px of
+   indent eating a column that is only 220px wide to begin with. */
+.cd-rich--sm { font-size: 15px; line-height: 1.8; }
+.cd-rich--sm ul { padding-left: 16px; }
+.cd-rich--sm li { padding-left: 0; }
+.cd-rich--sm li::marker { color: var(--c-w-40); }
 .cd-rich ul, .cd-rich ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
 .cd-rich li { padding-left: 4px; }
 .cd-rich p { margin: 0 0 12px; }
 .cd-rich p:last-child { margin-bottom: 0; }
+
+/* Stacked below 1100px: the dividing rule moves from the ingredients column's
+   right edge to its bottom, since there is no longer a column beside it. */
+@media (max-width: 1100px) {
+  .cd-post-col--ingredients {
+    border-right: 0;
+    padding-right: 0;
+    border-bottom: 1px solid var(--c-w-10);
+    padding-bottom: 20px;
+  }
+  /* Full-width lines wrap far less on mobile, so the 10px item gap that keeps
+     the narrow desktop column readable just stretches the list down the page. */
+  .cd-rich ul, .cd-rich ol { gap: 4px; }
+}
 
 .cd-more {
   display: flex;

@@ -14,59 +14,56 @@ eleventyComputed:
 <article class="cd-post">
 
   <header class="cd-post-head">
-    <a href="/blog/" class="cd-back-link">&#8592; Всі рецепти</a>
-    <span class="cd-eyebrow-line"></span>
-    <div class="cd-post-title-row">
-      <h1 class="cd-post-title">{{ recipe.name }}</h1>
-      <div class="cd-macros">
-        {%- if recipe.protein %}<span>Білки: {{ recipe.protein }} г</span><i class="cd-macro-sep"></i>{% endif %}
-        {%- if recipe.fats %}<span>Жири: {{ recipe.fats }} г</span><i class="cd-macro-sep"></i>{% endif %}
-        {%- if recipe.carbs %}<span>Вуглеводи: {{ recipe.carbs }} г</span>{% endif %}
-      </div>
+    <div class="cd-eyebrow">
+      <span class="cd-eyebrow-line"></span>
+      <span>Рецепт</span>
     </div>
   </header>
 
   <div class="cd-post-body">
-    <div class="cd-post-photos">
-      <div class="cd-post-photo-main" style="background-image:url('{{ recipe.image }}');" role="img" aria-label="{{ recipe.name }}"></div>
-      {#- The design lays out a main photo plus two supporting shots. The CMS
-          export has only a single image per recipe (its `Images` gallery column
-          is empty), so the secondary row renders only if extras ever exist. #}
-      {%- if recipe.gallery and recipe.gallery | length %}
-      <div class="cd-post-photo-row">
-        {%- for g in recipe.gallery | limit(2) %}
-        <div class="cd-post-photo-side" style="background-image:url('{{ g }}');" role="img" aria-label=""></div>
-        {%- endfor %}
+    {#- Title and category/kcal pill now ride the photo instead of sitting in a
+        header above it and repeating inside a card. #}
+    <div class="cd-post-hero" style="background-image:url('{{ recipe.image }}');" role="img" aria-label="{{ recipe.name }}">
+      <div class="cd-post-hero-content">
+        {%- if recipe.categoryName or recipe.calories %}
+        <span class="cd-post-badge">
+          {{- recipe.categoryName }}{% if recipe.categoryName and recipe.calories %} · {% endif %}{% if recipe.calories %}{{ recipe.calories }} ккал{% endif -%}
+        </span>
+        {%- endif %}
+        <h1 class="cd-post-title">{{ recipe.name }}</h1>
       </div>
-      {%- endif %}
     </div>
 
-    <div class="cd-post-card">
-      <div class="cd-post-card-top">
-        {%- if recipe.categoryName %}<span class="cd-tag cd-tag--light">{{ recipe.categoryName }}</span>{% endif %}
-        <div class="cd-post-card-meta">
-          {%- if recipe.minutes %}<span>{{ recipe.minutes }} хв на приготування</span>{% endif %}
-          {%- if recipe.calories %}<strong>{{ recipe.calories }} ккал</strong>{% endif %}
-        </div>
-      </div>
+    <div class="cd-macros">
+      {%- if recipe.minutes %}<span>{{ recipe.minutes }} хв на приготування</span><i class="cd-macro-sep"></i>{% endif %}
+      {%- if recipe.protein %}<span>Білки: {{ recipe.protein }} г</span><i class="cd-macro-sep"></i>{% endif %}
+      {%- if recipe.fats %}<span>Жири: {{ recipe.fats }} г</span><i class="cd-macro-sep"></i>{% endif %}
+      {%- if recipe.carbs %}<span>Вуглеводи: {{ recipe.carbs }} г</span>{% endif %}
+    </div>
 
-      <h2 class="cd-post-card-title">{{ recipe.name }}</h2>
-      <hr class="cd-rule">
-
+    {#- Narrow ingredients column beside a wide instructions column. Chosen over
+        the old photo-grid-plus-card so long instructional text has somewhere to
+        run without fighting a fixed-height photo stack. #}
+    <div class="cd-post-cols">
       {%- if recipe.ingredients %}
-      <section class="cd-post-section">
-        <h3 class="cd-post-section-title">Інгредієнти</h3>
-        <div class="cd-rich">{{ recipe.ingredients | cleanRichText | safe }}</div>
+      <section class="cd-post-col cd-post-col--ingredients">
+        <h2 class="cd-post-section-title">Інгредієнти</h2>
+        <div class="cd-rich cd-rich--sm">{{ recipe.ingredients | cleanRichText | safe }}</div>
       </section>
-      <hr class="cd-rule">
       {%- endif %}
 
       {%- if recipe.instructions %}
-      <section class="cd-post-section">
-        <h3 class="cd-post-section-title">Інструкція</h3>
+      <section class="cd-post-col cd-post-col--instructions">
+        <h2 class="cd-post-section-title">Інструкція</h2>
         <div class="cd-rich">{{ recipe.instructions | cleanRichText | safe }}</div>
       </section>
       {%- endif %}
+    </div>
+
+    {#- The design pairs a publish date with this button, but recipes carry no
+        date field, so only the action ships. #}
+    <div class="cd-post-footer">
+      <a href="/blog/" class="cd-btn cd-btn--orange">Назад</a>
     </div>
   </div>
 
@@ -76,16 +73,17 @@ eleventyComputed:
     <h2 class="cd-section-head">Інші рецепти</h2>
     <div class="cd-recipe-grid">
       {%- for r in others %}
+      {#- Same card component as the blog listing — kept in step so the framed
+          treatment is consistent wherever a recipe is surfaced. #}
       <article class="cd-card">
-        <div class="cd-card-img" style="background-image:url('{{ r.image }}');" role="img" aria-label="{{ r.name }}"></div>
-        <div class="cd-card-body">
-          <div class="cd-meta">
-            {%- if r.categoryName %}<span class="cd-tag">{{ r.categoryName }}</span>{% endif %}
-            {%- if r.calories %}<span class="cd-meta-kcal">{{ r.calories }} ккал</span>{% endif %}
-          </div>
-          <h3 class="cd-card-title">{{ r.name }}</h3>
+        <div class="cd-card-img" style="background-image:url('{{ r.image }}');" role="img" aria-label="{{ r.name }}">
+          {%- if r.calories %}<span class="cd-card-kcal">{{ r.calories }} ккал</span>{% endif %}
         </div>
-        <a href="/blog/{{ r.slug }}/" class="cd-btn cd-btn--outline">Дивитись рецепт</a>
+        <div class="cd-card-body">
+          {%- if r.categoryName %}<span class="cd-card-tag">{{ r.categoryName }}</span>{% endif %}
+          <h3 class="cd-card-title">{{ r.name }}</h3>
+          <a href="/blog/{{ r.slug }}/" class="cd-btn cd-btn--orange">Дивитись рецепт</a>
+        </div>
       </article>
       {%- endfor %}
     </div>

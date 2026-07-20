@@ -10,38 +10,55 @@ permalink: /index.html
 </span>
 {% endmacro %}
 
+{#- Centred sections carry a rule on both sides of the label, left-aligned ones
+    only lead with it. #}
+{% macro eyebrow(label, center) %}
+<div class="cd-eyebrow{% if center %} cd-eyebrow--center{% endif %}">
+  <span class="cd-eyebrow-line"></span>
+  <span>{{ label }}</span>
+  {%- if center %}<span class="cd-eyebrow-line"></span>{% endif %}
+</div>
+{% endmacro %}
+
 <!-- ============ HERO ============ -->
 <section class="cd-hero">
-  <div class="cd-hero-photo">
-    <div class="cd-hero-glow"></div>
-    <img src="/assets/hero-photo-2.webp"
-         srcset="/assets/hero-photo-2.webp 1x, /assets/hero-photo-2@2x.webp 2x"
-         alt="Анастасія Шерстюк" width="1058" height="1587" fetchpriority="high">
-  </div>
+  {#- Desktop-only decorative photo column. Painted as a CSS background rather
+      than an <img> so mobile — where the hero is text-only — never downloads it;
+      an <img> in a display:none container is still fetched, and the 2x asset is
+      212KB. Anastasiia's photo with real alt text lives in the About section. #}
+  <div class="cd-hero-photo" aria-hidden="true"></div>
 
   {% include "partials/header.njk" %}
 
   <div class="cd-hero-body">
-    <div class="cd-stats">
-      {%- for s in site.hero.stats %}
-      <div class="cd-stat">
-        <span class="cd-stat-value">{{ s.value }}</span>
-        <span class="cd-stat-label">{{ s.label }}</span>
-      </div>
-      {%- endfor %}
-    </div>
-
     <div class="cd-hero-text">
+      {{ eyebrow(site.hero.eyebrow) }}
+
       <div class="cd-hero-text-inner">
         <h1 class="cd-hero-title">
           {%- for line in site.hero.titleLines %}
-          <span>{{ line }}</span>
+          {#- Last line takes the accent colour. #}
+          <span{% if loop.last %} class="cd-hero-title-accent"{% endif %}>{{ line }}</span>
           {%- endfor %}
         </h1>
         <p class="cd-hero-desc">{{ site.hero.desc }}</p>
       </div>
+
       <a href="{{ site.hero.cta.href }}" class="cd-btn cd-btn--orange">{{ site.hero.cta.label }}</a>
+
+      {#- Stats sit at the foot of the text column now, under a hairline rule,
+          with thin rules between each figure instead of card fills. #}
+      <div class="cd-stats">
+        {%- for s in site.hero.stats %}
+        {%- if not loop.first %}<div class="cd-stat-divider" aria-hidden="true"></div>{% endif %}
+        <div class="cd-stat">
+          <span class="cd-stat-value">{{ s.value }}</span>
+          <span class="cd-stat-label">{{ s.label }}</span>
+        </div>
+        {%- endfor %}
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -49,10 +66,7 @@ permalink: /index.html
 <section id="about" class="cd-about cd-bleed cd-reveal">
   <div class="cd-about-col">
     <div class="cd-about-text">
-      <div class="cd-eyebrow">
-        <span>{{ site.about.eyebrow }}</span>
-        <span class="cd-eyebrow-line"></span>
-      </div>
+      {{ eyebrow(site.about.eyebrow) }}
       <h2 class="cd-section-head cd-about-head">{{ site.about.heading }}</h2>
       <p class="cd-about-body">{{ site.about.body }}</p>
     </div>
@@ -69,6 +83,7 @@ permalink: /index.html
 <section id="training" class="cd-training cd-reveal">
   <div class="cd-training-intro">
     <div class="cd-training-heading">
+      {{ eyebrow(site.training.eyebrow, true) }}
       <h2 class="cd-section-head">{{ site.training.heading }}</h2>
       <p class="cd-training-desc">{{ site.training.desc }}</p>
     </div>
@@ -90,7 +105,7 @@ permalink: /index.html
           </div>
         </div>
         <div class="cd-program-actions">
-          <a href="{{ p.cta.href }}" class="cd-btn cd-btn--blue">{{ p.cta.label }}</a>
+          <a href="{{ p.cta.href }}" class="cd-btn cd-btn--orange">{{ p.cta.label }}</a>
           <span class="cd-program-hint">{{ site.training.ctaHint }}</span>
         </div>
       </div>
@@ -143,7 +158,13 @@ permalink: /index.html
 
 <!-- ============ PRICING ============ -->
 <section id="pricing" class="cd-pricing cd-bleed cd-reveal">
-  <h2 class="cd-section-head">{{ site.pricing.heading }}</h2>
+  {#- Grouped rather than left as loose children of the 64px-gap column: every
+      other section pairs its eyebrow to its heading at 16–24px, and an eyebrow
+      floating 64px above the head reads as unrelated. #}
+  <div class="cd-pricing-heading">
+    {{ eyebrow(site.pricing.eyebrow, true) }}
+    <h2 class="cd-section-head">{{ site.pricing.heading }}</h2>
+  </div>
   <div class="cd-pricing-grid">
     {%- for plan in site.pricing.plans %}
     <div class="cd-price-card{% if plan.featured %} cd-price-card--featured{% endif %}">
@@ -161,7 +182,7 @@ permalink: /index.html
         </div>
       </div>
       <!-- TODO: checkout link pending payment provider (D5) -->
-      <a href="{{ plan.href }}" class="cd-btn cd-btn--blue cd-btn--block">{{ site.pricing.cta }}</a>
+      <a href="{{ plan.href }}" class="cd-btn cd-btn--orange cd-btn--block">{{ site.pricing.cta }}</a>
     </div>
     {%- endfor %}
   </div>
@@ -170,6 +191,7 @@ permalink: /index.html
 <!-- ============ NUTRITION ============ -->
 <section id="nutrition" class="cd-nutrition cd-reveal">
   <div class="cd-nutrition-head">
+    {{ eyebrow(site.nutrition.eyebrow, true) }}
     <h2 class="cd-section-head">{{ site.nutrition.heading }}</h2>
     <p class="cd-nutrition-desc">{{ site.nutrition.desc }}</p>
   </div>
@@ -182,16 +204,18 @@ permalink: /index.html
     <article class="cd-recipe-card">
       <div class="cd-media cd-recipe-media">
         <img src="{{ r.image }}" alt="{{ r.name }}" loading="lazy">
+        {#- Time badge sits on the photo now rather than beside the title. #}
+        {%- if r.minutes %}<span class="cd-recipe-time">{{ r.minutes }} хв</span>{% endif %}
       </div>
       <div class="cd-recipe-info">
-        <div class="cd-recipe-top">
-          <h3 class="cd-recipe-name">{{ r.name }}</h3>
-          {%- if r.minutes %}<span class="cd-recipe-time">{{ r.minutes }} хв</span>{% endif %}
-        </div>
-        <p class="cd-recipe-macros">
-          {{ r.calories }} ккал, {{ r.protein }} г білка, {{ r.carbs }} вуглеводів, {{ r.fats }} жирів
-        </p>
-        <a href="/blog/{{ r.slug }}/" class="cd-recipe-link">{{ site.nutrition.cardCta }} &#8599;</a>
+        <h3 class="cd-recipe-name">{{ r.name }}</h3>
+        <ul class="cd-recipe-macros">
+          <li>{{ r.calories }} ккал</li>
+          <li>{{ r.protein }}г білка</li>
+          <li>{{ r.carbs }}г вугл.</li>
+          <li>{{ r.fats }}г жирів</li>
+        </ul>
+        <a href="/blog/{{ r.slug }}/" class="cd-recipe-link">{{ site.nutrition.cardCta }}</a>
       </div>
     </article>
     {%- endfor %}
@@ -200,7 +224,10 @@ permalink: /index.html
 
 <!-- ============ FAQ ============ -->
 <section id="faq" class="cd-faq cd-reveal">
-  <h2 class="cd-section-head">{{ site.faq.heading }}</h2>
+  <div class="cd-faq-heading">
+    {{ eyebrow(site.faq.eyebrow) }}
+    <h2 class="cd-section-head">{{ site.faq.heading }}</h2>
+  </div>
   <div class="cd-faq-list">
     {%- for item in site.faq.items %}
     <details class="cd-faq-item"{% if item.open %} open{% endif %}>
@@ -225,7 +252,8 @@ permalink: /index.html
 <!-- ============ REVIEWS ============ -->
 <section id="reviews" class="cd-reviews cd-reveal">
   <div class="cd-reviews-header">
-    <div>
+    <div class="cd-reviews-heading">
+      {{ eyebrow(site.reviews.eyebrow) }}
       <h2 class="cd-section-head">{{ site.reviews.heading }}</h2>
       <div class="cd-reviews-rating">
         <span class="cd-stars" aria-hidden="true">★★★★★</span>
@@ -239,7 +267,7 @@ permalink: /index.html
   {#- One bento grid rather than two rows separated by an 80px gap: 6 columns,
       uniform gutters, blocks of different spans tiled together. #}
   <div class="cd-reviews-bento">
-    <div class="cd-media cd-reviews-photo">
+    <div class="cd-media cd-media--tint cd-reviews-photo">
       <img src="{{ site.reviews.featured.image }}"
            srcset="{{ site.reviews.featured.image }} 1x, {{ site.reviews.featured.image | retina }} 2x"
            alt="" width="807" height="524" loading="lazy">

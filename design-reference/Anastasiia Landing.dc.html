@@ -28,7 +28,7 @@
 <div id="top" style="position:relative;width:100%;max-width:1440px;margin:0 auto;background:rgb(0,4,21);font-family:Inter,sans-serif;overflow:hidden;">
 
   <!-- ============ HERO ============ -->
-  <div style="position:relative;width:100%;height:{{ h.heroSection }};overflow:hidden;background:radial-gradient(1145px 814px at 50% 1.6%, rgb(12,27,82) 0%, rgb(0,4,21) 100%);display:flex;flex-direction:column;gap:{{ g.heroSectionGap }};align-items:center;">
+  <div style="position:relative;width:100%;height:{{ h.heroSection }};overflow:hidden;background:radial-gradient(480px 480px at 18% 0%, rgb(12,27,82) 0%, rgb(0,4,21) 100%);display:flex;flex-direction:column;gap:{{ g.heroSectionGap }};align-items:center;">
 
     <!-- Hero photo (transparent PNG, centered) -->
     <div style="{{ heroPhotoWrapStyle }}">
@@ -53,7 +53,7 @@
         </nav>
       </div>
       <div style="display:{{ d.headerCta }};flex-direction:row;gap:16px;align-items:center;">
-        <a href="#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати тренування</a>
+        <a href="#pricing" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати тренування</a>
       </div>
       <div style="display:{{ d.hamburger }};width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.08);align-items:center;justify-content:center;cursor:pointer;" onClick="{{ mobileNavToggle }}">
         <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 1H19M1 8H19M1 15H19" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -73,47 +73,48 @@
           <a href="#faq" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">FAQ</a>
           <a href="#reviews" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;">Відгуки</a>
         </nav>
-        <a href="#pricing" onClick="{{ mobileNavToggle }}" style="margin-top:auto;width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:14px 24px;color:#fff;font-size:17px;font-weight:500;box-sizing:border-box;">Обрати тренування</a>
+        <a href="#pricing" onClick="{{ mobileNavToggle }}" style="margin-top:auto;width:100%;text-align:center;background:rgb(249,93,0);border-radius:8px;padding:14px 24px;color:#fff;font-size:17px;font-weight:500;box-sizing:border-box;">Обрати тренування</a>
       </div>
     </div>
 
     <!-- Hero body -->
-    <div style="position:relative;width:100%;height:{{ h.heroBody }};display:flex;flex-direction:{{ mCol }};padding:{{ g.heroBodyPad }};justify-content:space-between;align-items:center;box-sizing:border-box;z-index:2;gap:{{ g.heroBodyGap }};order:{{ order.heroBody }};">
-      <div style="width:{{ w.stats }};display:flex;flex-direction:{{ rCol }};gap:{{ g.statsGap }};flex-shrink:0;z-index:2;order:{{ order.stats }};">
-        <div style="flex:1;height:{{ h.statBox }};border-radius:10px;background:rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:12px;padding:16px;align-items:{{ al.stat }};justify-content:center;box-sizing:border-box;">
-          <span style="font-size:32px;color:#fff;">100+</span>
-          <span style="font-size:16px;color:#fff;text-align:{{ ta.stat }};">Задоволених клієнтів</span>
+    <div style="position:relative;width:100%;height:{{ h.heroBody }};display:flex;flex-direction:{{ mCol }};padding:{{ g.heroBodyPad }};justify-content:space-between;align-items:{{ heroBodyAlign }};box-sizing:border-box;z-index:2;gap:{{ g.heroBodyGap }};order:{{ order.heroBody }};">
+      <div style="width:{{ w.heroText }};display:flex;flex-direction:column;justify-content:center;gap:32px;flex-shrink:0;z-index:2;align-items:{{ al.heroText }};order:{{ order.text }};">
+        <div style="display:flex;flex-direction:row;gap:10px;align-items:center;">
+          <div style="width:32px;height:2px;background:rgb(249,93,0);"></div>
+          <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);">Персональний тренер</span>
         </div>
-        <div style="flex:1;height:{{ h.statBox }};border-radius:10px;background:rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:12px;padding:16px;justify-content:center;align-items:{{ al.stat }};box-sizing:border-box;">
-          <span style="font-size:32px;color:#fff;">18</span>
-          <span style="font-size:16px;color:#fff;text-align:{{ ta.stat }};">Програм тренувань</span>
-        </div>
-        <div style="flex:1;height:{{ h.statBox }};border-radius:10px;background:rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:8px;padding:16px;align-items:{{ al.stat }};justify-content:center;box-sizing:border-box;">
-          <span style="font-size:32px;color:#fff;">5+</span>
-          <span style="font-size:16px;color:#fff;text-align:{{ ta.stat }};">Років досвіду</span>
-        </div>
-      </div>
-      <div style="width:{{ w.heroText }};display:flex;flex-direction:column;gap:46px;flex-shrink:0;z-index:2;align-items:{{ al.heroText }};order:{{ order.text }};">
         <div style="display:flex;flex-direction:column;gap:24px;align-items:{{ al.heroText }};">
           <div style="display:flex;flex-direction:column;align-items:{{ al.heroText }};">
             <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.heroTitle }};line-height:1.1;letter-spacing:0.05em;color:#fff;text-transform:uppercase;text-align:{{ ta.hero }};">work</span>
             <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.heroTitle }};line-height:1.1;letter-spacing:0.05em;color:#fff;text-transform:uppercase;text-align:{{ ta.hero }};">harder</span>
-            <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.heroTitle }};line-height:1.1;letter-spacing:0.05em;color:#fff;text-transform:uppercase;text-align:{{ ta.hero }};">gain more</span>
+            <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.heroTitle }};line-height:1.1;letter-spacing:0.05em;color:rgb(249,93,0);text-transform:uppercase;text-align:{{ ta.hero }};">gain more</span>
           </div>
           <span style="width:{{ w.heroDesc }};font-size:{{ f.heroDesc }};line-height:1.5;color:rgba(255,255,255,0.9);text-align:{{ ta.hero }};">Приєднуйтесь до нас сьогодні і почніть свій шлях до здорового та активного життя!</span>
         </div>
         <a href="#training" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати тренування</a>
+        <div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:{{ g.heroStatsGap }};padding-top:28px;border-top:1px solid rgba(255,255,255,0.12);width:100%;justify-content:{{ heroStatsJustify }};">
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:{{ al.heroText }};"><span style="font-size:28px;font-weight:600;color:#fff;">100+</span><span style="font-size:14px;color:rgba(255,255,255,0.7);">Задоволених клієнтів</span></div>
+          <div style="width:1px;align-self:stretch;background:rgba(255,255,255,0.15);display:{{ d.statDivider }};"></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:{{ al.heroText }};"><span style="font-size:28px;font-weight:600;color:#fff;">18</span><span style="font-size:14px;color:rgba(255,255,255,0.7);">Програм тренувань</span></div>
+          <div style="width:1px;align-self:stretch;background:rgba(255,255,255,0.15);display:{{ d.statDivider }};"></div>
+          <div style="display:flex;flex-direction:column;gap:6px;align-items:{{ al.heroText }};"><span style="font-size:28px;font-weight:600;color:#fff;">5+</span><span style="font-size:14px;color:rgba(255,255,255,0.7);">Років досвіду</span></div>
+        </div>
+      </div>
+      <div style="display:{{ d.heroPhotoPanel }};flex:1;position:relative;overflow:hidden;align-self:stretch;">
+        <img src="assets/hero-photo-2.png" alt="Anastasiia" style="position:absolute;left:50%;top:-110px;transform:translateX(-50%);width:680px;max-width:none;object-fit:cover;filter:grayscale(0.15) contrast(1.05);mask-image:linear-gradient(90deg, rgba(0,0,0,0) 0%, black 12%);-webkit-mask-image:linear-gradient(90deg, rgba(0,0,0,0) 0%, black 12%);">
+        <div style="position:absolute;left:0;right:0;bottom:0;height:45%;background:linear-gradient(180deg, rgba(0,4,21,0) 0%, rgba(0,4,21,0.75) 40%, rgb(0,4,21) 65%);"></div>
       </div>
     </div>
   </div>
 
   <!-- ============ ABOUT ME ============ -->
-  <div id="about" data-reveal="1" style="{{ revealAbout }}position:relative;width:100%;background:radial-gradient(900px 900px at 0% 50%, rgba(12,27,82,0.55) 0%, rgba(0,4,21,0) 60%), rgb(0,4,21);display:flex;flex-direction:{{ mCol }};gap:{{ g.aboutGap }};padding:{{ g.aboutPad }};align-items:center;box-sizing:border-box;">
+  <div id="about" data-reveal="1" style="{{ revealAbout }}position:relative;width:100%;background:radial-gradient(500px 500px at 0% 30%, rgba(12,27,82,0.4) 0%, rgba(0,4,21,0) 70%), rgb(0,4,21);display:flex;flex-direction:{{ mCol }};gap:{{ g.aboutGap }};padding:{{ g.aboutPad }};align-items:center;box-sizing:border-box;">
     <div style="flex-grow:1;display:flex;flex-direction:column;gap:32px;">
       <div style="display:flex;flex-direction:column;gap:24px;">
-        <div style="display:flex;flex-direction:row;gap:10px;padding:6px 12px;align-items:center;">
-          <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:16px;color:#fff;white-space:nowrap;">Про мене</span>
-          <div style="width:100px;height:1px;background:#fff;"></div>
+        <div style="display:flex;flex-direction:row;gap:10px;align-items:center;">
+          <div style="width:32px;height:2px;background:rgb(249,93,0);"></div>
+          <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);white-space:nowrap;">Про мене</span>
         </div>
         <span style="width:{{ w.aboutText1 }};font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};line-height:1.2;color:#fff;">Мене звуть Анастасія Шерстюк, і я — ваш персональний тренер</span>
         <span style="width:{{ w.aboutText2 }};font-size:18px;line-height:1.5;color:#fff;">За багаторічний досвід роботи я допомогла численним жінкам досягти своїх фітнес-мрій, створюючи індивідуальні програми тренувань та надаючи підтримку на шляху до здоров'я та гармонії. З моїм підходом до тренувань та експертними знаннями в галузі харчування, разом ми досягнемо ваші цілі та зробимо кожен день більш енергійним та здоровим!</span>
@@ -121,7 +122,7 @@
       <a href="#training" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись програми</a>
     </div>
     <div style="position:relative;width:{{ w.aboutImg }};height:{{ h.aboutImg }};border-radius:20px;overflow:hidden;flex-shrink:0;">
-      <img src="assets/about-photo-real.png" alt="Анастасія Шерстюк" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div>
+      <img src="assets/about-photo-real.png" alt="Анастасія Шерстюк" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(0.15) contrast(1.05);"><div style="position:absolute;left:0;right:0;bottom:0;height:35%;background:linear-gradient(180deg, rgba(0,4,21,0) 0%, rgba(0,4,21,0.85) 100%);pointer-events:none;"></div>
     </div>
   </div>
 
@@ -129,12 +130,13 @@
   <div id="training" data-reveal="1" style="{{ revealTraining }}position:relative;width:100%;background:rgb(0,4,21);display:flex;flex-direction:column;gap:{{ g.trainingContainerGap }};padding:{{ g.trainingContainerPad }};align-items:center;box-sizing:border-box;">
     <div style="width:100%;display:flex;flex-direction:column;gap:64px;align-items:center;">
       <div style="display:flex;flex-direction:column;gap:24px;justify-content:center;align-items:center;">
+        <div style="display:flex;flex-direction:row;gap:10px;align-items:center;"><div style="width:32px;height:2px;background:rgb(249,93,0);"></div><span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);">Тренування</span><div style="width:32px;height:2px;background:rgb(249,93,0);"></div></div>
         <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:48px;text-align:center;line-height:1.2;color:#fff;">Обери тренування для себе</span>
         <span style="width:{{ w.trainingDesc }};font-size:18px;text-align:center;line-height:1.5;color:rgba(255,255,255,0.9);">За багаторічний досвід роботи я допомогла численним жінкам досягти своїх фітнес-мрій, створюючи індивідуальні програми тренувань та надаючи підтримку на шляху до здоров'я та гармонії.</span>
       </div>
       <div style="width:100%;display:flex;flex-direction:{{ mCol }};gap:{{ g.trainingRowGap }};align-items:center;">
         <div style="position:relative;width:{{ w.trainImg1 }};height:{{ h.trainImg }};border-radius:20px;overflow:hidden;flex-shrink:0;">
-          <img src="assets/training-bodyweight.png" alt="Тренування із власною вагою" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div>
+          <img src="assets/training-bodyweight.png" alt="Тренування із власною вагою" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.15) contrast(1.05);"><div style="position:absolute;left:0;right:0;bottom:0;height:35%;background:linear-gradient(180deg, rgba(0,4,21,0) 0%, rgba(0,4,21,0.85) 100%);pointer-events:none;"></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:42px;flex-grow:1;">
           <div style="display:flex;flex-direction:column;gap:18px;">
@@ -146,7 +148,7 @@
             </div>
           </div>
           <div style="display:flex;flex-direction:row;gap:24px;align-items:center;">
-            <a href="#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+            <a href="#pricing" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати</a>
             <span style="font-family:Montserrat,sans-serif;font-weight:500;font-size:16px;color:rgba(255,255,255,0.7);white-space:nowrap;">Почни змінювати себе вже сьогодні</span>
           </div>
         </div>
@@ -190,13 +192,14 @@
         </div>
       </div>
       <div style="position:relative;width:{{ w.trainImg2 }};height:{{ h.trainImg }};border-radius:20px;overflow:hidden;flex-shrink:0;">
-        <img src="assets/training-stretching.png" alt="Розтяжка" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div>
+        <img src="assets/training-stretching.png" alt="Розтяжка" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.15) contrast(1.05);"><div style="position:absolute;left:0;right:0;bottom:0;height:35%;background:linear-gradient(180deg, rgba(0,4,21,0) 0%, rgba(0,4,21,0.85) 100%);pointer-events:none;"></div>
       </div>
     </div>
   </div>
 
   <!-- ============ PRICING ============ -->
-  <div id="pricing" data-reveal="1" style="{{ revealPricing }}position:relative;width:100%;background:radial-gradient(1300px 800px at 50% 45%, rgba(30,16,80,0.45) 0%, rgb(0,4,21) 70%);display:flex;flex-direction:column;gap:{{ g.pricingGap }};padding:{{ g.pricingPad }};align-items:center;box-sizing:border-box;">
+  <div id="pricing" data-reveal="1" style="{{ revealPricing }}position:relative;width:100%;background:radial-gradient(700px 500px at 50% 20%, rgba(30,16,80,0.3) 0%, rgba(0,4,21,0) 70%), rgb(0,4,21);display:flex;flex-direction:column;gap:{{ g.pricingGap }};padding:{{ g.pricingPad }};align-items:center;box-sizing:border-box;">
+    <div style="display:flex;flex-direction:row;gap:10px;align-items:center;"><div style="width:32px;height:2px;background:rgb(249,93,0);"></div><span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);">Ціни</span><div style="width:32px;height:2px;background:rgb(249,93,0);"></div></div>
     <span style="width:{{ w.pricingHead }};font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};text-align:center;line-height:1.2;color:#fff;">Поспішай придбати власний курс з тренувань</span>
     <div style="width:100%;display:flex;flex-direction:row;justify-content:space-between;flex-wrap:wrap;gap:32px;">
 
@@ -211,7 +214,7 @@
             <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до особистого кабінету</span></div>
           </div>
         </div>
-        <a href="#" style="width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+        <a href="#" style="width:100%;text-align:center;background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати</a>
       </div>
 
       <div style="width:{{ w.pricingCard }};position:relative;border-radius:20px;background:linear-gradient(147deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);box-shadow:0 0 0 2px rgb(249,93,0),0 16px 40px 0 rgba(249,93,0,0.25);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:center;box-sizing:border-box;gap:32px;transition:transform 0.2s ease;" style-hover="transform:translateY(-6px);">
@@ -226,7 +229,7 @@
             <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до особистого кабінету</span></div>
           </div>
         </div>
-        <a href="#" style="width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+        <a href="#" style="width:100%;text-align:center;background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати</a>
       </div>
 
       <div style="width:{{ w.pricingCard }};border-radius:20px;background:linear-gradient(147deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:center;box-sizing:border-box;gap:32px;transition:transform 0.2s ease;" style-hover="transform:translateY(-6px);">
@@ -240,7 +243,7 @@
             <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><div style="width:20px;height:20px;border-radius:50%;background:rgb(14,61,204);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span style="font-size:16px;font-weight:500;color:#fff;">Доступ до особистого кабінету</span></div>
           </div>
         </div>
-        <a href="#" style="width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати</a>
+        <a href="#" style="width:100%;text-align:center;background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати</a>
       </div>
     </div>
   </div>
@@ -248,50 +251,51 @@
   <!-- ============ NUTRITION ============ -->
   <div id="nutrition" data-reveal="1" style="{{ revealNutrition }}position:relative;width:100%;background:rgb(0,4,21);display:flex;flex-direction:column;gap:{{ g.nutritionGap }};padding:{{ g.nutritionPad }};align-items:center;box-sizing:border-box;">
     <div style="display:flex;flex-direction:column;gap:16px;padding:{{ g.nutritionHeadPad }};align-items:center;box-sizing:border-box;">
+      <div style="display:flex;flex-direction:row;gap:10px;align-items:center;"><div style="width:32px;height:2px;background:rgb(249,93,0);"></div><span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);">Раціон</span><div style="width:32px;height:2px;background:rgb(249,93,0);"></div></div>
       <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};text-align:center;line-height:1.2;color:#fff;">Харчуйся корисно і смачно разом зі мною</span>
       <span style="width:{{ w.nutritionHead }};font-size:18px;text-align:center;line-height:1.2;color:#fff;">Тут ти знайдеш безліч рецептів корисної і смачної іжі і тобі не прийдеться відмовлятись від улюблених страв</span>
     </div>
     <div style="display:flex;flex-direction:row;gap:16px;">
       <a id="recipes" href="Blog.dc.html" style="box-shadow:inset 0 0 0 1px rgb(255,255,255);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.12);">Дивитись усі рецепти</a>
     </div>
-    <div style="width:100%;display:flex;flex-direction:{{ mCol }};gap:{{ g.nutritionRowGap }};align-items:{{ al.recipe }};">
-      <div style="display:flex;flex-direction:column;gap:32px;flex:1;min-width:0;">
-        <div style="position:relative;height:{{ h.recipeImg }};border-radius:20px;overflow:hidden;"><img src="assets/recipe-bowl.jpg" alt="Боул" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div></div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="display:flex;flex-direction:row;gap:24px;justify-content:center;align-items:flex-end;">
-            <span style="flex-grow:1;font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Боул</span>
-            <span style="font-size:18px;color:#fff;white-space:nowrap;">15 хв</span>
+    <div style="width:100%;display:flex;flex-direction:{{ mCol }};gap:{{ g.nutritionRowGap }};align-items:stretch;">
+      <div style="flex:1;min-width:0;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);overflow:hidden;display:flex;flex-direction:column;">
+        <div style="position:relative;height:{{ h.recipeImg }};"><img src="assets/recipe-bowl.jpg" alt="Боул" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;top:14px;right:14px;background:rgb(249,93,0);border-radius:100px;padding:6px 14px;font-size:14px;font-weight:600;color:#fff;">15 хв</div></div>
+        <div style="padding:24px;display:flex;flex-direction:column;gap:16px;flex:1;box-sizing:border-box;">
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Боул</span>
+          <div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:8px;">
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">356 ккал</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">15г білка</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">40г вугл.</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">10г жирів</span>
           </div>
-          <div style="display:flex;flex-direction:column;gap:24px;">
-            <span style="width:256px;font-size:14px;font-weight:500;line-height:1.5;color:rgba(255,255,255,0.8);">356 ккал, 15 г білка, 40 вуглеводів, 10 жирів</span>
-            <a href="Blog Post.dc.html" style="color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.6);">Дивитись рецепт</a>
-          </div>
+          <a href="Blog Post.dc.html" style="margin-top:auto;background:rgb(249,93,0);border-radius:8px;padding:10px 18px;color:#fff;font-size:16px;font-weight:500;text-align:center;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись рецепт</a>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:32px;align-items:center;flex:1;min-width:0;">
-        <div style="position:relative;width:100%;height:{{ h.recipeImg }};border-radius:20px;overflow:hidden;"><img src="assets/recipe-pancakes.jpg" alt="Панкейки" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div></div>
-        <div style="width:100%;display:flex;flex-direction:column;gap:12px;align-items:center;">
-          <div style="width:100%;display:flex;flex-direction:row;gap:24px;justify-content:center;align-items:flex-end;">
-            <span style="flex-grow:1;font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Панкейки</span>
-            <span style="font-size:18px;color:#fff;white-space:nowrap;">20 хв</span>
+      <div style="flex:1;min-width:0;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);overflow:hidden;display:flex;flex-direction:column;">
+        <div style="position:relative;height:{{ h.recipeImg }};"><img src="assets/recipe-pancakes.jpg" alt="Панкейки" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;top:14px;right:14px;background:rgb(249,93,0);border-radius:100px;padding:6px 14px;font-size:14px;font-weight:600;color:#fff;">20 хв</div></div>
+        <div style="padding:24px;display:flex;flex-direction:column;gap:16px;flex:1;box-sizing:border-box;">
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Панкейки</span>
+          <div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:8px;">
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">500 ккал</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">15г білка</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">40г вугл.</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">10г жирів</span>
           </div>
-          <div style="width:100%;display:flex;flex-direction:column;gap:24px;">
-            <span style="width:249px;font-size:14px;font-weight:500;line-height:1.5;color:rgba(255,255,255,0.8);">500 ккал, 15 г білка, 40 вуглеводів, 10 жирів</span>
-            <a href="Blog Post.dc.html" style="color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.6);">Дивитись рецепт</a>
-          </div>
+          <a href="Blog Post.dc.html" style="margin-top:auto;background:rgb(249,93,0);border-radius:8px;padding:10px 18px;color:#fff;font-size:16px;font-weight:500;text-align:center;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись рецепт</a>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:32px;flex:1;min-width:0;">
-        <div style="position:relative;width:100%;height:{{ h.recipeImg }};border-radius:20px;overflow:hidden;"><img src="assets/recipe-plate.jpg" alt="Тарілка" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;inset:0;background:linear-gradient(160deg, rgba(14,61,204,0.18) 0%, rgba(0,4,21,0.3) 100%);mix-blend-mode:multiply;pointer-events:none;"></div></div>
-        <div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="display:flex;flex-direction:row;gap:24px;justify-content:flex-end;align-items:flex-end;">
-            <span style="flex-grow:1;font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Тарілка</span>
-            <span style="font-size:18px;color:#fff;white-space:nowrap;">15 хв</span>
+      <div style="flex:1;min-width:0;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);overflow:hidden;display:flex;flex-direction:column;">
+        <div style="position:relative;height:{{ h.recipeImg }};"><img src="assets/recipe-plate.jpg" alt="Тарілка" style="width:100%;height:100%;object-fit:cover;filter:grayscale(0.25) contrast(1.05);"><div style="position:absolute;top:14px;right:14px;background:rgb(249,93,0);border-radius:100px;padding:6px 14px;font-size:14px;font-weight:600;color:#fff;">15 хв</div></div>
+        <div style="padding:24px;display:flex;flex-direction:column;gap:16px;flex:1;box-sizing:border-box;">
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.recipeName }};color:#fff;">Тарілка</span>
+          <div style="display:flex;flex-direction:row;flex-wrap:wrap;gap:8px;">
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">500 ккал</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">15г білка</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">40г вугл.</span>
+            <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:6px 12px;font-size:13px;color:rgba(255,255,255,0.85);">10г жирів</span>
           </div>
-          <div style="width:244px;display:flex;flex-direction:column;gap:24px;">
-            <span style="font-size:14px;font-weight:500;line-height:1.5;color:rgba(255,255,255,0.8);">500 ккал, 15 г білка, 40 вуглеводів, 10 жирів</span>
-            <a href="Blog Post.dc.html" style="color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.6);">Дивитись рецепт</a>
-          </div>
+          <a href="Blog Post.dc.html" style="margin-top:auto;background:rgb(249,93,0);border-radius:8px;padding:10px 18px;color:#fff;font-size:16px;font-weight:500;text-align:center;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись рецепт</a>
         </div>
       </div>
     </div>
@@ -612,7 +616,10 @@
           </svg>
         </div>
     <div style="width:100%;max-width:891px;display:flex;flex-direction:column;gap:60px;">
-      <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};line-height:1.2;color:#fff;">Залишилась питання?</span>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div style="display:flex;flex-direction:row;gap:10px;align-items:center;"><div style="width:32px;height:2px;background:rgb(249,93,0);"></div><span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);">FAQ</span></div>
+        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};line-height:1.2;color:#fff;">Залишилась питання?</span>
+      </div>
       <div style="display:flex;flex-direction:column;gap:0;width:100%;">
         <sc-for list="{{ faqItems }}" as="item" hint-placeholder-count="5">
           <div style="border-bottom:1px solid rgba(255,255,255,0.1);padding:24px 0;display:flex;flex-direction:column;gap:16px;">
@@ -634,10 +641,11 @@
   </div>
 
   <!-- ============ REVIEWS ============ -->
-  <div id="reviews" data-reveal="1" style="{{ revealReviews }}position:relative;width:100%;background:radial-gradient(1300px 600px at 50% 110%, rgba(12,27,82,0.7) 0%, rgb(0,4,21) 60%);display:flex;flex-direction:column;gap:{{ g.reviewsGap }};padding:{{ g.reviewsPad }};box-sizing:border-box;">
+  <div id="reviews" data-reveal="1" style="{{ revealReviews }}position:relative;width:100%;background:radial-gradient(700px 400px at 50% 100%, rgba(12,27,82,0.4) 0%, rgba(0,4,21,0) 70%), rgb(0,4,21);display:flex;flex-direction:column;gap:{{ g.reviewsGap }};padding:{{ g.reviewsPad }};box-sizing:border-box;">
     <div style="display:flex;flex-direction:{{ mCol }};justify-content:space-between;align-items:{{ al.reviewsHeader }};gap:16px;">
       <div style="display:flex;flex-direction:column;gap:12px;">
-        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};color:#fff;white-space:{{ wsN }};">Відгуки</span>
+        <div style="display:flex;flex-direction:row;gap:10px;align-items:center;"><div style="width:32px;height:2px;background:rgb(249,93,0);"></div><span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);">Відгуки</span></div>
+        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.sectionHead }};color:#fff;white-space:{{ wsN }};">Наші клієнти діляться враженнями</span>
         <div style="display:flex;flex-direction:row;gap:8px;align-items:center;"><span style="color:rgb(242,176,5);font-size:18px;">★★★★★</span><span style="font-size:16px;font-weight:600;color:#fff;">4.9</span><span style="font-size:16px;color:rgba(255,255,255,0.6);">· 120+ відгуків</span></div>
       </div>
       <a href="#" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;white-space:{{ wsN }};transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись всі відгуки</a>
@@ -710,7 +718,7 @@
     <div style="display:flex;flex-direction:column;gap:32px;">
       <span style="font-family:Inter,sans-serif;font-weight:700;font-size:{{ f.footerBig }};line-height:1.2;color:#fff;">Let's train</span>
       <div style="display:flex;flex-direction:column;gap:24px;">
-        <a href="#" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;text-align:center;">Обрати тренування</a>
+        <a href="#" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;text-align:center;">Обрати тренування</a>
         <div style="display:flex;flex-direction:row;gap:24px;">
           <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Instagram</a>
           <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Telegram</a>
@@ -746,7 +754,7 @@
             <label style="font-size:14px;color:rgba(255,255,255,0.7);">Повідомлення</label>
             <textarea required="true" value="{{ contactForm.message }}" onChange="{{ setMessage }}" placeholder="Про що хочеш запитати?" style="width:100%;min-height:120px;resize:vertical;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:12px 16px;color:#fff;font-size:16px;font-family:inherit;box-sizing:border-box;outline:none;transition:border-color 0.2s ease;" style-focus="border-color:rgb(14,61,204);"></textarea>
           </div>
-          <button type="submit" style="margin-top:8px;width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:14px 24px;color:#fff;font-size:18px;font-weight:500;border:none;cursor:pointer;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Надіслати</button>
+          <button type="submit" style="margin-top:8px;width:100%;text-align:center;background:rgb(249,93,0);border-radius:8px;padding:14px 24px;color:#fff;font-size:18px;font-weight:500;border:none;cursor:pointer;box-sizing:border-box;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Надіслати</button>
         </form>
       </div>
     </sc-if>
@@ -846,10 +854,12 @@ class Component extends DCLogic {
     const mCol = m ? 'column' : 'row';
     const rCol = m ? 'row' : 'column';
     const wsN = m ? 'normal' : 'nowrap';
+    const heroBodyAlign = m ? 'center' : 'stretch';
+    const heroStatsJustify = m ? 'center' : 'flex-start';
 
     const heroPhotoWrapStyle = m
       ? 'position:relative;width:100%;height:300px;overflow:hidden;order:2;'
-      : 'position:absolute;left:106px;top:0;width:800px;height:1200px;z-index:1;pointer-events:none;';
+      : 'display:none;';
     const heroPhotoImgStyle = m
       ? 'position:absolute;left:50%;top:-20px;width:480px;max-width:none;transform:translateX(-50%);object-fit:cover;filter:grayscale(0.15) contrast(1.05);mask-image:radial-gradient(65% 65% at 50% 40%, black 55%, rgba(0,0,0,0) 100%);-webkit-mask-image:radial-gradient(65% 65% at 50% 40%, black 55%, rgba(0,0,0,0) 100%);'
       : 'position:absolute;left:-176px;top:-40px;width:1058px;height:1587px;object-fit:cover;filter:grayscale(0.15) contrast(1.05);mask-image:radial-gradient(60% 58% at 50% 38%, black 55%, rgba(0,0,0,0) 100%);-webkit-mask-image:radial-gradient(60% 58% at 50% 38%, black 55%, rgba(0,0,0,0) 100%);';
@@ -875,23 +885,24 @@ class Component extends DCLogic {
       reviewsSideWidth: m ? '100%' : 'auto',
     };
     const h = {
-      heroSection: m ? 'auto' : '1024px',
-      heroBody: m ? 'auto' : '540px',
+      heroSection: 'auto',
+      heroBody: m ? 'auto' : '672px',
       header: 'auto',
       statBox: m ? 'auto' : '114px',
       aboutImg: m ? '340px' : '767px',
       trainImg: m ? '220px' : '449px',
       banner: m ? 'auto' : '404px',
-      recipeImg: m ? '260px' : '596px',
+      recipeImg: m ? '180px' : '240px',
       reviewsMain: m ? '220px' : '524px',
       reviewsSide: m ? 'auto' : '524px',
     };
     const g = {
-      heroSectionGap: m ? '0px' : '160px',
+      heroSectionGap: '0px',
       headerPad: m ? '12px 20px' : '20px 40px',
-      heroBodyPad: m ? '0 20px 32px' : '0 40px',
+      heroBodyPad: m ? '0 20px 32px' : '0 0 0 40px',
       heroBodyGap: m ? '28px' : '0px',
       statsGap: m ? '10px' : '24px',
+      heroStatsGap: m ? '20px' : '32px',
       aboutGap: m ? '24px' : '48px',
       aboutPad: m ? '48px 20px' : '80px 40px',
       trainingContainerGap: m ? '48px' : '100px',
@@ -913,7 +924,7 @@ class Component extends DCLogic {
       footerGap: m ? '32px' : '40px',
     };
     const f = {
-      heroTitle: m ? '40px' : '110px',
+      heroTitle: m ? '40px' : '72px',
       heroDesc: m ? '16px' : '18px',
       sectionHead: m ? '28px' : '48px',
       trainHead1: m ? '22px' : '36px',
@@ -927,6 +938,8 @@ class Component extends DCLogic {
       headerCta: m ? 'none' : 'flex',
       hamburger: m ? 'flex' : 'none',
       decor: m ? 'none' : 'block',
+      statDivider: m ? 'none' : 'block',
+      heroPhotoPanel: m ? 'none' : 'flex',
     };
     const al = {
       stat: m ? 'center' : 'flex-end',
@@ -969,7 +982,7 @@ class Component extends DCLogic {
       this.setState({ contactSent: true });
     };
 
-    return { faqItems, backToTopStyle, revealAbout, revealTraining, revealPricing, revealNutrition, revealFaq, revealReviews, mobileNavOpen, mobileNavToggle, mobileNavStyle, mCol, rCol, wsN, heroPhotoGlowStyle, heroPhotoWrapStyle, heroPhotoImgStyle, w, h, g, f, d, al, ta, order, contactOpen, contactSent, showContactForm, contactForm, contactOverlayStyle, contactCardStyle, openContact, closeContact, stopProp, setName, setEmail, setMessage, submitContact };
+    return { faqItems, backToTopStyle, revealAbout, revealTraining, revealPricing, revealNutrition, revealFaq, revealReviews, mobileNavOpen, mobileNavToggle, mobileNavStyle, mCol, rCol, wsN, heroBodyAlign, heroStatsJustify, heroPhotoGlowStyle, heroPhotoWrapStyle, heroPhotoImgStyle, w, h, g, f, d, al, ta, order, contactOpen, contactSent, showContactForm, contactForm, contactOverlayStyle, contactCardStyle, openContact, closeContact, stopProp, setName, setEmail, setMessage, submitContact };
   }
 }
 

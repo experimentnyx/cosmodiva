@@ -42,7 +42,7 @@
       </nav>
     </div>
     <div style="display:{{ d.headerCta }};flex-direction:row;gap:16px;align-items:center;">
-      <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати тренування</a>
+      <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати тренування</a>
     </div>
     <div style="display:{{ d.hamburger }};width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.08);align-items:center;justify-content:center;cursor:pointer;" onClick="{{ mobileNavToggle }}">
       <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 1H19M1 8H19M1 15H19" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -62,7 +62,7 @@
         <a href="Anastasiia Landing.dc.html#faq" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">FAQ</a>
         <a href="Anastasiia Landing.dc.html#reviews" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;">Відгуки</a>
       </nav>
-      <a href="Anastasiia Landing.dc.html#pricing" onClick="{{ mobileNavToggle }}" style="margin-top:auto;width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:14px 24px;color:#fff;font-size:17px;font-weight:500;box-sizing:border-box;">Обрати тренування</a>
+      <a href="Anastasiia Landing.dc.html#pricing" onClick="{{ mobileNavToggle }}" style="margin-top:auto;width:100%;text-align:center;background:rgb(249,93,0);border-radius:8px;padding:14px 24px;color:#fff;font-size:17px;font-weight:500;box-sizing:border-box;">Обрати тренування</a>
     </div>
   </div>
 
@@ -70,52 +70,42 @@
   <div id="blog-content" data-reveal="1" style="{{ revealContent }}position:relative;background:rgb(0,4,21);display:flex;flex-direction:column;gap:80px;padding:{{ g.sectionPad }};align-items:flex-start;box-sizing:border-box;">
 
     <div style="display:flex;flex-direction:column;gap:24px;align-items:flex-start;max-width:768px;">
-      <div style="display:flex;flex-direction:row;gap:10px;padding:6px 0;align-items:center;">
-        <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:16px;color:#fff;white-space:nowrap;">Рецепти</span>
-        <div style="width:100px;height:1px;background:#fff;"></div>
+      <div style="display:flex;flex-direction:row;gap:10px;align-items:center;">
+        <div style="width:32px;height:2px;background:rgb(249,93,0);"></div>
+        <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);white-space:nowrap;">Рецепти</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;">
         <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:{{ f.heading }};line-height:1.2;color:#fff;">Твоя колекція корисної і смачної їжі</span>
-        <span style="font-size:18px;line-height:1.5;color:#fff;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+        <span style="font-size:18px;line-height:1.5;color:#fff;">Рецепти, які я готую сама і рекомендую своїм клієнткам — прості, ситні та без зайвих калорій.</span>
       </div>
     </div>
 
     <div style="position:relative;width:100%;display:flex;flex-direction:{{ mCol }};align-items:{{ featuredAlign }};gap:32px;box-sizing:border-box;">
-      <div style="height:{{ h.featuredImg }};width:100%;border-radius:16px;background:url('assets/blog/soup-featured.jpg') center/cover no-repeat;flex-grow:1;box-sizing:border-box;"></div>
+      <div style="position:relative;height:{{ h.featuredImg }};width:100%;border-radius:16px;overflow:hidden;background:url('assets/blog/soup-featured.jpg') center/cover no-repeat;flex-grow:1;box-sizing:border-box;">
+        <div style="position:absolute;left:0;right:0;bottom:0;height:35%;background:linear-gradient(180deg, rgba(0,4,21,0) 0%, rgba(0,4,21,0.85) 100%);"></div>
+        <div style="position:absolute;left:16px;top:14px;background:rgb(249,93,0);border-radius:100px;padding:6px 14px;font-size:14px;font-weight:600;color:#fff;">Супи · 300 ккал</div>
+      </div>
       <div style="position:relative;width:{{ w.featuredContent }};flex-shrink:0;display:flex;flex-direction:column;gap:24px;box-sizing:border-box;padding:{{ g.featuredContentPad }};">
-        <div style="display:flex;flex-direction:row;gap:16px;align-items:center;">
-          <div style="border-radius:8px;background:rgb(244,244,244);padding:4px 8px;"><span style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;color:#000;white-space:nowrap;">Супи</span></div>
-          <span style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;color:#fff;white-space:nowrap;">300 ккал</span>
-        </div>
         <div style="display:flex;flex-direction:column;gap:16px;">
-          <span style="font-family:Oswald,sans-serif;font-weight:700;font-size:32px;line-height:1.3;color:#fff;">Дуже Корисний суп</span>
-          <span style="font-size:16px;line-height:1.5;color:#fff;max-width:417px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.</span>
+          <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:32px;line-height:1.3;color:#fff;">Дуже Корисний суп</span>
+          <span style="font-size:16px;line-height:1.5;color:#fff;max-width:417px;">Легкий овочевий суп з мінімумом калорій — ситний, швидкий у приготуванні та ідеально підходить для дієтичного харчування.</span>
         </div>
         <a href="Blog Post.dc.html" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;display:inline-block;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Дивитись рецепт</a>
       </div>
     </div>
 
     <div style="display:flex;flex-direction:column;gap:64px;align-items:flex-start;width:100%;box-sizing:border-box;">
-      <div style="display:flex;flex-direction:row;gap:32px;align-items:center;flex-wrap:wrap;">
-        <sc-for list="{{ categoryItems }}" as="cat" hint-placeholder-count="5">
-          <span onClick="{{ cat.select }}" style="{{ cat.style }}">{{ cat.name }}</span>
-        </sc-for>
-      </div>
       <div style="width:100%;display:grid;grid-template-columns:{{ gridCols }};gap:32px;box-sizing:border-box;">
         <sc-for list="{{ filteredRecipes }}" as="r" hint-placeholder-count="6">
-          <div style="display:flex;flex-direction:column;gap:24px;align-items:flex-start;">
-            <div style="height:300px;width:100%;border-radius:16px;background:{{ r.bgImg }};box-sizing:border-box;"></div>
-            <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start;width:100%;box-sizing:border-box;">
-              <div style="display:flex;flex-direction:row;gap:16px;align-items:center;">
-                <div style="border-radius:8px;background:rgb(244,244,244);padding:4px 8px;"><span style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;color:#000;white-space:nowrap;">{{ r.tag }}</span></div>
-                <span style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;color:#fff;white-space:nowrap;">{{ r.kcal }}</span>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;width:100%;">
-                <span style="font-family:Inter,sans-serif;font-weight:700;font-size:24px;line-height:1.4;color:#fff;">{{ r.title }}</span>
-                <span style="font-size:16px;line-height:1.5;color:#fff;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.</span>
-              </div>
+          <div style="border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);overflow:hidden;display:flex;flex-direction:column;">
+            <div style="position:relative;height:200px;background:{{ r.bgImg }};">
+              <div style="position:absolute;top:14px;right:14px;background:rgb(249,93,0);border-radius:100px;padding:6px 14px;font-size:13px;font-weight:600;color:#fff;">{{ r.kcal }}</div>
             </div>
-            <a href="Blog Post.dc.html" style="color:#fff;font-size:16px;font-weight:500;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.3);border-radius:8px;padding:8px 16px;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgba(255,255,255,0.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.6);">Дивитись рецепт</a>
+            <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+              <span style="background:rgba(255,255,255,0.06);border-radius:100px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,0.85);width:fit-content;">{{ r.tag }}</span>
+              <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:22px;color:#fff;">{{ r.title }}</span>
+              <a href="Blog Post.dc.html" style="background:rgb(249,93,0);border-radius:8px;padding:9px 16px;color:#fff;font-size:14px;font-weight:500;width:fit-content;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);">Дивитись рецепт</a>
+            </div>
           </div>
         </sc-for>
       </div>
@@ -141,7 +131,7 @@
     <div style="display:flex;flex-direction:column;gap:32px;">
       <span style="font-family:Inter,sans-serif;font-weight:700;font-size:{{ f.footerBig }};line-height:1.2;color:#fff;">Let's train</span>
       <div style="display:flex;flex-direction:column;gap:24px;">
-        <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;text-align:center;">Обрати тренування</a>
+        <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;text-align:center;">Обрати тренування</a>
         <div style="display:flex;flex-direction:row;gap:24px;">
           <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Instagram</a>
           <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Telegram</a>
@@ -205,7 +195,7 @@ class Component extends DCLogic {
       footerPad: m ? '40px 20px 24px' : '64px 40px 32px',
       footerGap: m ? '32px' : '40px',
     };
-    const f = { heading: m ? '32px' : '56px', footerBig: m ? '32px' : '64px' };
+    const f = { heading: m ? '28px' : '48px', footerBig: m ? '32px' : '64px' };
     const h = { featuredImg: m ? '260px' : '500px' };
     const w = { featuredContent: m ? '100%' : '380px' };
     const gridCols = m ? '1fr' : 'repeat(3, 1fr)';
@@ -217,13 +207,6 @@ class Component extends DCLogic {
       ? 'opacity:1;transform:translateY(0);transition:opacity 0.7s ease,transform 0.7s ease;'
       : 'opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease;';
 
-    const categories = ['Всі', 'Основні страви', 'Десерти', 'Супи', 'Салати'];
-    const categoryItems = categories.map(c => ({
-      name: c,
-      style: `font-size:18px;font-weight:${c === this.state.activeCategory ? 600 : 400};color:${c === this.state.activeCategory ? '#fff' : 'rgba(255,255,255,0.6)'};cursor:pointer;transition:color 0.2s ease;`,
-      select: () => this.setState({ activeCategory: c }),
-    }));
-
     const recipes = [
       { tag: 'Основні страви', kcal: '250 ккал', title: 'Риба', bgImg: "url('assets/blog/fish.jpg') center/cover no-repeat" },
       { tag: 'Основні страви', kcal: '350 ккал', title: 'Макарони', bgImg: "url('assets/blog/pasta.jpg') center/cover no-repeat" },
@@ -232,9 +215,7 @@ class Component extends DCLogic {
       { tag: 'Салати', kcal: '320 ккал', title: 'Салат', bgImg: "url('assets/blog/salad.jpg') center/cover no-repeat" },
       { tag: 'Салати', kcal: '150 ккал', title: 'Рецепт фруктів', bgImg: "url('assets/blog/fruit.jpg') center/cover no-repeat" },
     ];
-    const filteredRecipes = this.state.activeCategory === 'Всі' ? recipes : recipes.filter(r => r.tag === this.state.activeCategory);
-
-    return { mCol, d, g, f, h, w, gridCols, featuredAlign, footerAlign, astronautRight, mobileNavOpen, mobileNavToggle, mobileNavStyle, categoryItems, filteredRecipes, backToTopStyle, revealContent };
+    return { mCol, d, g, f, h, w, gridCols, featuredAlign, footerAlign, astronautRight, mobileNavOpen, mobileNavToggle, mobileNavStyle, filteredRecipes: recipes, backToTopStyle, revealContent };
   }
 }
 

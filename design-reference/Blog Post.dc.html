@@ -37,7 +37,7 @@
       </nav>
     </div>
     <div style="display:{{ d.headerCta }};flex-direction:row;gap:16px;align-items:center;">
-      <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(11,49,163);transform:translateY(-2px);">Обрати тренування</a>
+      <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;transition:all 0.2s ease;" style-hover="background:rgb(212,79,0);transform:translateY(-2px);">Обрати тренування</a>
     </div>
     <div style="display:{{ d.hamburger }};width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.08);align-items:center;justify-content:center;cursor:pointer;" onClick="{{ mobileNavToggle }}">
       <svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 1H19M1 8H19M1 15H19" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -57,69 +57,52 @@
         <a href="Anastasiia Landing.dc.html#faq" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,0.08);">FAQ</a>
         <a href="Anastasiia Landing.dc.html#reviews" onClick="{{ mobileNavToggle }}" style="font-size:20px;font-weight:500;padding:14px 4px;">Відгуки</a>
       </nav>
-      <a href="Anastasiia Landing.dc.html#pricing" onClick="{{ mobileNavToggle }}" style="margin-top:auto;width:100%;text-align:center;background:rgb(14,61,204);border-radius:8px;padding:14px 24px;color:#fff;font-size:17px;font-weight:500;box-sizing:border-box;">Обрати тренування</a>
+      <a href="Anastasiia Landing.dc.html#pricing" onClick="{{ mobileNavToggle }}" style="margin-top:auto;width:100%;text-align:center;background:rgb(249,93,0);border-radius:8px;padding:14px 24px;color:#fff;font-size:17px;font-weight:500;box-sizing:border-box;">Обрати тренування</a>
     </div>
   </div>
 
   <!-- Post header -->
-  <div id="post-content" data-reveal="1" style="{{ revealContent }}position:relative;background:rgb(0,4,21);display:flex;flex-direction:column;gap:32px;padding:{{ g.postHeaderPad }};box-sizing:border-box;">
-    <div style="display:flex;flex-direction:column;gap:16px;">
-      <div style="display:flex;flex-direction:row;gap:10px;padding:6px 0;align-items:center;">
-        <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:16px;color:#fff;white-space:nowrap;">Рецепт</span>
-        <div style="width:100px;height:1px;background:#fff;"></div>
-      </div>
-      <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-        <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.title }};line-height:1.2;color:#fff;white-space:nowrap;">Омлет</span>
-      </div>
-      <div style="display:flex;flex-direction:row;gap:8px;align-items:center;flex-wrap:wrap;">
-        <span style="font-size:16px;color:rgba(255,255,255,0.7);">Білки: 18 г</span>
-        <div style="width:1px;height:24px;background:rgba(255,255,255,0.7);"></div>
-        <span style="font-size:16px;color:rgba(255,255,255,0.7);">Жири: 15 г</span>
-        <div style="width:1px;height:24px;background:rgba(255,255,255,0.7);"></div>
-        <span style="font-size:16px;color:rgba(255,255,255,0.7);">Вуглеводи: 1 г</span>
-      </div>
+  <div id="post-content" data-reveal="1" style="{{ revealContent }}position:relative;background:rgb(0,4,21);display:flex;flex-direction:column;gap:16px;padding:{{ g.postHeaderPad }};box-sizing:border-box;">
+    <div style="display:flex;flex-direction:row;gap:10px;align-items:center;">
+      <div style="width:32px;height:2px;background:rgb(249,93,0);"></div>
+      <span style="font-family:Montserrat,sans-serif;font-weight:600;font-size:14px;letter-spacing:0.05em;text-transform:uppercase;color:rgb(249,93,0);white-space:nowrap;">Рецепт</span>
     </div>
   </div>
 
   <!-- Post content -->
-  <div style="position:relative;display:flex;flex-direction:column;gap:18px;padding:0 {{ g.contentPadX }} 80px;box-sizing:border-box;">
-    <div style="display:flex;flex-direction:{{ mCol }};gap:24px;align-items:stretch;">
-      <div style="width:{{ w.photosCol }};flex-shrink:0;display:flex;flex-direction:column;gap:24px;box-sizing:border-box;">
-        <div style="height:{{ h.mainPhoto }};width:100%;border-radius:16px;background:url('assets/blog/omelette.jpg') center/cover no-repeat;box-sizing:border-box;"></div>
-        <div style="display:flex;flex-direction:row;gap:24px;">
-          <div style="height:{{ h.sidePhoto }};flex:1;border-radius:16px;background:url('assets/blog/omelette.jpg') center/cover no-repeat;"></div>
-          <div style="height:{{ h.sidePhoto }};flex:1;border-radius:16px;background:url('assets/blog/omelette.jpg') center/cover no-repeat;"></div>
-        </div>
+  <div style="position:relative;display:flex;flex-direction:column;gap:24px;padding:0 {{ g.contentPadX }} 80px;box-sizing:border-box;">
+    <div style="position:relative;height:{{ h.mainPhoto }};width:100%;border-radius:16px;overflow:hidden;background:url('assets/blog/omelette.jpg') center/cover no-repeat;box-sizing:border-box;">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,4,21,0) 45%, rgba(0,4,21,0.9) 100%);"></div>
+      <div style="position:absolute;left:24px;bottom:20px;right:24px;display:flex;flex-direction:column;gap:10px;">
+        <span style="background:rgb(249,93,0);border-radius:100px;padding:6px 14px;font-size:14px;font-weight:600;color:#fff;width:fit-content;">Основні страви · 220 ккал</span>
+        <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:{{ f.title }};line-height:1.2;color:#fff;">Омлет</span>
       </div>
-      <div style="position:relative;border-radius:20px;background:linear-gradient(147deg, rgb(18,10,63) 0%, rgba(0,4,101,0.28) 100%);display:flex;flex-direction:column;padding:42px;justify-content:space-between;align-items:flex-start;box-sizing:border-box;flex-grow:1;gap:32px;">
-        <div style="display:flex;flex-direction:column;gap:18px;width:100%;box-sizing:border-box;">
-          <div style="border-radius:8px;background:rgb(230,230,230);padding:4px 8px;width:fit-content;"><span style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;color:#000;white-space:nowrap;">Основні страви</span></div>
-          <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;">
-            <span style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;color:rgba(255,255,255,0.7);">5 хв на приготування</span>
-            <span style="font-family:Inter,sans-serif;font-weight:600;font-size:14px;color:#fff;">220 ккал</span>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:24px;width:100%;box-sizing:border-box;">
-          <span style="font-family:Oswald,sans-serif;font-weight:600;font-size:32px;line-height:1.2;color:#fff;">Омлет</span>
-          <div style="width:100%;height:1px;background:rgba(255,255,255,0.3);"></div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:18px;width:100%;box-sizing:border-box;">
-          <span style="font-family:Inter,sans-serif;font-weight:500;font-size:28px;line-height:1.2;color:#fff;">Інгредієнти</span>
-          <span style="font-size:18px;line-height:1.5;color:#fff;white-space:pre-line;">3 яйця
+    </div>
+    <div style="display:flex;flex-direction:row;gap:8px;align-items:center;flex-wrap:wrap;">
+      <span style="font-size:15px;color:rgba(255,255,255,0.7);">5 хв на приготування</span>
+      <div style="width:1px;height:18px;background:rgba(255,255,255,0.3);"></div>
+      <span style="font-size:15px;color:rgba(255,255,255,0.7);">Білки: 18 г</span>
+      <div style="width:1px;height:18px;background:rgba(255,255,255,0.3);"></div>
+      <span style="font-size:15px;color:rgba(255,255,255,0.7);">Жири: 15 г</span>
+      <div style="width:1px;height:18px;background:rgba(255,255,255,0.3);"></div>
+      <span style="font-size:15px;color:rgba(255,255,255,0.7);">Вуглеводи: 1 г</span>
+    </div>
+    <div style="display:flex;flex-direction:{{ mCol }};gap:32px;">
+      <div style="width:{{ w.ingredientsCol }};flex-shrink:0;display:flex;flex-direction:column;gap:16px;{{ ingredientsBorder }}box-sizing:border-box;">
+        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:20px;color:#fff;">Інгредієнти</span>
+        <span style="font-size:15px;line-height:1.8;color:rgba(255,255,255,0.85);white-space:pre-line;">3 яйця
 2 столові ложки молока
 Сіль та перець за смаком
 1 столова ложка олії або вершкового масла</span>
-        </div>
-        <div style="width:100%;height:1px;background:rgba(255,255,255,0.3);"></div>
-        <div style="display:flex;flex-direction:column;gap:18px;width:100%;box-sizing:border-box;">
-          <span style="font-family:Inter,sans-serif;font-weight:500;font-size:28px;line-height:1.2;color:#fff;">Інструкція</span>
-          <span style="font-size:18px;line-height:1.5;color:#fff;white-space:pre-line;">Взбийте яйця у мисці разом із молоком, сіллю та перцем.
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:16px;min-width:0;">
+        <span style="font-family:Oswald,sans-serif;font-weight:500;font-size:20px;color:#fff;">Інструкція</span>
+        <span style="font-size:16px;line-height:1.7;color:rgba(255,255,255,0.85);white-space:pre-line;">Взбийте яйця у мисці разом із молоком, сіллю та перцем.
 Розігрійте олію або вершкове масло на сковороді на середньому вогні.
 Після того, як масло розтопиться, влейте збиті яйця у сковороду.
 Готуйте омлет протягом 2-3 хвилин, поки верхня частина не стане стійкою.
 Після цього обережно переверніть омлет і готуйте ще 1-2 хвилини або до готовності.
 Подавайте гарячим і насолоджуйтеся!</span>
-        </div>
       </div>
     </div>
     <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;">
@@ -150,7 +133,7 @@
     <div style="display:flex;flex-direction:column;gap:32px;">
       <span style="font-family:Inter,sans-serif;font-weight:700;font-size:{{ f.footerBig }};line-height:1.2;color:#fff;">Let's train</span>
       <div style="display:flex;flex-direction:column;gap:24px;">
-        <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(14,61,204);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;text-align:center;">Обрати тренування</a>
+        <a href="Anastasiia Landing.dc.html#pricing" style="background:rgb(249,93,0);border-radius:8px;padding:12px 24px;color:#fff;font-size:18px;font-weight:500;text-align:center;">Обрати тренування</a>
         <div style="display:flex;flex-direction:row;gap:24px;">
           <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Instagram</a>
           <a href="#" style="font-size:18px;transition:color 0.2s ease;" style-hover="color:rgb(249,93,0);">Telegram</a>
@@ -209,14 +192,15 @@ class Component extends DCLogic {
       footerGap: m ? '32px' : '40px',
     };
     const f = { title: m ? '40px' : '64px', footerBig: m ? '32px' : '64px' };
-    const h = { mainPhoto: m ? '300px' : '558px', sidePhoto: m ? '160px' : '279px' };
-    const w = { photosCol: m ? '100%' : '770px' };
+    const h = { mainPhoto: m ? '260px' : '420px' };
+    const w = { ingredientsCol: m ? '100%' : '220px' };
+    const ingredientsBorder = m ? 'border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:20px;' : 'border-right:1px solid rgba(255,255,255,0.1);padding-right:24px;';
     const footerAlign = m ? 'flex-start' : 'center';
     const backToTopStyle = `position:fixed;right:32px;bottom:32px;width:52px;height:52px;border-radius:50%;background:rgb(14,61,204);align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.35);z-index:40;transition:opacity 0.25s ease,transform 0.25s ease;display:${this.state.scrolled ? 'flex' : 'none'};opacity:${this.state.scrolled ? 1 : 0};pointer-events:${this.state.scrolled ? 'auto' : 'none'};`;
     const revealContent = this.state.revealed
       ? 'opacity:1;transform:translateY(0);transition:opacity 0.7s ease,transform 0.7s ease;'
       : 'opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease;';
-    return { mCol, d, g, f, h, w, footerAlign, mobileNavOpen, mobileNavToggle, mobileNavStyle, backToTopStyle, revealContent };
+    return { mCol, d, g, f, h, w, ingredientsBorder, footerAlign, mobileNavOpen, mobileNavToggle, mobileNavStyle, backToTopStyle, revealContent };
   }
 }
 

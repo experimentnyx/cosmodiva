@@ -38,12 +38,20 @@
   --c-w-06: rgba(255, 255, 255, 0.06);
   --c-w-05: rgba(255, 255, 255, 0.05);
 
+  /* ---- elevation ----
+     Flat fills on a flat dark background read as cheap. A 1px inner highlight on
+     the top edge implies a light source above the page, and the drop shadow
+     seats the card on the background instead of letting it float unattached.
+     Both are needed: the highlight alone reads as a stray border. */
+  --sh-card: inset 0 1px 0 var(--c-w-06), 0 12px 32px rgba(0, 0, 0, 0.32);
+  --sh-card-hover: inset 0 1px 0 var(--c-w-10), 0 20px 44px rgba(0, 0, 0, 0.4);
+
   /* ---- type ---- */
   --font-display: Oswald, sans-serif;
   --font-body: Inter, sans-serif;
   --font-alt: Montserrat, sans-serif;
 
-  --fs-hero-title: 110px;
+  --fs-hero-title: 72px;
   --fs-hero-desc: 18px;
   --fs-section-head: 48px;
   --fs-train-head-1: 36px;
@@ -60,7 +68,6 @@
 
   /* ---- widths (w.*) ---- */
   --w-page: 1440px;
-  --w-stats: 140px;
   --w-hero-text: 594px;
   --w-hero-desc: 533px;
   --w-about-text-1: 621px;
@@ -77,22 +84,24 @@
   --w-reviews-side: auto;
 
   /* ---- heights (h.*) ---- */
-  --h-hero-section: 1024px;
-  --h-hero-body: 540px;
-  --h-stat-box: 114px;
+  --h-hero-section: auto;
+  --h-hero-body: 672px;
   --h-about-img: 767px;
   --h-train-img: 449px;
   --h-banner: 404px;
-  --h-recipe-img: 596px;
+  --h-recipe-img: 240px;
   --h-reviews-main: 524px;
   --h-reviews-side: 524px;
 
   /* ---- gaps & padding (g.*) ---- */
-  --g-hero-section: 160px;
+  /* The section loses the 160px gap that used to sit under the old centred
+     photo. Gutters stay at 40px on both sides so the hero lines up with every
+     other section rather than bleeding off the right edge. */
+  --g-hero-section: 0px;
   --g-header-pad: 20px 40px;
   --g-hero-body-pad: 0 40px;
   --g-hero-body: 0px;
-  --g-stats: 24px;
+  --g-hero-stats: 32px;
   --g-about: 48px;
   --g-about-pad: 80px 40px;
   --g-training-container: 100px;
@@ -122,16 +131,16 @@
   --d-header-cta: flex;
   --d-hamburger: none;
   --d-decor: block;
+  --d-stat-divider: block;
 
   /* ---- alignment (al.* / ta.*) ---- */
-  --al-stat: flex-end;
+  --al-hero-body: stretch;
   --al-hero-text: flex-start;
   --al-banner: flex-end;
-  --al-recipe: flex-start;
   --al-reviews-header: flex-end;
   --al-footer: center;
+  --j-hero-stats: flex-start;
 
-  --ta-stat: right;
   --ta-hero: left;
   --ta-banner: right;
 
@@ -141,13 +150,12 @@
   --ws-nowrap: nowrap;  /* wsN  */
 
   /* ---- flex order (order.*) ---- */
-  --o-stats: 0;
   --o-text: 0;
   --o-header: 0;
   --o-hero-body: 0;
 
   /* ---- Blog.dc.html ---- */
-  --fs-blog-heading: 56px;
+  --fs-blog-heading: 48px;
   --g-blog-pad: 80px 40px;
   --h-featured-img: 500px;
   --w-featured-content: 380px;
@@ -155,17 +163,20 @@
   --al-featured: center;
 
   /* ---- Blog Post.dc.html ---- */
-  --fs-post-title: 64px;
+  --fs-post-title: 48px;
   --g-post-pad-x: 40px;
-  --g-post-head-pad: 40px 40px 32px;
-  --w-photos-col: 770px;
-  --h-main-photo: 558px;
-  --h-side-photo: 279px;
+  --g-post-head-pad: 80px 40px 40px;
+  --h-post-hero: 420px;
+  --w-ingredients-col: 220px;
 }
 
 @media (max-width: 1100px) {
   :root {
-    --fs-hero-title: 40px;
+    /* Text-only hero, so the headline scales to fill the width. "GAIN MORE" is
+       the constraint — it renders ~4.5x the font size, so a fixed value that
+       fits a 375px phone overflows a 320px one. 18vw keeps a margin across the
+       range; the 72px cap stops it ballooning near the 1100px breakpoint. */
+    --fs-hero-title: clamp(40px, 18vw, 72px);
     --fs-hero-desc: 16px;
     --fs-section-head: 28px;
     --fs-train-head-1: 22px;
@@ -174,7 +185,6 @@
     --fs-recipe-name: 24px;
     --fs-footer-big: 32px;
 
-    --w-stats: 100%;
     --w-hero-text: 100%;
     --w-hero-desc: 100%;
     --w-about-text-1: 100%;
@@ -192,19 +202,20 @@
 
     --h-hero-section: auto;
     --h-hero-body: auto;
-    --h-stat-box: auto;
     --h-about-img: 340px;
     --h-train-img: 220px;
     --h-banner: auto;
-    --h-recipe-img: 260px;
+    --h-recipe-img: 180px;
     --h-reviews-main: 220px;
     --h-reviews-side: auto;
 
-    --g-hero-section: 0px;
+    /* Text-only hero sits directly under the navbar now the photo block that
+       used to separate them is gone, so the gap has to be explicit. */
+    --g-hero-section: 40px;
     --g-header-pad: 12px 20px;
     --g-hero-body-pad: 0 20px 32px;
     --g-hero-body: 28px;
-    --g-stats: 10px;
+    --g-hero-stats: 20px;
     --g-about: 24px;
     --g-about-pad: 48px 20px;
     --g-training-container: 48px;
@@ -230,15 +241,17 @@
     --d-header-cta: none;
     --d-hamburger: flex;
     --d-decor: none;
+    /* Stats stack-wrap into a centred row, so the vertical rules would land in
+       arbitrary places. */
+    --d-stat-divider: none;
 
-    --al-stat: center;
+    --al-hero-body: center;
     --al-hero-text: center;
     --al-banner: center;
-    --al-recipe: stretch;
     --al-reviews-header: flex-start;
     --al-footer: flex-start;
+    --j-hero-stats: center;
 
-    --ta-stat: center;
     --ta-hero: center;
     --ta-banner: center;
 
@@ -246,23 +259,21 @@
     --dir-rev: row;
     --ws-nowrap: normal;
 
-    --o-stats: 2;
     --o-text: 1;
     --o-header: 1;
     --o-hero-body: 3;
 
-    --fs-blog-heading: 32px;
+    --fs-blog-heading: 28px;
     --g-blog-pad: 48px 20px;
     --h-featured-img: 260px;
     --w-featured-content: 100%;
     --g-featured-pad: 0;
     --al-featured: stretch;
 
-    --fs-post-title: 40px;
+    --fs-post-title: 32px;
     --g-post-pad-x: 20px;
-    --g-post-head-pad: 24px 20px 24px;
-    --w-photos-col: 100%;
-    --h-main-photo: 300px;
-    --h-side-photo: 160px;
+    --g-post-head-pad: 48px 20px 24px;
+    --h-post-hero: 260px;
+    --w-ingredients-col: 100%;
   }
 }
