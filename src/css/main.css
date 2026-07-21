@@ -172,6 +172,9 @@ blockquote, figure { margin: 0; }
   html { scroll-behavior: auto; }
   .cd-reveal { opacity: 1; transform: none; transition: none; }
   .cd-astronaut { animation: none !important; }
+  /* Colour still shifts on hover — only the movement is dropped. */
+  .cd-back-link svg { transition: none; }
+  .cd-back-link:hover svg { transform: none; }
 }
 
 /* ============================================================
@@ -1223,6 +1226,18 @@ blockquote, figure { margin: 0; }
   flex-direction: var(--dir-main);
   align-items: var(--al-featured);
   gap: 32px;
+  color: var(--c-white);
+  transition: transform 0.2s ease;
+}
+/* Desktop has no frame to brighten — it is a split hero, and painting a panel
+   behind it on hover would invent a card that is not there. The photo carries
+   the light instead: it lifts with the block and picks up a shadow. */
+.cd-featured:hover { color: var(--c-white); transform: translateY(-6px); }
+.cd-featured-img { transition: box-shadow 0.2s ease; }
+.cd-featured:hover .cd-featured-img {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 22px 48px rgba(0, 0, 0, 0.45);
 }
 /* The category + kcal pair moved out of a separate meta row and onto the photo
    as a single orange pill, so the body below is just title → copy → CTA. */
@@ -1327,7 +1342,18 @@ blockquote, figure { margin: 0; }
   .cd-featured-title { font-size: 22px; line-height: 1.3; }
   /* Other cards carry no description, so the macro line is dropped here too. */
   .cd-featured-desc { display: none; }
-  .cd-featured .cd-btn { font-size: 14px; padding: 9px 16px; }
+
+  /* Framed here, so it takes the same surface-brightening hover as .cd-card
+     rather than the desktop photo-shadow treatment. */
+  .cd-featured { transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; }
+  .cd-featured:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.24);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      0 22px 48px rgba(0, 0, 0, 0.45);
+  }
+  .cd-featured:hover .cd-featured-img { box-shadow: none; }
 }
 
 /* ---- filters ---- */
@@ -1362,15 +1388,19 @@ blockquote, figure { margin: 0; }
 
      The 520px ceiling matters once the collection is small: auto-fit collapses
      unused tracks, so two cards on a 1728px page stretched to 800px each against
-     a 200px-tall image — a 4:1 letterbox. Capped and centred, they keep their
-     proportions and the row still reads as deliberate. */
+     a 200px-tall image — a 4:1 letterbox. Capped, they keep their proportions.
+
+     Left-aligned rather than centred so a short row still starts on the same
+     line as the section heading and the featured card above it. */
   grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 520px));
-  justify-content: center;
+  justify-content: start;
   gap: 32px;
 }
 /* Framed glass panels, matching the landing page's recipe cards: the photo is
    clipped by the card rather than floating above the text, the kcal figure
    rides the photo as an orange pill, and the CTA is a solid orange button. */
+/* The whole card is an <a>, so it has to opt out of the global link colour —
+   without this every card would turn gold on hover. */
 .cd-card {
   display: flex;
   flex-direction: column;
@@ -1378,6 +1408,26 @@ blockquote, figure { margin: 0; }
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--c-w-08);
   overflow: hidden;
+  color: var(--c-white);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+/* Lift plus a distinctly brighter surface. The card carries no CTA any more, so
+   hover has to do that signalling on its own: the fill and border lighten, and
+   the top-edge highlight is pushed well past the resting --sh-card value so the
+   card visibly catches the light as it rises. */
+.cd-card:hover {
+  color: var(--c-white);
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 22px 48px rgba(0, 0, 0, 0.45);
+}
+.cd-card:focus-visible,
+.cd-featured:focus-visible {
+  outline: 2px solid var(--c-orange);
+  outline-offset: 3px;
 }
 .cd-card[hidden] { display: none; }
 .cd-card-img {
@@ -1427,11 +1477,6 @@ blockquote, figure { margin: 0; }
   font-size: 12px;
   color: rgba(255, 255, 255, 0.85);
   width: fit-content;
-}
-.cd-card .cd-btn {
-  margin-top: auto;
-  font-size: 14px;
-  padding: 9px 16px;
 }
 
 /* ============================================================
@@ -1528,14 +1573,50 @@ blockquote, figure { margin: 0; }
   margin: 0;
 }
 
-.cd-post-footer {
-  display: flex;
+/* Plain underlined link, not a framed button — going back is a secondary action
+   and should not compete with the orange CTAs elsewhere on the page. The
+   vertical padding is invisible but keeps the tap target usable on mobile,
+   where 14px text alone would be about 20px tall. */
+.cd-back-link {
+  display: inline-flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 24px;
+  gap: 8px;
+  width: fit-content;
+  padding: 6px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-w-70);
+  transition: color 0.2s ease;
 }
+/* Underline on the label only — spanning the arrow too would read as a stray
+   rule under the icon. Drawn as a pseudo-element rather than text-decoration so
+   its weight and colour can be tuned and it can animate: it wipes away to the
+   right on hover, in the same direction the arrow points. */
+.cd-back-link span {
+  position: relative;
+}
+.cd-back-link span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.4;
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+}
+.cd-back-link:hover { color: var(--c-white); }
+.cd-back-link:hover span::after { opacity: 1; }
+/* Nudging the arrow the way it points makes the control feel like it does what
+   it says, and is the whole reason the underline animates from the same edge. */
+.cd-back-link svg {
+  flex-shrink: 0;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cd-back-link:hover svg { transform: translateX(-4px); }
 
 /* CMS rich text (Webflow <ul>/<ol> markup) */
 .cd-rich { font-size: 16px; line-height: 1.7; color: rgba(255, 255, 255, 0.85); }
