@@ -947,9 +947,7 @@ blockquote, figure { margin: 0; }
 .cd-reviews {
   position: relative;
   width: 100%;
-  background:
-    radial-gradient(700px 400px at 50% 100%, rgba(12, 27, 82, 0.4) 0%, rgba(0, 4, 21, 0) 70%),
-    var(--c-bg);
+  background: transparent;
   display: flex;
   flex-direction: column;
   gap: var(--g-reviews);
@@ -961,6 +959,13 @@ blockquote, figure { margin: 0; }
   gap: 24px;
   justify-content: space-between;
   align-items: var(--al-reviews-header);
+}
+/* Bleeds like every other section glow — as an element background it stopped at
+   the 1440 content edge, which showed as a seam on wide screens. */
+.cd-reviews::before {
+  background:
+    radial-gradient(700px 400px at 50% 100%, rgba(12, 27, 82, 0.4) 0%, rgba(0, 4, 21, 0) 70%),
+    var(--c-bg);
 }
 .cd-reviews-heading { display: flex; flex-direction: column; gap: 12px; }
 .cd-reviews-rating { display: flex; flex-direction: row; gap: 12px; align-items: center; }
@@ -1353,8 +1358,14 @@ blockquote, figure { margin: 0; }
   display: grid;
   /* min(340px, 100%) — a bare 340px floor is larger than the available width at
      375px viewport (335px after padding), which pushed the cards 5px past the
-     container and out of alignment with the featured card above. */
-  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+     container and out of alignment with the featured card above.
+
+     The 520px ceiling matters once the collection is small: auto-fit collapses
+     unused tracks, so two cards on a 1728px page stretched to 800px each against
+     a 200px-tall image — a 4:1 letterbox. Capped and centred, they keep their
+     proportions and the row still reads as deliberate. */
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 520px));
+  justify-content: center;
   gap: 32px;
 }
 /* Framed glass panels, matching the landing page's recipe cards: the photo is
