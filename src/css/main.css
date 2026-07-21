@@ -1050,6 +1050,13 @@ blockquote, figure { margin: 0; }
     flex: 0 0 85%;
     scroll-snap-align: start;
   }
+  /* 18px was picked for tiles 438px wide on the desktop bento. In an 85%-width
+     card the text column is barely 220px, where it wraps every few words and
+     drives the card height up. */
+  .cd-review-text { font-size: 15px; line-height: 1.6; }
+  .cd-review-author span { font-size: 15px; }
+  .cd-stars { font-size: 16px; }
+
   /* The track takes focus for keyboard scrolling, so it needs a visible ring —
      but only from the keyboard, not on the tap that starts a swipe. */
   .cd-reviews-track:focus { outline: none; }
