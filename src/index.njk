@@ -267,12 +267,6 @@ permalink: /index.html
   {#- One bento grid rather than two rows separated by an 80px gap: 6 columns,
       uniform gutters, blocks of different spans tiled together. #}
   <div class="cd-reviews-bento">
-    <div class="cd-media cd-media--tint cd-reviews-photo">
-      <img src="{{ site.reviews.featured.image }}"
-           srcset="{{ site.reviews.featured.image }} 1x, {{ site.reviews.featured.image | retina }} 2x"
-           alt="" width="807" height="524" loading="lazy">
-    </div>
-
     {#- Wrapper is display:contents on desktop, so the quotes stay direct grid
         items and the bento is unchanged; below 1100px it becomes the horizontal
         scroll track. #}

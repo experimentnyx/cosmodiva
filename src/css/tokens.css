@@ -19,7 +19,6 @@
   --c-orange-dark: rgb(212, 79, 0);
   --c-blue: rgb(14, 61, 204);
   --c-blue-dark: rgb(11, 49, 163);
-  --c-blue-soft: rgba(14, 61, 204, 0.18);
   --c-plum: rgb(55, 26, 69);
   --c-card-grad-a: rgb(18, 10, 63);
   --c-card-grad-b: rgba(0, 4, 101, 0.28);
@@ -77,11 +76,9 @@
   --w-train-img-2: 646px;
   --w-training-desc: 705px;
   --w-pricing-head: 640px;
-  --w-pricing-card: 421px;
+  --pricing-cols: 3;
   --w-nutrition-head: 767px;
   --w-banner-text: 497px;
-  --w-reviews-main: 60%;
-  --w-reviews-side: auto;
 
   /* ---- heights (h.*) ---- */
   --h-hero-section: auto;
@@ -90,8 +87,6 @@
   --h-train-img: 449px;
   --h-banner: 404px;
   --h-recipe-img: 240px;
-  --h-reviews-main: 524px;
-  --h-reviews-side: 524px;
 
   /* ---- gaps & padding (g.*) ---- */
   /* The section loses the 160px gap that used to sit under the old centred
@@ -113,19 +108,22 @@
   --g-nutrition: 64px;
   --g-nutrition-pad: 80px 40px;
   --g-nutrition-head-pad: 0 40px;
-  --g-nutrition-row: 56px;
+  /* One gutter for every row of cards — pricing, the recipe rows and the review
+     tiles all reference this, so they cannot drift apart. 32px sits on the
+     8-step spacing scale; the recipe row was previously 56px (off-scale) and
+     pricing's real gutter was leftover space from a space-between flexbox. */
+  --g-card: 32px;
+  --g-nutrition-row: var(--g-card);
   --g-faq: 64px;
   --g-faq-pad: 80px 40px;
-  /* Reviews render as one bento grid, so the old 80px row separation is gone;
-     --g-reviews is now only the gap between the section header and the grid,
-     and --g-bento is the uniform gutter between every tile. */
+  /* --g-reviews is the gap between the section header and the tiles; --g-bento
+     is the gutter between the four quote tiles. */
   --g-reviews: 32px;
   /* Split out because the mobile reviews scroller needs the horizontal value on
      its own, to break out of the gutter and re-pad itself. */
   --g-reviews-pad-x: 40px;
   --g-reviews-pad: 80px var(--g-reviews-pad-x);
-  --g-reviews-row: 32px;
-  --g-bento: 16px;
+  --g-bento: var(--g-card);
   --g-footer-pad: 64px 40px 32px;
   --g-footer: 40px;
 
@@ -160,10 +158,12 @@
   /* ---- Blog.dc.html ---- */
   --fs-blog-heading: 48px;
   --g-blog-pad: 80px 40px;
-  --h-featured-img: 500px;
+  --h-featured-img: 380px;
   --w-featured-content: 380px;
   --g-featured-pad: 0 48px;
-  --al-featured: center;
+  /* Bottom-aligned so the body's CTA sits on the same line as the foot of the
+     photo, rather than floating at the vertical centre of a tall image. */
+  --al-featured: flex-end;
 
   /* ---- Blog Post.dc.html ---- */
   --fs-post-title: 48px;
@@ -197,11 +197,9 @@
     --w-train-img-2: 100%;
     --w-training-desc: 100%;
     --w-pricing-head: 100%;
-    --w-pricing-card: 100%;
+    --pricing-cols: 1;
     --w-nutrition-head: 100%;
     --w-banner-text: 100%;
-    --w-reviews-main: 100%;
-    --w-reviews-side: 100%;
 
     --h-hero-section: auto;
     --h-hero-body: auto;
@@ -209,8 +207,6 @@
     --h-train-img: 220px;
     --h-banner: auto;
     --h-recipe-img: 180px;
-    --h-reviews-main: 220px;
-    --h-reviews-side: auto;
 
     /* Text-only hero sits directly under the navbar now the photo block that
        used to separate them is gone, so the gap has to be explicit. */
@@ -236,7 +232,6 @@
     --g-reviews: 24px;
     --g-reviews-pad-x: 20px;
     --g-reviews-pad: 48px var(--g-reviews-pad-x);
-    --g-reviews-row: 20px;
     --g-bento: 12px;
     --g-footer-pad: 40px 20px 24px;
     --g-footer: 32px;
@@ -323,7 +318,6 @@
     --w-train-img-2: 775px;
     --w-training-desc: 846px;
     --w-pricing-head: 768px;
-    --w-pricing-card: 505px;
     --w-nutrition-head: 920px;
     --w-banner-text: 596px;
     --h-hero-body: 806px;
@@ -331,8 +325,6 @@
     --h-train-img: 539px;
     --h-banner: 485px;
     --h-recipe-img: 288px;
-    --h-reviews-main: 629px;
-    --h-reviews-side: 629px;
     --g-header-pad: 24px 48px;
     --g-hero-body-pad: 0 48px;
     --g-hero-stats: 38px;
@@ -347,18 +339,18 @@
     --g-nutrition: 77px;
     --g-nutrition-pad: 96px 48px;
     --g-nutrition-head-pad: 0 48px;
-    --g-nutrition-row: 67px;
+    /* Scales the shared card gutter; --g-nutrition-row and --g-bento inherit it
+       through their var() references. */
+    --g-card: 38px;
     --g-faq: 77px;
     --g-faq-pad: 96px 48px;
     --g-reviews: 38px;
     --g-reviews-pad-x: 48px;
-    --g-reviews-row: 38px;
-    --g-bento: 19px;
     --g-footer-pad: 77px 48px 38px;
     --g-footer: 48px;
     --fs-blog-heading: 58px;
     --g-blog-pad: 96px 48px;
-    --h-featured-img: 600px;
+    --h-featured-img: 456px;
     --w-featured-content: 456px;
     --g-featured-pad: 0 58px;
     --fs-post-title: 58px;
