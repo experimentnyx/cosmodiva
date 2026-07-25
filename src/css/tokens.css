@@ -64,6 +64,7 @@
   --r-md: 10px;
   --r-lg: 16px;
   --r-xl: 20px;
+  --r-stat-pill: 100px;
 
   /* ---- widths (w.*) ---- */
   --w-page: 1440px;
@@ -85,6 +86,7 @@
   --h-hero-body: 672px;
   --h-about-img: 767px;
   --h-train-img: 449px;
+  --h-train-strip: 480px;
   --h-banner: 404px;
   --h-recipe-img: 240px;
 
@@ -205,7 +207,9 @@
     --h-hero-body: auto;
     --h-about-img: 340px;
     --h-train-img: 220px;
+    --h-train-strip: 300px;
     --h-banner: auto;
+    --r-stat-pill: 16px;
     --h-recipe-img: 180px;
 
     /* Text-only hero sits directly under the navbar now the photo block that
@@ -323,6 +327,7 @@
     --h-hero-body: 806px;
     --h-about-img: 920px;
     --h-train-img: 539px;
+    --h-train-strip: 576px;
     --h-banner: 485px;
     --h-recipe-img: 288px;
     --g-header-pad: 24px 48px;

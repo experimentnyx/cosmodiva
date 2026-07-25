@@ -559,6 +559,59 @@ blockquote, figure { margin: 0; }
   margin: 0;
 }
 
+/* Stat pill — the four headline figures, moved here from the hero. A hairline
+   rounded track on desktop; below 1100px it becomes a stacked, radius-16 box
+   with the vertical rules dropped (they'd land arbitrarily once wrapped). */
+.cd-train-stats {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--r-stat-pill);
+  padding: 16px 32px;
+  display: flex;
+  flex-direction: var(--dir-main);
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cd-train-stat { display: flex; flex-direction: row; gap: 12px; align-items: center; }
+.cd-train-stat-icon { color: var(--c-orange); font-size: 20px; line-height: 1; }
+.cd-train-stat-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--c-white);
+  text-transform: uppercase;
+}
+.cd-train-stat-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--c-w-30);
+  display: var(--d-stat-divider);
+}
+
+/* Four-photo strip — equal columns on desktop, stacked below 1100px. Plain
+   cover crop with rounded corners (no bottom edge-fade, unlike .cd-media). */
+.cd-train-photos {
+  width: 100%;
+  display: flex;
+  flex-direction: var(--dir-main);
+  gap: 20px;
+}
+.cd-train-photo {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: var(--h-train-strip);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+.cd-train-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15) contrast(1.05);
+}
+
 .cd-program {
   width: 100%;
   display: flex;
@@ -590,6 +643,9 @@ blockquote, figure { margin: 0; }
 
 @media (max-width: 1100px) {
   .cd-program--right { flex-direction: column-reverse; }
+  /* Stacked, the strip's main axis is vertical, so flex-basis:0 would zero the
+     photos' height — pin each to its own height instead. */
+  .cd-train-photo { flex: none; }
 }
 
 /* ============================================================

@@ -45,18 +45,6 @@ permalink: /index.html
       </div>
 
       <a href="{{ site.hero.cta.href }}" class="cd-btn cd-btn--orange">{{ site.hero.cta.label }}</a>
-
-      {#- Stats sit at the foot of the text column now, under a hairline rule,
-          with thin rules between each figure instead of card fills. #}
-      <div class="cd-stats">
-        {%- for s in site.hero.stats %}
-        {%- if not loop.first %}<div class="cd-stat-divider" aria-hidden="true"></div>{% endif %}
-        <div class="cd-stat">
-          <span class="cd-stat-value">{{ s.value }}</span>
-          <span class="cd-stat-label">{{ s.label }}</span>
-        </div>
-        {%- endfor %}
-      </div>
     </div>
 
   </div>
@@ -88,28 +76,31 @@ permalink: /index.html
       <p class="cd-training-desc">{{ site.training.desc }}</p>
     </div>
 
-    {%- set p = site.training.programs[0] %}
-    <div class="cd-program">
-      <div class="cd-media cd-program-media">
-        <img src="{{ p.image }}"
-             srcset="{{ p.image }} 1x, {{ p.image | retina }} 2x"
-             alt="{{ p.title }}" width="656" height="449" loading="lazy">
+    {#- The four headline figures moved out of the hero and into this pill, so
+        they read as proof right where the training is chosen. #}
+    <div class="cd-train-stats">
+      {%- for s in site.training.stats %}
+      {%- if not loop.first %}<span class="cd-train-stat-divider" aria-hidden="true"></span>{% endif %}
+      <div class="cd-train-stat">
+        <span class="cd-train-stat-icon" aria-hidden="true">{{ s.icon }}</span>
+        <span class="cd-train-stat-text"><b>{{ s.value }}</b> {{ s.label }}</span>
       </div>
-      <div class="cd-program-body">
-        <div class="cd-program-text">
-          <h3 class="cd-program-title">{{ p.title }}</h3>
-          <div class="cd-program-points">
-            {%- for pt in p.points %}
-            <div class="cd-check">{{ check(p.accent) }}<span>{{ pt }}</span></div>
-            {%- endfor %}
-          </div>
-        </div>
-        <div class="cd-program-actions">
-          <a href="{{ p.cta.href }}" class="cd-btn cd-btn--orange">{{ p.cta.label }}</a>
-          <span class="cd-program-hint">{{ site.training.ctaHint }}</span>
-        </div>
-      </div>
+      {%- endfor %}
     </div>
+
+    {#- Photo-led now rather than per-programme breakdowns: one full-width strip
+        of four training shots, then a single CTA into pricing. #}
+    <div class="cd-train-photos">
+      {%- for p in site.training.photos %}
+      <div class="cd-train-photo">
+        <img src="{{ p.src }}"
+             srcset="{{ p.src }} 1x, {{ p.src | retina }} 2x"
+             alt="{{ p.alt }}" width="294" height="434" loading="lazy">
+      </div>
+      {%- endfor %}
+    </div>
+
+    <a href="{{ site.training.cta.href }}" class="cd-btn cd-btn--orange">{{ site.training.cta.label }}</a>
   </div>
 
   <!-- Banner CTA -->
@@ -132,28 +123,6 @@ permalink: /index.html
     </div>
   </div>
 
-  {%- set p2 = site.training.programs[1] %}
-  <div class="cd-program cd-program--right">
-    <div class="cd-program-body">
-      <div class="cd-program-text">
-        <h3 class="cd-program-title">{{ p2.title }}</h3>
-        <div class="cd-program-points">
-          {%- for pt in p2.points %}
-          <div class="cd-check">{{ check(p2.accent) }}<span>{{ pt }}</span></div>
-          {%- endfor %}
-        </div>
-      </div>
-      <div class="cd-program-actions">
-        <a href="{{ p2.cta.href }}" class="cd-btn cd-btn--orange">{{ p2.cta.label }}</a>
-        <span class="cd-program-hint">{{ site.training.ctaHint }}</span>
-      </div>
-    </div>
-    <div class="cd-media cd-program-media">
-      <img src="{{ p2.image }}"
-           srcset="{{ p2.image }} 1x, {{ p2.image | retina }} 2x"
-           alt="{{ p2.title }}" width="646" height="449" loading="lazy">
-    </div>
-  </div>
 </section>
 
 <!-- ============ PRICING ============ -->
