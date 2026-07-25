@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+permalink: /payment-failed/
+title: Оплата не пройшла — Anastasiia
+description: Платіж не завершився. Спробуйте ще раз.
+eleventyExcludeFromCollections: true
+---
+{% include "partials/header.njk" %}
+
+<section class="cd-status-page">
+  <div class="cd-status-card">
+    <span class="cd-status-mark cd-status-mark--fail" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M5 5L19 19M19 5L5 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <h1 class="cd-status-title">{{ site.checkout.failed.title }}</h1>
+    <p class="cd-status-body">{{ site.checkout.failed.body }}</p>
+    <a href="{{ site.checkout.failed.ctaHref }}" class="cd-btn cd-btn--orange">{{ site.checkout.failed.cta }}</a>
+  </div>
+</section>
+
+{% include "partials/footer.njk" %}

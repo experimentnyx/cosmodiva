@@ -150,8 +150,8 @@ permalink: /index.html
           {%- endfor %}
         </div>
       </div>
-      <!-- TODO: checkout link pending payment provider (D5) -->
-      <a href="{{ plan.href }}" class="cd-btn cd-btn--orange cd-btn--block">{{ site.pricing.cta }}</a>
+      <button type="button" class="cd-btn cd-btn--orange cd-btn--block"
+              data-checkout data-plan="{{ plan.id }}" data-plan-name="{{ plan.name }}">{{ site.pricing.cta }}</button>
     </div>
     {%- endfor %}
   </div>
@@ -197,8 +197,13 @@ permalink: /index.html
     {{ eyebrow(site.faq.eyebrow) }}
     <h2 class="cd-section-head">{{ site.faq.heading }}</h2>
   </div>
+  {#- Split into two independent columns on desktop: each column reflows on its
+      own when an item opens, so a short answer on the left never drags the
+      right-hand column down. Collapses to one column on mobile. #}
   <div class="cd-faq-list">
-    {%- for item in site.faq.items %}
+    {%- for column in site.faq.items | slice(2) %}
+    <div class="cd-faq-col">
+    {%- for item in column %}
     <details class="cd-faq-item"{% if item.open %} open{% endif %}>
       <summary class="cd-faq-q">
         <span>{{ item.q }}</span>
@@ -209,11 +214,25 @@ permalink: /index.html
         </span>
       </summary>
       {#- Wrapper exists purely so its height can be animated; <details> itself
-          jumps straight to auto and cannot be transitioned. #}
+          jumps straight to auto and cannot be transitioned. The inner content
+          div carries the bottom padding so it collapses with the clipped body
+          instead of leaving a gap when the panel is shut. #}
       <div class="cd-faq-body">
-        <p class="cd-faq-a">{{ item.a }}</p>
+        <div class="cd-faq-content">
+          {%- if item.a %}<p class="cd-faq-a">{{ item.a }}</p>{% endif %}
+          {%- if item.list %}
+          <ul class="cd-faq-a-list">
+            {%- for li in item.list %}
+            <li>{{ li }}</li>
+            {%- endfor %}
+          </ul>
+          {%- endif %}
+          {%- if item.note %}<p class="cd-faq-a">{{ item.note }}</p>{% endif %}
+        </div>
       </div>
     </details>
+    {%- endfor %}
+    </div>
     {%- endfor %}
   </div>
 </section>

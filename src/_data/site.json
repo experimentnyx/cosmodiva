@@ -2,7 +2,7 @@
   "lang": "uk",
   "title": "Anastasiia — персональний тренер",
   "description": "Персональні онлайн-програми тренувань та харчування від Анастасії Шерстюк.",
-  "email": "cosmodiva@gmail.com",
+  "email": "anastasiya097777@gmail.com",
 
   "brand": { "name": "Anastasiia", "tagline": "personal trainer" },
 
@@ -55,7 +55,7 @@
 
   "banner": {
     "heading": "Космічна діва на зв'язку",
-    "sub": "Зв'яжись зі мною, пиши на email: cosmodiva@gmail.com",
+    "sub": "Зв'яжись зі мною, пиши на email: anastasiya097777@gmail.com",
     "cta": "Дроп мі е меседж"
   },
 
@@ -66,6 +66,7 @@
     "cta": "Обрати",
     "plans": [
       {
+        "id": "bodyweight-mfr",
         "name": "Тренування з власною вагою + МФР",
         "price": "2100 ГРН",
         "featured": false,
@@ -78,6 +79,7 @@
         ]
       },
       {
+        "id": "individual",
         "name": "Індивідуальний онлайн-супровід",
         "price": "5000 ГРН",
         "featured": true,
@@ -90,6 +92,7 @@
         ]
       },
       {
+        "id": "meal-plan",
         "name": "Раціон харчування на місяць",
         "price": "1500 ГРН",
         "featured": false,
@@ -99,6 +102,7 @@
         ]
       },
       {
+        "id": "telegram",
         "name": "Доступ до Telegram-каналу",
         "price": "599 ГРН/МІС",
         "featured": false,
@@ -262,7 +266,7 @@
   },
 
   "contact": {
-    "_note": "accessKey comes from web3forms.com — request one for cosmodiva@gmail.com and paste it below. Web3Forms keys are designed to live in client-side HTML, so this is not a secret and is safe in the repo. While it is empty the form falls back to opening a mailto: draft, so nothing is silently swallowed.",
+    "_note": "accessKey comes from web3forms.com — request one for anastasiya097777@gmail.com and paste it below. Web3Forms keys are designed to live in client-side HTML, so this is not a secret and is safe in the repo. While it is empty the form falls back to opening a mailto: draft, so nothing is silently swallowed.",
     "endpoint": "https://api.web3forms.com/submit",
     "accessKey": "cfae8b08-a21e-4e69-b984-d2ad5d46b870",
     "subject": "Нове повідомлення з сайту cosmodiva",
@@ -273,9 +277,40 @@
     "sending": "Надсилаю…",
     "sentTitle": "Дякую!",
     "sentBody": "Повідомлення відправлено. Я відповім найближчим часом на пошту.",
-    "errorText": "Не вдалося надіслати. Спробуй ще раз або напиши напряму на cosmodiva@gmail.com",
-    "unconfiguredText": "Форму ще не підключено. Напиши, будь ласка, напряму на cosmodiva@gmail.com — зараз відкриється поштова програма.",
+    "errorText": "Не вдалося надіслати. Спробуй ще раз або напиши напряму на anastasiya097777@gmail.com",
+    "unconfiguredText": "Форму ще не підключено. Напиши, будь ласка, напряму на anastasiya097777@gmail.com — зараз відкриється поштова програма.",
     "invalidText": "Заповни, будь ласка, всі поля — і перевір email.",
     "close": "Закрити"
+  },
+
+  "checkout": {
+    "_note": "Copy for the purchase flow. The endpoint is a Vercel serverless function (api/checkout.js). Plan prices are NOT here — they live server-side in api/_lib/catalog.js so the amount cannot be tampered with from the browser.",
+    "endpoint": "/api/checkout",
+    "title": "Оформлення покупки",
+    "sub": "Залиш дані — після оплати я надішлю доступ на пошту.",
+    "planLabel": "Обраний план:",
+    "fields": {
+      "name": "Ім'я",
+      "email": "Email для доступу",
+      "telegram": "Telegram (необов'язково)"
+    },
+    "submit": "Перейти до оплати",
+    "sending": "Створюю рахунок…",
+    "errorText": "Не вдалося створити оплату. Спробуй ще раз або напиши на anastasiya097777@gmail.com",
+    "invalidText": "Заповни, будь ласка, ім'я та коректний email.",
+    "unconfiguredText": "Оплата ще налаштовується. Напиши, будь ласка, на anastasiya097777@gmail.com — я оформлю вручну.",
+    "close": "Закрити",
+    "success": {
+      "title": "Дякую! Оплата пройшла",
+      "body": "Доступ надіслано на вашу пошту. Якщо листа немає — перевірте теку «Спам» або напишіть на anastasiya097777@gmail.com.",
+      "cta": "На головну",
+      "ctaHref": "/"
+    },
+    "failed": {
+      "title": "Оплата не пройшла",
+      "body": "Схоже, платіж не завершився. Спробуйте ще раз або напишіть на anastasiya097777@gmail.com.",
+      "cta": "Спробувати ще раз",
+      "ctaHref": "/#pricing"
+    }
   }
 }

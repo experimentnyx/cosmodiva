@@ -1,0 +1,44 @@
+<div class="cd-modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" aria-hidden="true">
+  <div class="cd-modal-card">
+    <button type="button" class="cd-modal-close" data-modal-close aria-label="{{ site.checkout.close }}">&#10005;</button>
+
+    <h2 class="cd-modal-title" id="checkoutTitle">{{ site.checkout.title }}</h2>
+    <p class="cd-modal-sub">{{ site.checkout.sub }}</p>
+    <p class="cd-checkout-plan"><span>{{ site.checkout.planLabel }}</span> <strong data-checkout-plan-name></strong></p>
+
+    <form id="checkoutForm" novalidate data-endpoint="{{ site.checkout.endpoint }}">
+      {#- The chosen plan id, stamped in by the button that opened the modal. The
+          server resolves the price from this id — the browser never sends an
+          amount, so a tampered payload cannot change what is charged. #}
+      <input type="hidden" name="plan" value="">
+
+      {#- Honeypot: hidden from sight and tab order, discarded server-side if filled. #}
+      <label class="cd-visually-hidden" aria-hidden="true">
+        Не заповнюй це поле
+        <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
+      </label>
+
+      <div class="cd-field">
+        <label for="co-name">{{ site.checkout.fields.name }}</label>
+        <input type="text" id="co-name" name="name" required autocomplete="name">
+      </div>
+      <div class="cd-field">
+        <label for="co-email">{{ site.checkout.fields.email }}</label>
+        <input type="email" id="co-email" name="email" required autocomplete="email">
+      </div>
+      <div class="cd-field">
+        <label for="co-telegram">{{ site.checkout.fields.telegram }}</label>
+        <input type="text" id="co-telegram" name="telegram" autocomplete="off" placeholder="@username">
+      </div>
+
+      <p class="cd-form-status" data-form-status role="status" aria-live="polite"></p>
+
+      <button type="submit" class="cd-btn cd-btn--orange cd-btn--block"
+              data-submit-label="{{ site.checkout.submit }}"
+              data-sending-label="{{ site.checkout.sending }}"
+              data-error-text="{{ site.checkout.errorText }}"
+              data-invalid-text="{{ site.checkout.invalidText }}"
+              data-unconfigured-text="{{ site.checkout.unconfiguredText }}">{{ site.checkout.submit }}</button>
+    </form>
+  </div>
+</div>

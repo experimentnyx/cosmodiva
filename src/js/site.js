@@ -28,58 +28,89 @@
   if (mq.addEventListener) mq.addEventListener("change", onMq);
   else if (mq.addListener) mq.addListener(onMq);
 
+  /* ---- modal shell (shared by the contact + checkout dialogs) ----
+     Both dialogs share the same open/close mechanics: toggle .is-open, lock body
+     scroll, move focus in, and close on backdrop click or [data-modal-close].
+     createModal wires one dialog and returns { open, close }. The per-form submit
+     logic stays separate below, because the two forms differ on success — contact
+     shows a thank-you panel, checkout redirects to Monobank. */
+  function createModal(modalEl, onOpen) {
+    if (!modalEl) return null;
+    var lastFocus = null;
+    function set(open) {
+      modalEl.classList.toggle("is-open", open);
+      modalEl.setAttribute("aria-hidden", String(!open));
+      document.body.style.overflow = open ? "hidden" : "";
+      if (open) {
+        lastFocus = document.activeElement;
+        if (onOpen) onOpen();
+        var first = modalEl.querySelector("input, button");
+        if (first) first.focus();
+      } else if (lastFocus) {
+        lastFocus.focus();
+      }
+    }
+    modalEl.addEventListener("click", function (e) { if (e.target === modalEl) set(false); });
+    modalEl.querySelectorAll("[data-modal-close]").forEach(function (el) {
+      el.addEventListener("click", function () { set(false); });
+    });
+    return { open: function () { set(true); }, close: function () { set(false); } };
+  }
+
   /* ---- contact modal ---- */
   var modal = document.getElementById("contactModal");
   var form = document.getElementById("contactForm");
   var formWrap = modal && modal.querySelector("[data-contact-form]");
   var sentWrap = modal && modal.querySelector("[data-contact-sent]");
-  var lastFocus = null;
 
-  function setModal(open) {
-    if (!modal) return;
-    modal.classList.toggle("is-open", open);
-    modal.setAttribute("aria-hidden", String(!open));
-    document.body.style.overflow = open ? "hidden" : "";
-    if (open) {
-      lastFocus = document.activeElement;
-      var first = modal.querySelector("input, button");
-      if (first) first.focus();
-    } else if (lastFocus) {
-      lastFocus.focus();
+  var contact = createModal(modal, function () {
+    if (formWrap) formWrap.hidden = false;
+    if (sentWrap) sentWrap.hidden = true;
+    if (form) {
+      form.reset();
+      // Clear any error left over from a previous attempt, otherwise a stale
+      // failure message greets the next visitor to open the modal.
+      var prevStatus = form.querySelector("[data-form-status]");
+      if (prevStatus) {
+        prevStatus.textContent = "";
+        prevStatus.className = "cd-form-status";
+      }
     }
-  }
+  });
 
   document.querySelectorAll("[data-modal-open]").forEach(function (el) {
+    el.addEventListener("click", function () { if (contact) contact.open(); });
+  });
+
+  /* ---- checkout modal ---- */
+  var checkoutModal = document.getElementById("checkoutModal");
+  var checkoutForm = document.getElementById("checkoutForm");
+  var checkoutPlanName = checkoutModal && checkoutModal.querySelector("[data-checkout-plan-name]");
+
+  var checkout = createModal(checkoutModal, function () {
+    if (checkoutForm) {
+      var s = checkoutForm.querySelector("[data-form-status]");
+      if (s) { s.textContent = ""; s.className = "cd-form-status"; }
+    }
+  });
+
+  document.querySelectorAll("[data-checkout]").forEach(function (el) {
     el.addEventListener("click", function () {
-      if (formWrap) formWrap.hidden = false;
-      if (sentWrap) sentWrap.hidden = true;
-      if (form) {
-        form.reset();
-        // Clear any error left over from a previous attempt, otherwise a stale
-        // failure message greets the next visitor to open the modal.
-        var prevStatus = form.querySelector("[data-form-status]");
-        if (prevStatus) {
-          prevStatus.textContent = "";
-          prevStatus.className = "cd-form-status";
-        }
-      }
-      setModal(true);
+      if (!checkout || !checkoutForm) return;
+      // Reset first so a previous plan's values never leak into the next order,
+      // then stamp the chosen plan into the hidden field the API reads.
+      checkoutForm.reset();
+      var planField = checkoutForm.querySelector('input[name="plan"]');
+      if (planField) planField.value = el.dataset.plan || "";
+      if (checkoutPlanName) checkoutPlanName.textContent = el.dataset.planName || "";
+      checkout.open();
     });
   });
-
-  document.querySelectorAll("[data-modal-close]").forEach(function (el) {
-    el.addEventListener("click", function () { setModal(false); });
-  });
-
-  if (modal) {
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) setModal(false);
-    });
-  }
 
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
-    setModal(false);
+    if (contact) contact.close();
+    if (checkout) checkout.close();
     setNav(false);
   });
 
@@ -157,6 +188,71 @@
         .then(function () {
           submitBtn.disabled = false;
           submitBtn.textContent = submitBtn.dataset.submitLabel;
+        });
+    });
+  }
+
+  /* ---- checkout submit ----
+     Sends { plan, name, email, telegram } to /api/checkout and hands off to the
+     pageUrl Monobank returns. The plan's PRICE is resolved server-side from the id
+     alone — the browser never sends an amount — so a tampered payload cannot change
+     what is charged. Same validation + honeypot pattern as the contact form. */
+  if (checkoutForm) {
+    var koStatus = checkoutForm.querySelector("[data-form-status]");
+    var koSubmit = checkoutForm.querySelector('button[type="submit"]');
+
+    var setKoStatus = function (text, kind) {
+      if (!koStatus) return;
+      koStatus.textContent = text || "";
+      koStatus.className = "cd-form-status" + (kind ? " is-" + kind : "");
+    };
+    var resetKoButton = function () {
+      koSubmit.disabled = false;
+      koSubmit.textContent = koSubmit.dataset.submitLabel;
+    };
+
+    checkoutForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var data = new FormData(checkoutForm);
+      if (data.get("botcheck")) return; // honeypot
+
+      if (!checkoutForm.checkValidity() || !data.get("plan")) {
+        setKoStatus(koSubmit.dataset.invalidText, "error");
+        var firstInvalid = checkoutForm.querySelector(":invalid");
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      var payload = {};
+      data.forEach(function (value, name) { if (name !== "botcheck") payload[name] = value; });
+
+      setKoStatus("", null);
+      koSubmit.disabled = true;
+      koSubmit.textContent = koSubmit.dataset.sendingLabel;
+
+      fetch(checkoutForm.dataset.endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (body) {
+            return { ok: res.ok, status: res.status, body: body };
+          });
+        })
+        .then(function (r) {
+          if (r.ok && r.body && r.body.pageUrl) {
+            window.location.href = r.body.pageUrl; // → Monobank hosted checkout
+            return;
+          }
+          // 503 = provider not wired up yet; anything else is a genuine failure.
+          setKoStatus(r.status === 503 ? koSubmit.dataset.unconfiguredText : koSubmit.dataset.errorText, "error");
+          resetKoButton();
+        })
+        .catch(function () {
+          setKoStatus(koSubmit.dataset.errorText, "error");
+          resetKoButton();
         });
     });
   }

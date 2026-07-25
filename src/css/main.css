@@ -418,6 +418,12 @@ blockquote, figure { margin: 0; }
   flex-direction: column;
   gap: 8px;
   align-items: var(--al-hero-text);
+  /* Four figures share the text column, so give each an equal share and let a
+     long label ("Курсів (і це не кінець)") wrap rather than push the row wider
+     than the column and wrap a whole stat onto a second line. min-width:0 lets
+     the track shrink below the label's intrinsic width. */
+  flex: 1 1 0;
+  min-width: 0;
 }
 /* Tabular figures so each digit occupies the same width — without it the number
    visibly jitters as it counts up and digits swap in and out. */
@@ -434,6 +440,12 @@ blockquote, figure { margin: 0; }
   align-self: stretch;
   background: var(--c-w-15);
   display: var(--d-stat-divider);
+}
+
+@media (max-width: 1100px) {
+  /* Full-width, centred, dividers hidden — let each figure size to its content
+     so the four wrap to a tidy 2x2 instead of four cramped equal columns. */
+  .cd-stat { flex: 0 1 auto; }
 }
 
 .cd-hero-text {
@@ -737,15 +749,18 @@ blockquote, figure { margin: 0; }
   align-items: center;
 }
 .cd-pricing-heading .cd-section-head { width: var(--w-pricing-head); text-align: center; }
-/* A real 3-track grid, not space-between. space-between made the gutter the
+/* A real N-track grid, not space-between. space-between made the gutter the
    leftover width divided by the gaps, so it drifted with the viewport (48px at
    1440, and it wrapped the third card entirely once the row got tight) — the
-   declared 32px never actually applied. Equal fr columns keep the cards the
-   same width and the gutter fixed at one grid step. */
+   declared 32px never actually applied. minmax(0, 1fr) keeps the cards the same
+   width and the gutter fixed at one grid step; the 0 floor is what forces it —
+   a bare 1fr won't shrink a track below its content's min-content, so with four
+   narrower cards the featured card's nowrap badge dragged its column wider than
+   the rest. */
 .cd-pricing-grid {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(var(--pricing-cols), 1fr);
+  grid-template-columns: repeat(var(--pricing-cols), minmax(0, 1fr));
   gap: var(--g-card);
 }
 .cd-price-card {
@@ -754,10 +769,10 @@ blockquote, figure { margin: 0; }
   background: linear-gradient(147deg, var(--c-card-grad-a) 0%, var(--c-card-grad-b) 100%);
   display: flex;
   flex-direction: column;
-  padding: 42px;
+  padding: 30px;
   justify-content: space-between;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
   box-shadow: var(--sh-card);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -781,29 +796,35 @@ blockquote, figure { margin: 0; }
   border-radius: var(--r-xl);
   white-space: nowrap;
 }
-.cd-price-top { display: flex; flex-direction: column; gap: 24px; width: 100%; }
+.cd-price-top { display: flex; flex-direction: column; gap: 20px; width: 100%; }
 .cd-price-name {
   display: block;
-  /* The design used 78px (2 lines at 32px/1.2), but the longest plan name
-     wraps to 3, which pushed that card's price out of line with the others —
-     the misalignment flagged during design review. Sized for 3 lines so the
-     price row stays level regardless of plan name length. */
-  min-height: 116px;
+  /* Sized for 3 lines at 24px/1.2 so every card's price row stays level
+     regardless of plan-name length while the four cards share a row. */
+  min-height: 88px;
   line-height: 1.2;
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 24px;
   text-transform: uppercase;
+  /* Four cards to a row leaves ~170px of inner width at 1100px; a long single
+     word ("ІНДИВІДУАЛЬНИЙ") would otherwise spill past the card edge. Let it
+     wrap instead. */
+  overflow-wrap: break-word;
   margin: 0;
-}
-
-@media (max-width: 1100px) {
-  /* Cards stack on mobile, so cross-card alignment is moot — reclaim the space. */
-  .cd-price-name { min-height: 0; }
 }
 .cd-price-amount {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 56px;
+  font-size: 42px;
+}
+
+@media (max-width: 1100px) {
+  /* Cards stack full-width on mobile: cross-card alignment is moot and the tight
+     4-up sizing is unnecessary, so restore the fuller type and padding. */
+  .cd-price-card { padding: 42px; gap: 32px; }
+  .cd-price-top { gap: 24px; }
+  .cd-price-name { min-height: 0; font-size: 32px; }
+  .cd-price-amount { font-size: 56px; }
 }
 .cd-price-points { display: flex; flex-direction: column; gap: 6px; }
 .cd-price-points-label { font-size: 15px; }
@@ -947,7 +968,15 @@ blockquote, figure { margin: 0; }
   padding: var(--g-faq-pad);
 }
 .cd-faq-heading { display: flex; flex-direction: column; gap: 24px; }
-.cd-faq-list { display: flex; flex-direction: column; width: 100%; }
+/* Two side-by-side columns on desktop; each .cd-faq-col is an independent flex
+   stack so opening an item only reflows its own column. min-width:0 lets a
+   column shrink instead of forcing the row wider than the section. */
+.cd-faq-list { display: flex; flex-direction: row; gap: 64px; width: 100%; }
+.cd-faq-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+
+@media (max-width: 1100px) {
+  .cd-faq-list { flex-direction: column; gap: 0; }
+}
 .cd-faq-item { border-bottom: 1px solid var(--c-w-08); }
 .cd-faq-q {
   width: 100%;
@@ -984,14 +1013,35 @@ blockquote, figure { margin: 0; }
 
 /* Clips the panel while its height animates. */
 .cd-faq-body { overflow: hidden; }
+/* Bottom padding lives here, on the clipped inner content, not on .cd-faq-body:
+   padding on the body would sit outside its animated height and leave a 24px
+   gap when the panel collapses to 0. gap spaces a lead-in line, its bullet list
+   and any closing note when an answer has more than one block. */
+.cd-faq-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 24px;
+}
 .cd-faq-a {
   font-size: 18px;
   line-height: 1.7;
   color: var(--c-w-70);
   margin: 0;
-  padding: 0 0 24px;
   max-width: 900px;
 }
+.cd-faq-a-list {
+  margin: 0;
+  padding-left: 22px;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--c-w-70);
+}
+.cd-faq-a-list li::marker { color: var(--c-orange); }
 .cd-faq-q::-webkit-details-marker { display: none; }
 
 /* ============================================================
@@ -1240,6 +1290,40 @@ blockquote, figure { margin: 0; }
 
 .cd-modal .cd-btn[disabled] { opacity: 0.6; cursor: default; transform: none; }
 .cd-modal .cd-btn[disabled]:hover { transform: none; background: var(--c-blue); }
+
+/* Chosen-plan line in the checkout modal, between the sub and the fields. */
+.cd-checkout-plan { font-size: 15px; color: var(--c-w-60); margin: -12px 0 24px; }
+.cd-checkout-plan strong { color: var(--c-white); font-weight: 600; }
+
+/* ---- payment status pages (/success/, /payment-failed/) ---- */
+.cd-status-page {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+}
+.cd-status-card {
+  width: 520px;
+  max-width: 100%;
+  text-align: center;
+  background: linear-gradient(147deg, var(--c-card-grad-a) 0%, var(--c-card-grad-b) 100%);
+  border-radius: var(--r-xl);
+  padding: 48px 40px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+.cd-status-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+}
+.cd-status-mark--ok { background: var(--c-blue); }
+.cd-status-mark--fail { background: rgb(214, 90, 60); }
+.cd-status-title { font-family: var(--font-display); font-weight: 500; font-size: 30px; margin: 0 0 12px; }
+.cd-status-body { font-size: 16px; color: var(--c-w-60); line-height: 1.6; margin: 0 0 28px; }
 
 /* ============================================================
    Blog listing

@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+permalink: /success/
+title: Оплата пройшла — Anastasiia
+description: Дякуємо за оплату. Доступ надіслано на вашу пошту.
+eleventyExcludeFromCollections: true
+---
+{% include "partials/header.njk" %}
+
+<section class="cd-status-page">
+  <div class="cd-status-card">
+    <span class="cd-status-mark cd-status-mark--ok" aria-hidden="true">
+      <svg width="28" height="22" viewBox="0 0 28 22" fill="none">
+        <path d="M2 11L10 19L26 3" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+    <h1 class="cd-status-title">{{ site.checkout.success.title }}</h1>
+    <p class="cd-status-body">{{ site.checkout.success.body }}</p>
+    <a href="{{ site.checkout.success.ctaHref }}" class="cd-btn cd-btn--orange">{{ site.checkout.success.cta }}</a>
+  </div>
+</section>
+
+{% include "partials/footer.njk" %}
