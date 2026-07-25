@@ -56,7 +56,9 @@ permalink: /index.html
     <div class="cd-about-text">
       {{ eyebrow(site.about.eyebrow) }}
       <h2 class="cd-section-head cd-about-head">{{ site.about.heading }}</h2>
-      <p class="cd-about-body">{{ site.about.body }}</p>
+      {%- for para in site.about.body %}
+      <p class="cd-about-body">{{ para }}</p>
+      {%- endfor %}
     </div>
     <a href="{{ site.about.cta.href }}" class="cd-btn cd-btn--orange">{{ site.about.cta.label }}</a>
   </div>
