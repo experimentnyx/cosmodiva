@@ -6,6 +6,11 @@ node_modules/
 _site/
 _tmp_astro/
 
+# Local secrets — real values live in Vercel env vars, never in the repo.
+# (.env.example documents the names and stays tracked.)
+.env
+.env*.local
+
 # source-material/ — original design/export binaries, kept locally, deliberately
 # not versioned. Untitled.fig is ~43MB, Dark Landing.png ~7MB, and the two .zips
 # ~80MB combined; git history is permanent, so committing them would bloat every
