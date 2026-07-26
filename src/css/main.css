@@ -160,17 +160,49 @@ blockquote, figure { margin: 0; }
 .cd-check-dot--orange { background: var(--c-orange); }
 .cd-check span { font-size: 16px; }
 
-/* ---- scroll reveal ---- */
-.cd-reveal {
+/* ---- scroll reveal ----
+   The section is the trigger — site.js toggles .is-visible on it via an
+   IntersectionObserver — while its direct children are what actually move: they
+   fade and rise in a short stagger so the block assembles itself (heading, then
+   content) instead of sliding in as one slab. cd-bleed's full-width background
+   is a ::before, not a child, so it stays put underneath. */
+.cd-reveal > * {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.cd-reveal.is-visible { opacity: 1; transform: none; }
+.cd-reveal.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+.cd-reveal.is-visible > *:nth-child(1) { transition-delay: 0.05s; }
+.cd-reveal.is-visible > *:nth-child(2) { transition-delay: 0.17s; }
+.cd-reveal.is-visible > *:nth-child(3) { transition-delay: 0.29s; }
+.cd-reveal.is-visible > *:nth-child(4) { transition-delay: 0.41s; }
+.cd-reveal.is-visible > *:nth-child(n + 5) { transition-delay: 0.53s; }
+
+/* The hero can't use the observer — it's above the fold, so it would flash blank
+   for the frame before the observer fires. It plays the same rise from first
+   paint via a keyframe instead, staggered across the eyebrow, headline block and
+   button, with the photo easing in alongside. */
+@keyframes cd-rise-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+.cd-hero-photo,
+.cd-hero-text > * {
+  animation: cd-rise-in 0.7s ease both;
+}
+.cd-hero-photo { animation-delay: 0.15s; }
+.cd-hero-text > *:nth-child(1) { animation-delay: 0.10s; }
+.cd-hero-text > *:nth-child(2) { animation-delay: 0.22s; }
+.cd-hero-text > *:nth-child(3) { animation-delay: 0.34s; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .cd-reveal { opacity: 1; transform: none; transition: none; }
+  .cd-reveal > * { opacity: 1; transform: none; transition: none; }
+  .cd-hero-photo,
+  .cd-hero-text > * { animation: none; }
   .cd-astronaut { animation: none !important; }
   /* Colour still shifts on hover — only the movement is dropped. */
   .cd-back-link svg { transition: none; }
