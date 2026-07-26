@@ -440,4 +440,25 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+
+  /* ---- header: clear over the hero, frosted once scrolled past it ----
+     The sticky bar sits over the hero photo on the landing, so it stays
+     transparent there; past the hero (and on pages that have none) it gains a
+     translucent fill so the nav stays legible over whatever scrolls beneath. */
+  var header = document.querySelector(".cd-header");
+  if (header) {
+    var hero = document.querySelector(".cd-hero");
+    // Expose the bar's height so the hero glow can extend up behind it (CSS).
+    var measureHeader = function () {
+      document.documentElement.style.setProperty("--header-h", header.offsetHeight + "px");
+    };
+    var syncHeader = function () {
+      var limit = hero ? hero.offsetHeight - header.offsetHeight : 0;
+      header.classList.toggle("is-scrolled", window.scrollY > limit);
+    };
+    measureHeader();
+    syncHeader();
+    window.addEventListener("scroll", syncHeader, { passive: true });
+    window.addEventListener("resize", function () { measureHeader(); syncHeader(); }, { passive: true });
+  }
 })();

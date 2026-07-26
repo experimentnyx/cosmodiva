@@ -202,7 +202,10 @@ blockquote, figure { margin: 0; }
 .cd-hero::before {
   content: "";
   position: absolute;
-  top: 0;
+  /* Pulled up behind the sticky header — it now lives above the hero rather than
+     inside it, so without this the nav band would sit over the plain page colour
+     and read darker than the hero. --header-h is measured in site.js. */
+  top: calc(-1 * var(--header-h, 86px));
   bottom: 0;
   left: 50%;
   width: 100vw;
@@ -294,18 +297,27 @@ blockquote, figure { margin: 0; }
 }
 
 /* ---- header ---- */
+/* Sticky across the whole page: the header lives at page level (base.njk),
+   not inside the hero, so it isn't released once the hero scrolls off. It stays
+   transparent over the hero and gains a frosted fill only once scrolled past it
+   (`is-scrolled`, toggled in site.js), so nav text stays legible over the other
+   sections without darkening the hero. */
 .cd-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
-  background: rgba(0, 4, 21, 0.1);
-  backdrop-filter: blur(20px);
+  background: transparent;
   display: flex;
   flex-direction: row;
   padding: var(--g-header-pad);
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
-  order: var(--o-header);
+  z-index: 40;
+  transition: background-color 0.25s ease, backdrop-filter 0.25s ease;
+}
+.cd-header.is-scrolled {
+  background: rgba(0, 4, 21, 0.9);
+  backdrop-filter: blur(20px);
 }
 .cd-header-left { display: flex; flex-direction: row; gap: 32px; align-items: center; }
 
