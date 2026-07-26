@@ -283,6 +283,20 @@ blockquote, figure { margin: 0; }
 @media (max-width: 1100px) {
   .cd-hero-photo { display: none; }
 
+  /* Fill the first screen: the text-only hero stretches to a full viewport
+     (minus the sticky header) so it reads as a proper landing screen and the
+     next section no longer peeks above the fold. --header-h is measured in
+     site.js; the fallback covers the pre-JS first paint. dvh tracks the mobile
+     address bar, with a vh fallback for browsers without dvh. justify-content
+     centres the (content-height) body block in the extra room — set here rather
+     than on .cd-hero-body, whose base space-between rule sits later in source
+     and would win. */
+  .cd-hero {
+    min-height: calc(100vh - var(--header-h, 70px));
+    min-height: calc(100dvh - var(--header-h, 70px));
+    justify-content: center;
+  }
+
   /* The hero eyebrow is centred on mobile, so it gets a matching rule on the
      trailing side — the same symmetric framing the centred sections use. Added
      as a pseudo-element rather than a second span in the shared macro, since it
