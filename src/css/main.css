@@ -320,7 +320,14 @@ blockquote, figure { margin: 0; }
   position: sticky;
   top: 0;
   width: 100%;
-  background: transparent;
+  /* Over the hero the bar is see-through, but the headline scrolls up under it
+     before the frosted fill kicks in, so a blur softens whatever passes behind
+     and a faint top-down scrim (fading to nothing by the bar's foot, so no hard
+     band) keeps the white nav off the white letters. The is-scrolled fill below
+     replaces this past the hero. */
+  background: linear-gradient(180deg, rgba(0, 4, 21, 0.55) 0%, rgba(0, 4, 21, 0) 100%);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   display: flex;
   flex-direction: row;
   padding: var(--g-header-pad);
