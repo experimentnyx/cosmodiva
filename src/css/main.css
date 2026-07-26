@@ -656,8 +656,18 @@ blockquote, figure { margin: 0; }
 @media (max-width: 1100px) {
   .cd-program--right { flex-direction: column-reverse; }
   /* Stacked, the strip's main axis is vertical, so flex-basis:0 would zero the
-     photos' height — pin each to its own height instead. */
-  .cd-train-photo { flex: none; }
+     photos' height. Give each card the source photo's portrait ratio so the
+     full frame shows uncropped (the images are pre-cropped to 294x434), and cap
+     the width so cards stay phone-sized and centred rather than ballooning into
+     giant panels on wider stacked viewports. */
+  .cd-train-photos { align-items: center; }
+  .cd-train-photo {
+    flex: none;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 294 / 434;
+  }
 }
 
 /* ============================================================
