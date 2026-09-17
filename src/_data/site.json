@@ -2,7 +2,7 @@
   "lang": "uk",
   "title": "Anastasiia — персональний тренер",
   "description": "Персональні онлайн-програми тренувань та харчування від Анастасії Шерстюк.",
-  "email": "anastasiya097777@gmail.com",
+  "email": "cosmodivafit@gmail.com",
 
   "brand": { "name": "Anastasiia", "tagline": "personal trainer" },
 
@@ -59,7 +59,7 @@
 
   "banner": {
     "heading": "Космічна діва на зв'язку",
-    "sub": "Зв'яжись зі мною, пиши на email: anastasiya097777@gmail.com",
+    "sub": "Зв'яжись зі мною, пиши на email: cosmodivafit@gmail.com",
     "cta": "Дроп мі е меседж"
   },
 
@@ -270,9 +270,9 @@
   },
 
   "contact": {
-    "_note": "accessKey comes from web3forms.com — request one for anastasiya097777@gmail.com and paste it below. Web3Forms keys are designed to live in client-side HTML, so this is not a secret and is safe in the repo. While it is empty the form falls back to opening a mailto: draft, so nothing is silently swallowed.",
+    "_note": "accessKey comes from web3forms.com — request one for cosmodivafit@gmail.com and paste it below. Web3Forms keys are designed to live in client-side HTML, so this is not a secret and is safe in the repo. While it is empty the form falls back to opening a mailto: draft, so nothing is silently swallowed.",
     "endpoint": "https://api.web3forms.com/submit",
-    "accessKey": "cfae8b08-a21e-4e69-b984-d2ad5d46b870",
+    "accessKey": "c501ed25-a725-4dda-9b35-80b2e977c4e8",
     "subject": "Нове повідомлення з сайту cosmodiva",
     "title": "Дроп мі е меседж",
     "sub": "Напиши мені, і я відповім найближчим часом",
@@ -281,8 +281,8 @@
     "sending": "Надсилаю…",
     "sentTitle": "Дякую!",
     "sentBody": "Повідомлення відправлено. Я відповім найближчим часом на пошту.",
-    "errorText": "Не вдалося надіслати. Спробуй ще раз або напиши напряму на anastasiya097777@gmail.com",
-    "unconfiguredText": "Форму ще не підключено. Напиши, будь ласка, напряму на anastasiya097777@gmail.com — зараз відкриється поштова програма.",
+    "errorText": "Не вдалося надіслати. Спробуй ще раз або напиши напряму на cosmodivafit@gmail.com",
+    "unconfiguredText": "Форму ще не підключено. Напиши, будь ласка, напряму на cosmodivafit@gmail.com — зараз відкриється поштова програма.",
     "invalidText": "Заповни, будь ласка, всі поля — і перевір email.",
     "close": "Закрити"
   },
@@ -300,19 +300,19 @@
     },
     "submit": "Перейти до оплати",
     "sending": "Створюю рахунок…",
-    "errorText": "Не вдалося створити оплату. Спробуй ще раз або напиши на anastasiya097777@gmail.com",
+    "errorText": "Не вдалося створити оплату. Спробуй ще раз або напиши на cosmodivafit@gmail.com",
     "invalidText": "Заповни, будь ласка, ім'я та коректний email.",
-    "unconfiguredText": "Оплата ще налаштовується. Напиши, будь ласка, на anastasiya097777@gmail.com — я оформлю вручну.",
+    "unconfiguredText": "Оплата ще налаштовується. Напиши, будь ласка, на cosmodivafit@gmail.com — я оформлю вручну.",
     "close": "Закрити",
     "success": {
       "title": "Дякую! Оплата пройшла",
-      "body": "Доступ надіслано на вашу пошту. Якщо листа немає — перевірте теку «Спам» або напишіть на anastasiya097777@gmail.com.",
+      "body": "Доступ надіслано на вашу пошту. Якщо листа немає — перевірте теку «Спам» або напишіть на cosmodivafit@gmail.com.",
       "cta": "На головну",
       "ctaHref": "/"
     },
     "failed": {
       "title": "Оплата не пройшла",
-      "body": "Схоже, платіж не завершився. Спробуйте ще раз або напишіть на anastasiya097777@gmail.com.",
+      "body": "Схоже, платіж не завершився. Спробуйте ще раз або напишіть на cosmodivafit@gmail.com.",
       "cta": "Спробувати ще раз",
       "ctaHref": "/#pricing"
     }
