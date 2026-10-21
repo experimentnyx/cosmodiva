@@ -1,287 +1,268 @@
 ---
 layout: layouts/base.njk
 permalink: /index.html
+bodyClass: is-home
 ---
-{% macro check(accent) %}
-<span class="cd-check-dot{% if accent == 'orange' %} cd-check-dot--orange{% endif %}">
-  <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true">
-    <path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</span>
-{% endmacro %}
-
-{#- Centred sections carry a rule on both sides of the label, left-aligned ones
-    only lead with it. #}
-{% macro eyebrow(label, center) %}
-<div class="cd-eyebrow{% if center %} cd-eyebrow--center{% endif %}">
-  <span class="cd-eyebrow-line"></span>
-  <span>{{ label }}</span>
-  {%- if center %}<span class="cd-eyebrow-line"></span>{% endif %}
-</div>
-{% endmacro %}
+{% import "partials/macros.njk" as ui %}
 
 <!-- ============ HERO ============ -->
 <section class="cd-hero">
-  {#- Desktop-only decorative photo column. Painted as a CSS background rather
-      than an <img> so mobile — where the hero is text-only — never downloads it;
-      an <img> in a display:none container is still fetched, and the 2x asset is
-      212KB. Anastasiia's photo with real alt text lives in the About section. #}
-  <div class="cd-hero-photo" aria-hidden="true"></div>
+  <div class="cd-hero-photo">
+    {#- Studio shot from the v2 FigCraft file. The @2x is the full source
+        (853px wide) — there is no larger original. #}
+    <img src="/assets/hero-photo-studio.webp"
+         srcset="/assets/hero-photo-studio.webp 1x, /assets/hero-photo-studio@2x.webp 2x"
+         alt="" width="700" height="1050" fetchpriority="high">
+  </div>
 
   <div class="cd-hero-body">
-    <div class="cd-hero-text">
-      {{ eyebrow(site.hero.eyebrow) }}
-
-      <div class="cd-hero-text-inner">
-        <h1 class="cd-hero-title">
-          {%- for line in site.hero.titleLines %}
-          {#- Last line takes the accent colour. #}
-          <span{% if loop.last %} class="cd-hero-title-accent"{% endif %}>{{ line }}</span>
-          {%- endfor %}
-        </h1>
-        <p class="cd-hero-desc">{{ site.hero.desc }}</p>
+    <p class="cd-crumbs">
+      <span class="cd-accent">{{ site.hero.eyebrow }}</span><span class="cd-crumbs-sep">/</span><span>{{ site.hero.eyebrowName }}</span>
+    </p>
+    <h1 class="cd-hero-title">
+      {%- for line in site.hero.titleLines %}
+      {#- Last word takes the accent colour. #}
+      {% if loop.last %}<span class="cd-accent">{{ line }}</span>{% else %}{{ line }}{% endif %}
+      {%- endfor %}
+    </h1>
+    <div class="cd-hero-foot">
+      <p class="cd-hero-desc">{{ site.hero.desc }}</p>
+      <div class="cd-btn-row">
+        <a href="{{ site.hero.cta.href }}" class="cd-btn cd-btn--orange">{{ site.hero.cta.label }}</a>
+        <a href="{{ site.hero.secondaryCta.href }}" class="cd-btn cd-btn--ghost">{{ site.hero.secondaryCta.label }}</a>
       </div>
-
-      <a href="{{ site.hero.cta.href }}" class="cd-btn cd-btn--orange">{{ site.hero.cta.label }}</a>
+      <p class="cd-hero-rating">
+        <span class="cd-stars" aria-hidden="true">★★★★★</span>
+        <b>{{ site.reviews.rating }}</b>
+        <span class="cd-muted">{{ site.reviews.ratingSuffix }}</span>
+      </p>
     </div>
-
   </div>
 </section>
 
-<!-- ============ ABOUT ============ -->
-<section id="about" class="cd-about cd-bleed cd-reveal">
-  <div class="cd-about-col">
+<!-- ============ STATS ============ -->
+<div class="cd-stats-wrap cd-reveal">
+  <div class="cd-stats cd-frame">
+    {%- for s in site.training.stats %}
+    {%- set plus = "+" in s.value %}
+    <div class="cd-stat">
+      <span class="cd-stat-value"><span class="cd-stat-num">{{ s.value | replace("+", "") }}</span>{% if plus %}<span class="cd-accent">+</span>{% endif %}</span>
+      <span class="cd-stat-label">{{ s.label }}</span>
+    </div>
+    {%- endfor %}
+  </div>
+</div>
+
+<!-- ============ 01 ABOUT ============ -->
+<section id="about" class="cd-section cd-section--glow-left cd-reveal">
+  {{ ui.rail("01", site.about.eyebrow, site.about.rail) }}
+  <div class="cd-about">
+    <figure class="cd-about-photo">
+      <img src="{{ site.about.image }}"
+           srcset="{{ site.about.image }} 1x, {{ site.about.image | retina }} 2x"
+           alt="{{ site.about.imageAlt }}" width="656" height="767" loading="lazy">
+      <figcaption>{{ site.about.caption }}</figcaption>
+    </figure>
     <div class="cd-about-text">
-      {{ eyebrow(site.about.eyebrow) }}
-      <h2 class="cd-section-head cd-about-head">{{ site.about.heading }}</h2>
+      <h2 class="cd-h2 cd-h2--about">{{ site.about.heading }}</h2>
       {%- for para in site.about.body %}
-      <p class="cd-about-body">{{ para }}</p>
+      <p class="cd-body">{{ para }}</p>
       {%- endfor %}
+      <a href="{{ site.about.cta.href }}" class="cd-btn cd-btn--orange">{{ site.about.cta.label }}</a>
     </div>
-    <a href="{{ site.about.cta.href }}" class="cd-btn cd-btn--orange">{{ site.about.cta.label }}</a>
-  </div>
-  <div class="cd-media cd-about-media">
-    <img src="{{ site.about.image }}"
-         srcset="{{ site.about.image }} 1x, {{ site.about.image | retina }} 2x"
-         alt="{{ site.about.imageAlt }}" width="656" height="767" loading="lazy">
   </div>
 </section>
 
-<!-- ============ TRAINING ============ -->
-<section id="training" class="cd-training cd-reveal">
-  <div class="cd-training-intro">
-    <div class="cd-training-heading">
-      {{ eyebrow(site.training.eyebrow, true) }}
-      <h2 class="cd-section-head">{{ site.training.heading }}</h2>
-      <p class="cd-training-desc">{{ site.training.desc }}</p>
+<!-- ============ 02 TRAINING ============ -->
+<section id="training" class="cd-section cd-section--flush cd-reveal">
+  {{ ui.rail("02", site.training.eyebrow, site.training.rail) }}
+  <div class="cd-split">
+    <h2 class="cd-h2">{{ ui.accent(site.training.heading, site.training.headingAccent) }}</h2>
+    <p class="cd-body">{{ site.training.desc }}</p>
+  </div>
+  <div class="cd-train-photos">
+    {%- for p in site.training.photos %}
+    <div class="cd-train-photo">
+      <img src="{{ p.src }}"
+           srcset="{{ p.src }} 1x, {{ p.src | retina }} 2x"
+           alt="{{ p.alt }}" width="294" height="434" loading="lazy">
     </div>
-
-    {#- The four headline figures moved out of the hero and into this pill, so
-        they read as proof right where the training is chosen. #}
-    <div class="cd-train-stats">
-      {%- for s in site.training.stats %}
-      {%- if not loop.first %}<span class="cd-train-stat-divider" aria-hidden="true"></span>{% endif %}
-      <div class="cd-train-stat">
-        <span class="cd-train-stat-icon" aria-hidden="true">{{ s.icon }}</span>
-        <span class="cd-train-stat-text"><b>{{ s.value }}</b> {{ s.label }}</span>
+    {%- endfor %}
+  </div>
+  <ol class="cd-process cd-frame">
+    {%- for step in site.training.process %}
+    <li class="cd-process-step">
+      {{ ui.strip(site.training.processLabel, "0" ~ loop.index ~ " / 0" ~ loop.length) }}
+      <div class="cd-cell">
+        <h3 class="cd-process-title">{{ step.title }}</h3>
+        <p class="cd-process-text">{{ step.text }}</p>
       </div>
-      {%- endfor %}
-    </div>
+    </li>
+    {%- endfor %}
+  </ol>
+</section>
 
-    {#- Photo-led now rather than per-programme breakdowns: one full-width strip
-        of four training shots, then a single CTA into pricing. #}
-    <div class="cd-train-photos">
-      {%- for p in site.training.photos %}
-      <div class="cd-train-photo">
-        <img src="{{ p.src }}"
-             srcset="{{ p.src }} 1x, {{ p.src | retina }} 2x"
-             alt="{{ p.alt }}" width="294" height="434" loading="lazy">
+<!-- ============ 03 PRICING ============ -->
+<section id="pricing" class="cd-section cd-section--glow-center cd-reveal">
+  {{ ui.rail("03", site.pricing.eyebrow, site.pricing.rail) }}
+  <h2 class="cd-h2 cd-h2--wide">{{ site.pricing.heading }}</h2>
+  {#- One framed table: plans sit edge to edge, divided by hairlines (the 1px
+      grid gap showing the frame colour through). Each plan is a subgrid
+      spanning five shared rows, so header strips, names, prices, buttons and
+      feature lists line up across columns however long each one runs. #}
+  <div class="cd-plans cd-frame">
+    {%- for plan in site.pricing.plans %}
+    {#- "2100 ГРН" / "599 ГРН/МІС" → big figure + muted unit. #}
+    {%- set priceParts = plan.price.split(" ") %}
+    <article class="cd-plan{% if plan.featured %} is-featured{% endif %}">
+      {{ ui.strip(plan.label, "0" ~ loop.index, ('<span aria-hidden="true">★ </span>' ~ plan.label) if plan.featured) }}
+      <h3 class="cd-plan-name">{{ plan.name }}</h3>
+      <p class="cd-plan-price">
+        <span class="cd-plan-figure">{{ priceParts[0] }}</span>
+        <span class="cd-plan-unit">{{ priceParts | after(1) | join(" ") }}</span>
+      </p>
+      <div class="cd-plan-cta">
+        <button type="button" class="cd-btn cd-btn--{{ 'orange' if plan.featured else 'ghost' }} cd-btn--block"
+                data-checkout data-plan="{{ plan.id }}" data-plan-name="{{ plan.name }}">{{ site.pricing.cta }} <span aria-hidden="true">→</span></button>
       </div>
+      <div class="cd-plan-points">
+        <span class="cd-plan-label">{{ site.pricing.includesLabel }}</span>
+        {%- for pt in plan.points %}
+        <div class="cd-check">{{ ui.check() }}<span>{{ pt }}</span></div>
+        {%- endfor %}
+      </div>
+    </article>
+    {%- endfor %}
+    {%- if site.pricing.assurances %}
+    <ul class="cd-frame-foot">
+      {%- for a in site.pricing.assurances %}
+      <li>{{ ui.check() }}<span>{{ a }}</span></li>
       {%- endfor %}
-    </div>
+    </ul>
+    {%- endif %}
+  </div>
+</section>
 
-    <a href="{{ site.training.cta.href }}" class="cd-btn cd-btn--orange">{{ site.training.cta.label }}</a>
+<!-- ============ 04 NUTRITION ============ -->
+<section id="nutrition" class="cd-section cd-section--flush cd-reveal">
+  {{ ui.rail("04", site.nutrition.eyebrow, site.nutrition.rail) }}
+  <div class="cd-head-row">
+    <div class="cd-head-row-text">
+      <h2 class="cd-h2">{{ site.nutrition.heading }}</h2>
+      <p class="cd-body">{{ site.nutrition.desc }}</p>
+    </div>
+    <a id="recipes" href="{{ site.nutrition.cta.href }}" class="cd-btn cd-btn--ghost">{{ site.nutrition.cta.label }}</a>
   </div>
 
-  <!-- Banner CTA -->
-  <div class="cd-banner">
-    <img class="cd-banner-decor cd-banner-bg" src="/assets/banner-space-bg.webp" alt="" loading="lazy">
-    <img class="cd-banner-decor cd-banner-cloud-1" src="/assets/banner-cloud-1.svg" alt="" loading="lazy">
-    <img class="cd-banner-decor cd-banner-cloud-3" src="/assets/banner-cloud-3.svg" alt="" loading="lazy">
-    <img class="cd-banner-decor cd-banner-cloud-2" src="/assets/banner-cloud-2.svg" alt="" loading="lazy">
+  <div class="cd-dishes cd-frame">
+    {%- for r in recipes | limit(3) %}
+    {{ ui.dish(r, "0" ~ loop.index) }}
+    {%- endfor %}
+  </div>
+</section>
 
-    <div class="cd-astronaut" aria-hidden="true">
+<!-- ============ 05 REVIEWS ============ -->
+<section id="reviews" class="cd-section cd-section--flush cd-reveal">
+  {{ ui.rail("05", site.reviews.eyebrow, site.reviews.rail) }}
+  <h2 class="cd-h2">{{ site.reviews.heading }}</h2>
+  {#- Stars in the strip, the number of the review on the right; the featured
+      quote is 01 and takes the wide cell beside the photo. #}
+  {%- set starsHtml = '<span class="cd-stars" aria-label="5 з 5">★★★★★</span>' %}
+  <div class="cd-reviews cd-frame">
+    <div class="cd-review-photo">
+      <img src="{{ site.reviews.featured.image }}"
+           srcset="{{ site.reviews.featured.image }} 1x, {{ site.reviews.featured.image | retina }} 2x"
+           alt="" loading="lazy">
+    </div>
+    <blockquote class="cd-review is-featured">
+      {{ ui.strip("", "01", starsHtml) }}
+      <div class="cd-cell cd-review-body">
+        <div class="cd-review-quote-text">
+          <span class="cd-quote-mark" aria-hidden="true">“</span>
+          <p>{{ site.reviews.featured.text }}</p>
+        </div>
+        <footer class="cd-review-author cd-review-author--lg">
+          <img src="{{ site.reviews.featured.avatar }}"
+               srcset="{{ site.reviews.featured.avatar }} 1x, {{ site.reviews.featured.avatar | retina }} 2x"
+               alt="" width="56" height="56" loading="lazy">
+          <b>{{ site.reviews.featured.author }}</b>
+        </footer>
+      </div>
+    </blockquote>
+    {%- for r in site.reviews.items %}
+    <blockquote class="cd-review">
+      {{ ui.strip("", "0" ~ (loop.index + 1), starsHtml) }}
+      <div class="cd-cell cd-review-body">
+        <p>{{ r.text }}</p>
+        <footer class="cd-review-author">
+          <img src="{{ r.avatar }}"
+               srcset="{{ r.avatar }} 1x, {{ r.avatar | retina }} 2x"
+               alt="" width="48" height="48" loading="lazy">
+          <b>{{ r.author }}</b>
+        </footer>
+      </div>
+    </blockquote>
+    {%- endfor %}
+  </div>
+</section>
+
+<!-- ============ 06 FAQ ============ -->
+<section id="faq" class="cd-section cd-section--flush cd-reveal">
+  {{ ui.rail("06", site.faq.eyebrow, site.faq.rail) }}
+  <div class="cd-faq">
+    <div class="cd-faq-aside">
+      <h2 class="cd-h2">{{ site.faq.heading }}</h2>
+      <button type="button" class="cd-btn cd-btn--orange" data-modal-open>{{ site.faq.cta }}</button>
+    </div>
+    <div class="cd-faq-list" data-faq>
+      {{ ui.strip(site.faq.rail, site.faq.items | length) }}
+      {%- for item in site.faq.items %}
+      <details class="cd-faq-item{% if loop.index > site.faq.initialCount %} is-extra{% endif %}"{% if item.open %} open{% endif %}>
+        <summary class="cd-faq-q">
+          <span>{{ item.q }}</span>
+          <span class="cd-faq-icon" aria-hidden="true">+</span>
+        </summary>
+        {#- Wrapper exists purely so its height can be animated; <details> itself
+            jumps straight to auto and cannot be transitioned. #}
+        <div class="cd-faq-body">
+          <div class="cd-faq-content">
+            {%- if item.a %}<p>{{ item.a }}</p>{% endif %}
+            {%- if item.list %}
+            <ul>
+              {%- for li in item.list %}
+              <li>{{ li }}</li>
+              {%- endfor %}
+            </ul>
+            {%- endif %}
+            {%- if item.note %}<p>{{ item.note }}</p>{% endif %}
+          </div>
+        </div>
+      </details>
+      {%- endfor %}
+      {%- if site.faq.items | length > site.faq.initialCount %}
+      <button type="button" class="cd-faq-more" data-faq-more aria-expanded="false"
+              data-more-label="{{ site.faq.showAll }} ({{ site.faq.items | length }}) ↓"
+              data-less-label="{{ site.faq.showLess }}">{{ site.faq.showAll }} ({{ site.faq.items | length }}) ↓</button>
+      {%- endif %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 CTA ============ -->
+<section class="cd-section cd-section--flush cd-reveal">
+  <div class="cd-banner cd-banner--contact">
+    <img class="cd-banner-bg" src="/assets/banner-space-bg.webp" alt="" loading="lazy">
+    <img class="cd-banner-decor cd-banner-cloud-1" src="/assets/banner-cloud-1.svg" alt="" loading="lazy">
+    <img class="cd-banner-decor cd-banner-cloud-2" src="/assets/banner-cloud-2.svg" alt="" loading="lazy">
+    <div class="cd-banner-decor cd-astronaut" aria-hidden="true">
       {% include "partials/astronaut.njk" %}
     </div>
 
     <div class="cd-banner-content">
-      <div class="cd-banner-text">
-        <h2 class="cd-banner-head">{{ site.banner.heading }}</h2>
-        <p class="cd-banner-sub">{{ site.banner.sub }}</p>
-      </div>
+      <span class="cd-eyebrow">07 / {{ site.banner.eyebrow }}</span>
+      <h2 class="cd-banner-head">{{ site.banner.heading }}</h2>
+      <p class="cd-banner-sub">{{ site.banner.sub }}</p>
       <button type="button" class="cd-btn cd-btn--light" data-modal-open>{{ site.banner.cta }}</button>
-    </div>
-  </div>
-
-</section>
-
-<!-- ============ PRICING ============ -->
-<section id="pricing" class="cd-pricing cd-bleed cd-reveal">
-  {#- Grouped rather than left as loose children of the 64px-gap column: every
-      other section pairs its eyebrow to its heading at 16–24px, and an eyebrow
-      floating 64px above the head reads as unrelated. #}
-  <div class="cd-pricing-heading">
-    {{ eyebrow(site.pricing.eyebrow, true) }}
-    <h2 class="cd-section-head">{{ site.pricing.heading }}</h2>
-  </div>
-  <div class="cd-pricing-grid">
-    {%- for plan in site.pricing.plans %}
-    <div class="cd-price-card{% if plan.featured %} cd-price-card--featured{% endif %}">
-      {%- if plan.badge %}
-      <span class="cd-price-badge">{{ plan.badge }}</span>
-      {%- endif %}
-      <div class="cd-price-top">
-        <h3 class="cd-price-name">{{ plan.name }}</h3>
-        <span class="cd-price-amount">{{ plan.price }}</span>
-        <div class="cd-price-points">
-          <span class="cd-price-points-label">{{ site.pricing.includesLabel }}</span>
-          {%- for pt in plan.points %}
-          <div class="cd-check">{{ check() }}<span>{{ pt }}</span></div>
-          {%- endfor %}
-        </div>
-      </div>
-      <button type="button" class="cd-btn cd-btn--orange cd-btn--block"
-              data-checkout data-plan="{{ plan.id }}" data-plan-name="{{ plan.name }}">{{ site.pricing.cta }}</button>
-    </div>
-    {%- endfor %}
-  </div>
-</section>
-
-<!-- ============ NUTRITION ============ -->
-<section id="nutrition" class="cd-nutrition cd-reveal">
-  <div class="cd-nutrition-head">
-    {{ eyebrow(site.nutrition.eyebrow, true) }}
-    <h2 class="cd-section-head">{{ site.nutrition.heading }}</h2>
-    <p class="cd-nutrition-desc">{{ site.nutrition.desc }}</p>
-  </div>
-  <div class="cd-nutrition-actions">
-    <a id="recipes" href="{{ site.nutrition.cta.href }}" class="cd-btn cd-btn--ghost">{{ site.nutrition.cta.label }}</a>
-  </div>
-
-  <div class="cd-recipe-row">
-    {%- for r in recipes | limit(3) %}
-    <article class="cd-recipe-card">
-      <div class="cd-media cd-recipe-media">
-        <img src="{{ r.image }}" alt="{{ r.name }}" loading="lazy">
-        {#- Time badge sits on the photo now rather than beside the title. #}
-        {%- if r.minutes %}<span class="cd-recipe-time">{{ r.minutes }} хв</span>{% endif %}
-      </div>
-      <div class="cd-recipe-info">
-        <h3 class="cd-recipe-name">{{ r.name }}</h3>
-        <ul class="cd-recipe-macros">
-          <li>{{ r.calories }} ккал</li>
-          <li>{{ r.protein }}г білка</li>
-          <li>{{ r.carbs }}г вугл.</li>
-          <li>{{ r.fats }}г жирів</li>
-        </ul>
-        <a href="/blog/{{ r.slug }}/" class="cd-recipe-link">{{ site.nutrition.cardCta }}</a>
-      </div>
-    </article>
-    {%- endfor %}
-  </div>
-</section>
-
-<!-- ============ FAQ ============ -->
-<section id="faq" class="cd-faq cd-reveal">
-  <div class="cd-faq-heading">
-    {{ eyebrow(site.faq.eyebrow) }}
-    <h2 class="cd-section-head">{{ site.faq.heading }}</h2>
-  </div>
-  {#- Split into two independent columns on desktop: each column reflows on its
-      own when an item opens, so a short answer on the left never drags the
-      right-hand column down. Collapses to one column on mobile. #}
-  <div class="cd-faq-list">
-    {%- for column in site.faq.items | slice(2) %}
-    <div class="cd-faq-col">
-    {%- for item in column %}
-    <details class="cd-faq-item"{% if item.open %} open{% endif %}>
-      <summary class="cd-faq-q">
-        <span>{{ item.q }}</span>
-        <span class="cd-faq-icon" aria-hidden="true">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M6 1V11M1 6H11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </span>
-      </summary>
-      {#- Wrapper exists purely so its height can be animated; <details> itself
-          jumps straight to auto and cannot be transitioned. The inner content
-          div carries the bottom padding so it collapses with the clipped body
-          instead of leaving a gap when the panel is shut. #}
-      <div class="cd-faq-body">
-        <div class="cd-faq-content">
-          {%- if item.a %}<p class="cd-faq-a">{{ item.a }}</p>{% endif %}
-          {%- if item.list %}
-          <ul class="cd-faq-a-list">
-            {%- for li in item.list %}
-            <li>{{ li }}</li>
-            {%- endfor %}
-          </ul>
-          {%- endif %}
-          {%- if item.note %}<p class="cd-faq-a">{{ item.note }}</p>{% endif %}
-        </div>
-      </div>
-    </details>
-    {%- endfor %}
-    </div>
-    {%- endfor %}
-  </div>
-</section>
-
-<!-- ============ REVIEWS ============ -->
-<section id="reviews" class="cd-reviews cd-bleed cd-reveal">
-  <div class="cd-reviews-header">
-    <div class="cd-reviews-heading">
-      {{ eyebrow(site.reviews.eyebrow) }}
-      <h2 class="cd-section-head">{{ site.reviews.heading }}</h2>
-      <div class="cd-reviews-rating">
-        <span class="cd-stars" aria-hidden="true">★★★★★</span>
-        <span class="cd-reviews-rating-value">{{ site.reviews.rating }}</span>
-        <span class="cd-reviews-rating-suffix">{{ site.reviews.ratingSuffix }}</span>
-      </div>
-    </div>
-    <a href="{{ site.reviews.cta.href }}" class="cd-btn cd-btn--orange">{{ site.reviews.cta.label }}</a>
-  </div>
-
-  {#- One bento grid rather than two rows separated by an 80px gap: 6 columns,
-      uniform gutters, blocks of different spans tiled together. #}
-  <div class="cd-reviews-bento">
-    {#- Wrapper is display:contents on desktop, so the quotes stay direct grid
-        items and the bento is unchanged; below 1100px it becomes the horizontal
-        scroll track. #}
-    <div class="cd-reviews-track">
-      <blockquote class="cd-review-featured">
-        <span class="cd-stars" aria-hidden="true">★★★★★</span>
-        <p class="cd-review-text">{{ site.reviews.featured.text }}</p>
-        <footer class="cd-review-author">
-          <img src="{{ site.reviews.featured.avatar }}"
-               srcset="{{ site.reviews.featured.avatar }} 1x, {{ site.reviews.featured.avatar | retina }} 2x"
-               alt="" width="40" height="40" loading="lazy">
-          <span>{{ site.reviews.featured.author }}</span>
-        </footer>
-      </blockquote>
-
-      {%- for r in site.reviews.items %}
-      <blockquote class="cd-review-card">
-        <span class="cd-stars" aria-hidden="true">★★★★★</span>
-        <p class="cd-review-text">{{ r.text }}</p>
-        <footer class="cd-review-author">
-          <img src="{{ r.avatar }}"
-               srcset="{{ r.avatar }} 1x, {{ r.avatar | retina }} 2x"
-               alt="" width="40" height="40" loading="lazy">
-          <span>{{ r.author }}</span>
-        </footer>
-      </blockquote>
-      {%- endfor %}
     </div>
   </div>
 </section>

@@ -4,88 +4,93 @@ permalink: /blog/index.html
 title: Рецепти — Anastasiia
 description: Колекція корисних і смачних рецептів від Анастасії Шерстюк.
 ---
+{% import "partials/macros.njk" as ui %}
 {% set featured = recipes | first %}
-{% set rest = recipes | after(1) %}
 {% set categories = recipes | categories %}
 
-<section id="blog-content" class="cd-blog cd-reveal">
-
-  <div class="cd-blog-intro">
-    <div class="cd-eyebrow">
-      <span class="cd-eyebrow-line"></span>
-      <span>Рецепти</span>
-    </div>
-    <h1 class="cd-blog-heading">Твоя колекція корисної і смачної їжі</h1>
-    <p class="cd-blog-sub">
-      Рецепти, які я готую сама і рекомендую своїм клієнткам — прості, ситні та без зайвих калорій.
-    </p>
+<!-- ============ INTRO ============ -->
+<section class="cd-page-intro cd-reveal">
+  <p class="cd-crumbs">
+    <a href="/">{{ site.blog.breadcrumbHome }}</a><span class="cd-crumbs-sep">/</span><span class="cd-accent">{{ site.blog.breadcrumb }}</span>
+  </p>
+  <h1 class="cd-blog-title">{{ site.blog.title }}</h1>
+  <div class="cd-split">
+    <p class="cd-blog-sub">{{ site.blog.subtitle }} <span class="cd-accent">{{ site.blog.subtitleAccent }}</span></p>
+    <p class="cd-body">{{ site.blog.desc }}</p>
   </div>
+</section>
 
-  {%- if featured %}
-  {#- Clickable as a whole, like the grid cards — on mobile it renders as one of
-      them, so a button here would make it the only card carrying a CTA. #}
-  <a href="/blog/{{ featured.slug }}/" class="cd-featured">
-    <div class="cd-featured-img" style="background-image:url('{{ featured.image }}');">
-      {#- Desktop shows category and kcal as one pill; below 1100px the card
-          collapses to the standard recipe-card layout, where the category moves
-          into the body as a chip and only the kcal stays on the photo. The
-          category span is dropped from the pill there rather than duplicated. #}
-      {%- if featured.categoryName or featured.calories %}
-      <span class="cd-featured-badge">
-        {%- if featured.categoryName %}<span class="cd-featured-badge-cat">{{ featured.categoryName }}{% if featured.calories %} · {% endif %}</span>{% endif %}
-        {%- if featured.calories %}{{ featured.calories }} ккал{% endif -%}
+{%- if featured %}
+<!-- ============ 01 FEATURED ============ -->
+<section class="cd-section cd-section--flush cd-section--tight cd-reveal">
+  {%- set featKcal = (featured.calories ~ " ккал") if featured.calories else "" %}
+  {%- set featRight = featured.categoryName ~ (" · " if (featured.categoryName and featKcal) else "") ~ featKcal %}
+  {{ ui.rail("01", site.blog.featuredRail, featRight) }}
+  {#- Framed like the rest of the site: photo cell + highlighted info cell with
+      the orange strip. Clickable as a whole, like the grid cells. #}
+  <a href="/blog/{{ featured.slug }}/" class="cd-featured cd-frame">
+    <span class="cd-featured-photo">
+      <img src="{{ featured.image }}" alt="" loading="lazy">
+      {%- if featured.minutes %}<span class="cd-pill">{{ featured.minutes }} хв</span>{% endif %}
+    </span>
+    <span class="cd-featured-info is-featured">
+      <span class="cd-strip">
+        <span class="cd-strip-label"><span aria-hidden="true">★ </span>{{ site.blog.featuredRail }}</span>
+        <span class="cd-strip-num">{{ featured.categoryName }}</span>
       </span>
-      {%- endif %}
-    </div>
-    <div class="cd-featured-body">
-      {%- if featured.categoryName %}<span class="cd-card-tag cd-featured-tag">{{ featured.categoryName }}</span>{% endif %}
-      <div class="cd-featured-text">
-        <h2 class="cd-featured-title">{{ featured.name }}</h2>
-        <p class="cd-featured-desc">
-          {{ featured.description or (featured.minutes ~ " хв · " ~ featured.protein ~ " г білка · " ~ featured.carbs ~ " г вуглеводів · " ~ featured.fats ~ " г жирів") }}
-        </p>
-      </div>
-      {#- A <span>, not an <a>: the card itself is the link, and nesting one
-          inside another is invalid and would add a second tab stop. This is a
-          visual affordance only — aria-hidden so it does not pad the link's
-          accessible name, pointer-events:none so hover stays with the card. #}
-      <span class="cd-btn cd-btn--orange cd-featured-cta" aria-hidden="true">Дивитись рецепт</span>
-    </div>
+      <span class="cd-featured-text">
+        <span class="cd-featured-title">{{ featured.name }}</span>
+        {%- if featured.description %}<span class="cd-body">{{ featured.description }}</span>{% endif %}
+        <span class="cd-chips">
+          {%- if featured.calories %}<span class="cd-chip">{{ featured.calories }} ккал</span>{% endif %}
+          {%- if featured.protein %}<span class="cd-chip">{{ featured.protein }}г білка</span>{% endif %}
+          {%- if featured.carbs %}<span class="cd-chip">{{ featured.carbs }}г вугл.</span>{% endif %}
+          {%- if featured.fats %}<span class="cd-chip">{{ featured.fats }}г жирів</span>{% endif %}
+        </span>
+        {#- A <span>, not a nested link: the card itself is the link. #}
+        <span class="cd-btn cd-btn--orange">{{ site.blog.cardCta }} <span aria-hidden="true">→</span></span>
+      </span>
+    </span>
   </a>
-  {%- endif %}
+</section>
+{%- endif %}
 
-  <div class="cd-blog-list">
-    {#- The design shipped a 5-way category filter, but every real recipe is
-        currently in one category. Rendering a filter with a single option would
-        be theatre, so it only appears once there are genuinely 2+. #}
+<!-- ============ 02 ALL RECIPES ============ -->
+<section id="blog-content" class="cd-section cd-section--flush cd-section--tight cd-reveal">
+  {{ ui.rail("02", site.blog.allRail, ui.recipeCount(recipes | length)) }}
+  <div class="cd-head-row">
+    <h2 class="cd-h2">{{ site.blog.allHeading }}</h2>
+    {#- A filter with a single option would be theatre, so it only appears once
+        the collection genuinely spans 2+ categories. #}
     {%- if categories | length > 1 %}
     <div class="cd-filters" role="group" aria-label="Фільтр за категорією">
-      <button type="button" class="cd-filter is-active" data-filter="all">Всі</button>
+      <button type="button" class="cd-filter is-active" data-filter="all" aria-pressed="true">{{ site.blog.allFilter }}</button>
       {%- for c in categories %}
-      <button type="button" class="cd-filter" data-filter="{{ c.slug }}">{{ c.name }}</button>
+      <button type="button" class="cd-filter" data-filter="{{ c.slug }}" aria-pressed="false">{{ c.name }}</button>
       {%- endfor %}
     </div>
     {%- endif %}
+  </div>
 
-    {%- if rest | length %}
-    <div class="cd-recipe-grid">
-      {%- for r in rest %}
-      {#- The card is the link. One tab stop, the whole surface is the target,
-          and no JS — a click handler on a <div> would not be keyboard-reachable.
-          The photo carries no aria-label: the title names the link, and
-          labelling both would announce the recipe twice. #}
-      <a href="/blog/{{ r.slug }}/" class="cd-card" data-category="{{ r.category }}">
-        <div class="cd-card-img" style="background-image:url('{{ r.image }}');">
-          {%- if r.calories %}<span class="cd-card-kcal">{{ r.calories }} ккал</span>{% endif %}
-        </div>
-        <div class="cd-card-body">
-          {%- if r.categoryName %}<span class="cd-card-tag">{{ r.categoryName }}</span>{% endif %}
-          <h3 class="cd-card-title">{{ r.name }}</h3>
-        </div>
-      </a>
-      {%- endfor %}
+  {#- Open frame: drawn with cell borders rather than the gap trick, so a
+      filtered category that leaves a row half full shows empty space, not a
+      grey block. #}
+  <div class="cd-dishes cd-dishes--grid cd-frame cd-frame--open" data-recipe-grid>
+    {%- for r in recipes %}
+    {{ ui.dish(r, ("0" if loop.index < 10) ~ loop.index) }}
+    {%- endfor %}
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cd-section cd-section--flush cd-reveal">
+  <div class="cd-banner cd-banner--row">
+    <img class="cd-banner-bg" src="/assets/banner-space-bg.webp" alt="" loading="lazy">
+    <div class="cd-banner-content">
+      <span class="cd-eyebrow">{{ site.blog.banner.eyebrow }}</span>
+      <h2 class="cd-banner-head cd-banner-head--sm">{{ site.blog.banner.heading }}</h2>
     </div>
-    {%- endif %}
+    <a href="{{ site.blog.banner.cta.href }}" class="cd-btn cd-btn--light">{{ site.blog.banner.cta.label }}</a>
   </div>
 </section>
 

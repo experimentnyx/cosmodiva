@@ -3,28 +3,59 @@
   "title": "Anastasiia — персональний тренер",
   "description": "Персональні онлайн-програми тренувань та харчування від Анастасії Шерстюк.",
   "email": "cosmodivafit@gmail.com",
-
-  "brand": { "name": "Anastasiia", "tagline": "personal trainer" },
-
+  "brand": {
+    "name": "Anastasiia",
+    "tagline": "personal trainer"
+  },
   "_navNote": "Shared header/footer render on every page, but #about/#pricing/#faq etc. only exist on the landing page. These hrefs are therefore root-relative (/#about), so they work from /blog/ and recipe pages too. When already on /, the browser treats them as same-document fragment navigation, so smooth scrolling still applies. Do NOT shorten these to bare fragments.",
-
   "nav": [
-    { "label": "Про мене", "href": "/#about" },
-    { "label": "Тренування", "href": "/#training" },
-    { "label": "Ціни", "href": "/#pricing" },
-    { "label": "Раціон", "href": "/blog/" },
-    { "label": "FAQ", "href": "/#faq" },
-    { "label": "Відгуки", "href": "/#reviews" }
+    {
+      "label": "Про мене",
+      "href": "/#about"
+    },
+    {
+      "label": "Тренування",
+      "href": "/#training"
+    },
+    {
+      "label": "Ціни",
+      "href": "/#pricing"
+    },
+    {
+      "label": "Раціон",
+      "href": "/blog/"
+    },
+    {
+      "label": "Відгуки",
+      "href": "/#reviews"
+    },
+    {
+      "label": "FAQ",
+      "href": "/#faq"
+    }
   ],
-  "headerCta": { "label": "Обрати тренування", "href": "/#pricing" },
-
+  "headerCta": {
+    "label": "Обрати тренування",
+    "href": "/#pricing"
+  },
   "hero": {
     "eyebrow": "Персональний тренер",
-    "titleLines": ["почни", "заради", "себе"],
+    "titleLines": [
+      "почни",
+      "заради",
+      "себе"
+    ],
     "desc": "Приєднуйтесь до нас сьогодні і почніть свій шлях до здорового та активного життя!",
-    "cta": { "label": "Обрати тренування", "href": "#training" }
+    "cta": {
+      "label": "Обрати тренування",
+      "href": "#pricing"
+    },
+    "eyebrowName": "Анастасія Шерстюк",
+    "secondaryCta": {
+      "label": "Дивитись програми",
+      "href": "#training"
+    }
   },
-
   "about": {
     "eyebrow": "Про мене",
     "heading": "Мене звуть Анастасія Шерстюк, і я — ваш персональний тренер",
@@ -33,36 +64,87 @@
       "Мій шлях почався ще студенткою: я прийшла в зал і закохалася — у тренування й у розуміння того, як працює кожен м'яз і на що здатне тіло. Я випробувала себе на сцені, пройшовши шлях від нуля до першого місця, а згодом здобула освіту тренера й зрозуміла: фітнес — це моя справа, від якої горять очі.",
       "Сьогодні я допомагаю жінкам ставати сильнішими — фізично й внутрішньо, приймати себе в будь-якій формі та відчувати, що вони прекрасні, але можуть більше. Ваші зміни, результати й відгуки — моє головне натхнення."
     ],
-    "cta": { "label": "Дивитись програми", "href": "#training" },
+    "cta": {
+      "label": "Дивитись програми",
+      "href": "#training"
+    },
     "image": "/assets/about-photo-real.webp",
-    "imageAlt": "Анастасія Шерстюк"
+    "imageAlt": "Анастасія Шерстюк",
+    "rail": "Людина у твоєму кутку",
+    "caption": "Анастасія Шерстюк / Персональний тренер"
   },
-
   "training": {
     "eyebrow": "Тренування",
     "heading": "Обери тренування для себе",
     "desc": "За багаторічний досвід роботи я допомогла численним жінкам досягти своїх фітнес-мрій, створюючи індивідуальні програми тренувань та надаючи підтримку на шляху до здоров'я та гармонії.",
     "stats": [
-      { "icon": "★", "value": "6+", "label": "років досвіду" },
-      { "icon": "◆", "value": "100+", "label": "діючих підопічних" },
-      { "icon": "▦", "value": "20", "label": "курсів" },
-      { "icon": "✦", "value": "200+", "label": "позитивних відгуків" }
+      {
+        "icon": "★",
+        "value": "6+",
+        "label": "років досвіду"
+      },
+      {
+        "icon": "◆",
+        "value": "100+",
+        "label": "діючих підопічних"
+      },
+      {
+        "icon": "▦",
+        "value": "20",
+        "label": "курсів"
+      },
+      {
+        "icon": "✦",
+        "value": "200+",
+        "label": "позитивних відгуків"
+      }
     ],
     "photos": [
-      { "src": "/assets/training-1.webp", "alt": "Анастасія виконує присідання з власною вагою" },
-      { "src": "/assets/training-2.webp", "alt": "Анастасія у вихідному положенні на четвереньках" },
-      { "src": "/assets/training-3.webp", "alt": "Анастасія виконує махи ногою назад стоячи на колінах" },
-      { "src": "/assets/training-4.webp", "alt": "Анастасія тренується з фітнес-резинкою сидячи" }
+      {
+        "src": "/assets/training-1.webp",
+        "alt": "Анастасія виконує присідання з власною вагою"
+      },
+      {
+        "src": "/assets/training-2.webp",
+        "alt": "Анастасія у вихідному положенні на четвереньках"
+      },
+      {
+        "src": "/assets/training-3.webp",
+        "alt": "Анастасія виконує махи ногою назад стоячи на колінах"
+      },
+      {
+        "src": "/assets/training-4.webp",
+        "alt": "Анастасія тренується з фітнес-резинкою сидячи"
+      }
     ],
-    "cta": { "label": "Обрати тренування", "href": "#pricing" }
+    "cta": {
+      "label": "Обрати тренування",
+      "href": "#pricing"
+    },
+    "rail": "М'яко, ефективно і надовго",
+    "headingAccent": "для себе",
+    "process": [
+      {
+        "title": "Консультаційний дзвінок",
+        "text": "Визначення ваших цілей та узгодження часу тренування."
+      },
+      {
+        "title": "Проведення заняття",
+        "text": "Навантаження, які підходять саме вашому тілу та ритму життя."
+      },
+      {
+        "title": "Контроль і підтримка",
+        "text": "Подальший контроль раціону і підтримка."
+      }
+    ],
+    "processLabel": "Крок"
   },
-
   "banner": {
     "heading": "Космічна діва на зв'язку",
     "sub": "Зв'яжись зі мною, пиши на email: cosmodivafit@gmail.com",
-    "cta": "Дроп мі е меседж"
+    "cta": "Дроп мі е меседж",
+    "eyebrow": "Наступний крок за тобою"
   },
-
   "pricing": {
     "eyebrow": "Ціни",
     "heading": "Поспішай придбати власний курс з тренувань",
@@ -80,7 +162,8 @@
           "МФР",
           "План раціону на місяць",
           "10 рецептів ПП десертів"
-        ]
+        ],
+        "label": "Домашній курс"
       },
       {
         "id": "individual",
@@ -93,7 +176,8 @@
           "Супровід протягом місяця",
           "12 тренувань з відео",
           "Індивідуальний раціон"
-        ]
+        ],
+        "label": "Популярний вибір"
       },
       {
         "id": "meal-plan",
@@ -103,7 +187,8 @@
         "href": "#",
         "points": [
           "Індивідуальний раціон на місяць"
-        ]
+        ],
+        "label": "Харчування"
       },
       {
         "id": "telegram",
@@ -116,19 +201,28 @@
           "12 тренувань для залу",
           "Раціон + рецепти",
           "Корисна інформація без води для твого результату"
-        ]
+        ],
+        "label": "Підписка"
       }
+    ],
+    "rail": "Інвестуй у себе",
+    "assurances": [
+      "Оплата через Monobank",
+      "Доступ надходить на пошту",
+      "Підходить новачкам"
     ]
   },
-
   "nutrition": {
     "eyebrow": "Раціон",
     "heading": "Харчуйся корисно і смачно разом зі мною",
     "desc": "Тут ти знайдеш безліч рецептів корисної і смачної іжі і тобі не прийдеться відмовлятись від улюблених страв",
-    "cta": { "label": "Дивитись усі рецепти", "href": "/blog/" },
-    "cardCta": "Дивитись рецепт"
+    "cta": {
+      "label": "Дивитись усі рецепти",
+      "href": "/blog/"
+    },
+    "cardCta": "Дивитись рецепт",
+    "rail": "Без відмови від улюблених страв"
   },
-
   "faq": {
     "eyebrow": "FAQ",
     "heading": "Залишилась питання?",
@@ -217,15 +311,22 @@
         "a": "Повернення можливе до моменту отримання доступу до матеріалів. Після відкриття доступу кошти не повертаються, оскільки продукт є цифровим.",
         "open": false
       }
-    ]
+    ],
+    "rail": "Перед стартом",
+    "cta": "Дроп мі е меседж",
+    "initialCount": 6,
+    "showAll": "Показати всі питання",
+    "showLess": "Згорнути ↑"
   },
-
   "reviews": {
     "eyebrow": "Відгуки",
     "heading": "Наші клієнти діляться враженнями",
     "rating": "4.9",
     "ratingSuffix": "· 120+ відгуків",
-    "cta": { "label": "Дивитись всі відгуки", "href": "#" },
+    "cta": {
+      "label": "Дивитись всі відгуки",
+      "href": "#"
+    },
     "featured": {
       "text": "Настя - найкращий тренер, з яким я коли-небудь працювала! Вона завжди надихає мене досягати нових висот і створює індивідуальні тренувальні програми, які допомагають мені досягти своїх цілей.",
       "author": "Anna Ivanova",
@@ -248,27 +349,54 @@
         "author": "Yulia Kovalenko",
         "avatar": "/assets/avatar-4.webp"
       }
-    ]
+    ],
+    "rail": "★ 4.9 · 120+ відгуків"
   },
-
   "footer": {
     "big": "Let's train",
-    "cta": { "label": "Обрати тренування", "href": "/#pricing" },
+    "cta": {
+      "label": "Обрати тренування",
+      "href": "/#pricing"
+    },
     "nav": [
-      { "label": "Головна", "href": "/" },
-      { "label": "Про мене", "href": "/#about" },
-      { "label": "Тренування", "href": "/#training" },
-      { "label": "Раціон", "href": "/blog/" },
-      { "label": "Ціни", "href": "/#pricing" },
-      { "label": "FAQ", "href": "/#faq" }
+      {
+        "label": "Головна",
+        "href": "/"
+      },
+      {
+        "label": "Про мене",
+        "href": "/#about"
+      },
+      {
+        "label": "Тренування",
+        "href": "/#training"
+      },
+      {
+        "label": "Раціон",
+        "href": "/blog/"
+      },
+      {
+        "label": "Ціни",
+        "href": "/#pricing"
+      },
+      {
+        "label": "FAQ",
+        "href": "/#faq"
+      }
     ],
     "social": [
-      { "label": "Instagram", "href": "https://www.instagram.com/naastya.sh/" },
-      { "label": "Telegram", "href": "#" }
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/naastya.sh/"
+      },
+      {
+        "label": "Telegram",
+        "href": "#"
+      }
     ],
-    "copyright": "© 2026 Anastasiia. Всі права захищено."
+    "copyright": "© 2026 Anastasiia. Всі права захищено.",
+    "legal": "Anastasiia / Personal trainer / cosmodivafit@gmail.com"
   },
-
   "contact": {
     "_note": "accessKey comes from web3forms.com — request one for cosmodivafit@gmail.com and paste it below. Web3Forms keys are designed to live in client-side HTML, so this is not a secret and is safe in the repo. While it is empty the form falls back to opening a mailto: draft, so nothing is silently swallowed.",
     "endpoint": "https://api.web3forms.com/submit",
@@ -276,7 +404,11 @@
     "subject": "Нове повідомлення з сайту cosmodiva",
     "title": "Дроп мі е меседж",
     "sub": "Напиши мені, і я відповім найближчим часом",
-    "fields": { "name": "Ім'я", "email": "Email", "message": "Про що хочеш запитати?" },
+    "fields": {
+      "name": "Ім'я",
+      "email": "Email",
+      "message": "Про що хочеш запитати?"
+    },
     "submit": "Надіслати",
     "sending": "Надсилаю…",
     "sentTitle": "Дякую!",
@@ -286,7 +418,6 @@
     "invalidText": "Заповни, будь ласка, всі поля — і перевір email.",
     "close": "Закрити"
   },
-
   "checkout": {
     "_note": "Copy for the purchase flow. The endpoint is a Vercel serverless function (api/checkout.js). Plan prices are NOT here — they live server-side in api/_lib/catalog.js so the amount cannot be tampered with from the browser.",
     "endpoint": "/api/checkout",
@@ -315,6 +446,38 @@
       "body": "Схоже, платіж не завершився. Спробуйте ще раз або напишіть на cosmodivafit@gmail.com.",
       "cta": "Спробувати ще раз",
       "ctaHref": "/#pricing"
+    }
+  },
+  "blog": {
+    "title": "Рецепти",
+    "breadcrumbHome": "Головна",
+    "breadcrumb": "Раціон",
+    "subtitle": "Твоя колекція корисної і смачної",
+    "subtitleAccent": "їжі",
+    "desc": "Рецепти, які я готую сама і рекомендую своїм клієнткам — прості, ситні та без зайвих калорій.",
+    "featuredRail": "Рецепт тижня",
+    "allRail": "Усі рецепти",
+    "allHeading": "Обери страву",
+    "allFilter": "Всі",
+    "cardCta": "Дивитись рецепт",
+    "banner": {
+      "eyebrow": "Харчування + тренування",
+      "heading": "Раціон на 3 тижні вже в курсі",
+      "cta": {
+        "label": "Обрати тренування",
+        "href": "/#pricing"
+      }
+    },
+    "post": {
+      "back": "← Раціон",
+      "ingredients": "Інгредієнти",
+      "instructions": "Інструкція",
+      "more": "Ще рецепти",
+      "moreLink": "Усі рецепти →",
+      "prep": "на приготування",
+      "protein": "білки",
+      "fats": "жири",
+      "carbs": "вуглеводи"
     }
   }
 }

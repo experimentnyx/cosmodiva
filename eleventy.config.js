@@ -5,6 +5,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addWatchTarget("src/css");
   eleventyConfig.addWatchTarget("src/js");
 
+  // Cache-buster for /css and /js: their URLs never change, so browsers kept
+  // serving a stale stylesheet after edits. Stamped once per build.
+  eleventyConfig.addGlobalData("assetVersion", () => Date.now().toString(36));
+
   // Strip Webflow's rich-text wrapper attributes from CMS-exported HTML.
   eleventyConfig.addFilter("cleanRichText", (html) =>
     (html || "").replace(/\s(id|class)=""/g, "")
