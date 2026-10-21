@@ -56,9 +56,9 @@ eleventyComputed:
   {%- if others | length %}
   <section class="cd-section cd-section--flush cd-section--tight cd-reveal">
     {{ ui.rail("03", t.more, t.moreLink, "/blog/") }}
-    <div class="cd-rcard-grid">
+    <div class="cd-dishes cd-frame">
       {%- for r in others %}
-      {{ ui.recipeCard(r) }}
+      {{ ui.dish(r, "0" ~ loop.index) }}
       {%- endfor %}
     </div>
   </section>

@@ -404,13 +404,12 @@
 
   /* ---- blog category filter ----
      Only rendered when the collection spans 2+ categories. After filtering, the
-     visible cards are renumbered, the staggered middle column re-tagged, and the
-     count in the section rail updated — all mirroring what the template renders
-     for the unfiltered list. */
+     visible cards are renumbered and the count in the section rail updated —
+     mirroring what the template renders for the unfiltered list. */
   var filters = document.querySelectorAll(".cd-filter");
   var grid = document.querySelector("[data-recipe-grid]");
   if (filters.length && grid) {
-    var cards = grid.querySelectorAll(".cd-rcard");
+    var cards = grid.querySelectorAll(".cd-dish");
     var section = grid.closest("section");
     var countEl = section && section.querySelector("[data-rail-right]");
 
@@ -434,7 +433,6 @@
           var hide = want !== "all" && card.dataset.category !== want;
           card.hidden = hide;
           if (hide) return;
-          card.classList.toggle("is-offset", shown % 3 === 1);
           var num = card.querySelector("[data-card-num]");
           if (num) num.textContent = (shown < 9 ? "0" : "") + (shown + 1);
           shown++;

@@ -26,23 +26,30 @@ description: Колекція корисних і смачних рецепті�
   {%- set featKcal = (featured.calories ~ " ккал") if featured.calories else "" %}
   {%- set featRight = featured.categoryName ~ (" · " if (featured.categoryName and featKcal) else "") ~ featKcal %}
   {{ ui.rail("01", site.blog.featuredRail, featRight) }}
-  {#- Clickable as a whole, like the grid cards. #}
-  <a href="/blog/{{ featured.slug }}/" class="cd-featured">
+  {#- Framed like the rest of the site: photo cell + highlighted info cell with
+      the orange strip. Clickable as a whole, like the grid cells. #}
+  <a href="/blog/{{ featured.slug }}/" class="cd-featured cd-frame">
     <span class="cd-featured-photo">
       <img src="{{ featured.image }}" alt="" loading="lazy">
       {%- if featured.minutes %}<span class="cd-pill">{{ featured.minutes }} хв</span>{% endif %}
     </span>
-    <span class="cd-featured-text">
-      <span class="cd-featured-title">{{ featured.name }}</span>
-      {%- if featured.description %}<span class="cd-body">{{ featured.description }}</span>{% endif %}
-      <span class="cd-chips">
-        {%- if featured.calories %}<span class="cd-chip">{{ featured.calories }} ккал</span>{% endif %}
-        {%- if featured.protein %}<span class="cd-chip">{{ featured.protein }}г білка</span>{% endif %}
-        {%- if featured.carbs %}<span class="cd-chip">{{ featured.carbs }}г вугл.</span>{% endif %}
-        {%- if featured.fats %}<span class="cd-chip">{{ featured.fats }}г жирів</span>{% endif %}
+    <span class="cd-featured-info is-featured">
+      <span class="cd-strip">
+        <span class="cd-strip-label"><span aria-hidden="true">★ </span>{{ site.blog.featuredRail }}</span>
+        <span class="cd-strip-num">{{ featured.categoryName }}</span>
       </span>
-      {#- A <span>, not a nested link: the card itself is the link. #}
-      <span class="cd-btn cd-btn--orange">{{ site.blog.cardCta }}</span>
+      <span class="cd-featured-text">
+        <span class="cd-featured-title">{{ featured.name }}</span>
+        {%- if featured.description %}<span class="cd-body">{{ featured.description }}</span>{% endif %}
+        <span class="cd-chips">
+          {%- if featured.calories %}<span class="cd-chip">{{ featured.calories }} ккал</span>{% endif %}
+          {%- if featured.protein %}<span class="cd-chip">{{ featured.protein }}г білка</span>{% endif %}
+          {%- if featured.carbs %}<span class="cd-chip">{{ featured.carbs }}г вугл.</span>{% endif %}
+          {%- if featured.fats %}<span class="cd-chip">{{ featured.fats }}г жирів</span>{% endif %}
+        </span>
+        {#- A <span>, not a nested link: the card itself is the link. #}
+        <span class="cd-btn cd-btn--orange">{{ site.blog.cardCta }} <span aria-hidden="true">→</span></span>
+      </span>
     </span>
   </a>
 </section>
@@ -65,9 +72,12 @@ description: Колекція корисних і смачних рецепті�
     {%- endif %}
   </div>
 
-  <div class="cd-rcard-grid cd-rcard-grid--stagger" data-recipe-grid>
+  {#- Open frame: drawn with cell borders rather than the gap trick, so a
+      filtered category that leaves a row half full shows empty space, not a
+      grey block. #}
+  <div class="cd-dishes cd-dishes--grid cd-frame cd-frame--open" data-recipe-grid>
     {%- for r in recipes %}
-    {{ ui.recipeCard(r, ("0" if loop.index < 10) ~ loop.index, loop.index0 % 3 == 1) }}
+    {{ ui.dish(r, ("0" if loop.index < 10) ~ loop.index) }}
     {%- endfor %}
   </div>
 </section>

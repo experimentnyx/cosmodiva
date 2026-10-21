@@ -156,25 +156,7 @@ bodyClass: is-home
 
   <div class="cd-dishes cd-frame">
     {%- for r in recipes | limit(3) %}
-    <a href="/blog/{{ r.slug }}/" class="cd-dish">
-      {{ ui.strip(r.categoryName, "0" ~ loop.index) }}
-      <span class="cd-dish-media">
-        <img src="{{ r.image }}" alt="" loading="lazy">
-        {%- if r.minutes %}<span class="cd-pill">{{ r.minutes }} хв</span>{% endif %}
-      </span>
-      <span class="cd-cell cd-dish-body">
-        <span class="cd-dish-row">
-          <span class="cd-dish-title">{{ r.name }}</span>
-          <span class="cd-arrow" aria-hidden="true">→</span>
-        </span>
-        <span class="cd-chips">
-          <span class="cd-chip">{{ r.calories }} ккал</span>
-          <span class="cd-chip">{{ r.protein }}г білка</span>
-          <span class="cd-chip">{{ r.carbs }}г вугл.</span>
-          <span class="cd-chip">{{ r.fats }}г жирів</span>
-        </span>
-      </span>
-    </a>
+    {{ ui.dish(r, "0" ~ loop.index) }}
     {%- endfor %}
   </div>
 </section>

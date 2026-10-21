@@ -47,21 +47,30 @@
 {{ n }} {% if m10 == 1 and m100 != 11 %}рецепт{% elif m10 >= 2 and m10 <= 4 and (m100 < 12 or m100 > 14) %}рецепти{% else %}рецептів{% endif %}
 {%- endmacro %}
 
-{#- Vertical 3:4 recipe card, photo full-bleed with the text overlaid. The whole
-    card is the link: one tab stop, and the title names it. `num` adds the
-    index top-left (listing); without it the kcal pill moves to the right. #}
-{% macro recipeCard(r, num, offset) %}
-<a href="/blog/{{ r.slug }}/" class="cd-rcard{% if offset %} is-offset{% endif %}" data-category="{{ r.category }}">
-  <img src="{{ r.image }}" alt="" loading="lazy">
-  <span class="cd-rcard-top">
-    {%- if num %}<span class="cd-rcard-num" data-card-num>{{ num }}</span>{% endif %}
-    {%- if r.calories %}<span class="cd-pill">{{ r.calories }} ккал</span>{% endif %}
+{#- Recipe cell for a .cd-frame table: strip (category · index), photo edge to
+    edge with the time badge, name with an arrow, nutrition chips. The whole
+    cell is the link — one tab stop, and the name labels it. Used on the
+    landing teaser, the blog grid and "more recipes". #}
+{% macro dish(r, num) %}
+<a href="/blog/{{ r.slug }}/" class="cd-dish" data-category="{{ r.category }}">
+  <span class="cd-strip">
+    <span class="cd-strip-label">{{ r.categoryName }}</span>
+    {%- if num %}<span class="cd-strip-num" data-card-num>{{ num }}</span>{% endif %}
   </span>
-  <span class="cd-rcard-bottom">
-    {%- if num and r.categoryName %}<span class="cd-rcard-tag">{{ r.categoryName }}</span>{% endif %}
-    <span class="cd-rcard-row">
-      <span class="cd-rcard-title">{{ r.name }}</span>
+  <span class="cd-dish-media">
+    <img src="{{ r.image }}" alt="" loading="lazy">
+    {%- if r.minutes %}<span class="cd-pill">{{ r.minutes }} хв</span>{% endif %}
+  </span>
+  <span class="cd-cell cd-dish-body">
+    <span class="cd-dish-row">
+      <span class="cd-dish-title">{{ r.name }}</span>
       <span class="cd-arrow" aria-hidden="true">→</span>
+    </span>
+    <span class="cd-chips">
+      {%- if r.calories %}<span class="cd-chip">{{ r.calories }} ккал</span>{% endif %}
+      {%- if r.protein %}<span class="cd-chip">{{ r.protein }}г білка</span>{% endif %}
+      {%- if r.carbs %}<span class="cd-chip">{{ r.carbs }}г вугл.</span>{% endif %}
+      {%- if r.fats %}<span class="cd-chip">{{ r.fats }}г жирів</span>{% endif %}
     </span>
   </span>
 </a>
