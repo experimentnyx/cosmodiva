@@ -1,19 +1,17 @@
-<div class="cd-header">
-  <div class="cd-header-left">
-    <a href="/" class="cd-logo">
-      <span class="cd-logo-name">{{ site.brand.name }}</span>
-      <span class="cd-logo-tagline">{{ site.brand.tagline }}</span>
-    </a>
-    <nav class="cd-nav">
-      {%- for item in site.nav %}
-      <a href="{{ item.href }}">{{ item.label }}</a>
-      {%- endfor %}
-    </nav>
-  </div>
+{%- set onBlog = page.url and page.url.startsWith("/blog/") %}
+<header class="cd-header">
+  <a href="/" class="cd-logo">
+    <span class="cd-logo-name">{{ site.brand.name }}</span>
+    <span class="cd-logo-tagline">{{ site.brand.tagline }}</span>
+  </a>
 
-  <div class="cd-header-cta">
-    <a href="{{ site.headerCta.href }}" class="cd-btn cd-btn--orange">{{ site.headerCta.label }}</a>
-  </div>
+  <nav class="cd-nav">
+    {%- for item in site.nav %}
+    <a href="{{ item.href }}"{% if onBlog and item.href == "/blog/" %} class="is-active" aria-current="page"{% endif %}>{{ item.label }}</a>
+    {%- endfor %}
+  </nav>
+
+  <a href="{{ site.headerCta.href }}" class="cd-btn cd-btn--orange cd-btn--sm cd-header-cta">{{ site.headerCta.label }}</a>
 
   <button type="button" class="cd-hamburger" id="navOpen" aria-label="Відкрити меню" aria-expanded="false" aria-controls="mobileNav">
     <svg width="20" height="16" viewBox="0 0 20 16" fill="none" aria-hidden="true">
@@ -22,4 +20,4 @@
   </button>
 
   {#- The mobile nav overlay is deliberately NOT here — see partials/mobile-nav.njk. #}
-</div>
+</header>

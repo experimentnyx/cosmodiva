@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="icon" href="/assets/favicon.ico" sizes="any">
 </head>
-<body>
+<body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
   <div class="cd-page" id="top">
     {% include "partials/header.njk" %}
     {{ content | safe }}

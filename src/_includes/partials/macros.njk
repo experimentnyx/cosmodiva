@@ -1,0 +1,68 @@
+{#- Shared v2 building blocks. Import with
+    {% import "partials/macros.njk" as ui %} — imported macros do not see the
+    page context, so everything they render is passed in. #}
+
+{#- Section rail: the numbered hairline every v2 section opens with —
+    "02 / Тренування" in orange on the left, a muted tagline on the right. #}
+{% macro rail(num, label, right, rightHref) %}
+<div class="cd-rail">
+  <span class="cd-rail-label">{% if num %}{{ num }} / {% endif %}{{ label }}</span>
+  {%- if right %}
+  {%- if rightHref %}<a href="{{ rightHref }}" class="cd-rail-right">{{ right }}</a>
+  {%- else %}<span class="cd-rail-right" data-rail-right>{{ right }}</span>{% endif %}
+  {%- endif %}
+</div>
+{% endmacro %}
+
+{#- Label strip heading a cell in a .cd-frame table — caps label left, index
+    right. Lifted from the pricing table so every framed group reads alike. #}
+{% macro strip(label, num, labelHtml) %}
+<div class="cd-strip">
+  <span class="cd-strip-label">{% if labelHtml %}{{ labelHtml | safe }}{% else %}{{ label }}{% endif %}</span>
+  {%- if num %}<span class="cd-strip-num">{{ num }}</span>{% endif %}
+</div>
+{% endmacro %}
+
+{#- Wraps `word` inside `text` in the accent colour ("Обери тренування <для себе>"). #}
+{% macro accent(text, word) %}
+{%- if word and word in text -%}
+{{ text | replace(word, '<span class="cd-accent">' + word + '</span>') | safe }}
+{%- else -%}
+{{ text }}
+{%- endif -%}
+{% endmacro %}
+
+{% macro check() %}
+<span class="cd-check-dot" aria-hidden="true">
+  <svg width="11" height="9" viewBox="0 0 11 9" fill="none">
+    <path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</span>
+{% endmacro %}
+
+{#- Ukrainian count noun: 1 рецепт, 2–4 рецепти, 5+ / 11–14 рецептів.
+    site.js carries the same rule for the live count under the filter. #}
+{% macro recipeCount(n) %}
+{%- set m10 = n % 10 %}{% set m100 = n % 100 -%}
+{{ n }} {% if m10 == 1 and m100 != 11 %}рецепт{% elif m10 >= 2 and m10 <= 4 and (m100 < 12 or m100 > 14) %}рецепти{% else %}рецептів{% endif %}
+{%- endmacro %}
+
+{#- Vertical 3:4 recipe card, photo full-bleed with the text overlaid. The whole
+    card is the link: one tab stop, and the title names it. `num` adds the
+    index top-left (listing); without it the kcal pill moves to the right. #}
+{% macro recipeCard(r, num, offset) %}
+<a href="/blog/{{ r.slug }}/" class="cd-rcard{% if offset %} is-offset{% endif %}" data-category="{{ r.category }}">
+  <img src="{{ r.image }}" alt="" loading="lazy">
+  <span class="cd-rcard-top">
+    {%- if num %}<span class="cd-rcard-num" data-card-num>{{ num }}</span>{% endif %}
+    {%- if r.calories %}<span class="cd-pill">{{ r.calories }} ккал</span>{% endif %}
+  </span>
+  <span class="cd-rcard-bottom">
+    {%- if num and r.categoryName %}<span class="cd-rcard-tag">{{ r.categoryName }}</span>{% endif %}
+    <span class="cd-rcard-row">
+      <span class="cd-rcard-title">{{ r.name }}</span>
+      <span class="cd-arrow" aria-hidden="true">→</span>
+    </span>
+  </span>
+</a>
+{% endmacro %}

@@ -335,12 +335,27 @@
     });
   });
 
-  /* ---- hero stat count-up ----
+  /* ---- FAQ "show all" ----
+     Items past the first few render with .is-extra (hidden by CSS); the toggle
+     reveals them by flagging the list. */
+  var faqList = document.querySelector("[data-faq]");
+  var faqMore = faqList && faqList.querySelector("[data-faq-more]");
+  if (faqMore) {
+    faqMore.addEventListener("click", function () {
+      var all = faqList.classList.toggle("is-all");
+      faqMore.setAttribute("aria-expanded", String(all));
+      faqMore.textContent = all ? faqMore.dataset.lessLabel : faqMore.dataset.moreLabel;
+      // Collapsing from far down the list would strand the reader below it.
+      if (!all) faqList.scrollIntoView({ behavior: reduceMotion.matches ? "auto" : "smooth", block: "start" });
+    });
+  }
+
+  /* ---- stat count-up ----
      The final figures are rendered server-side, so they are already correct
      with JS off, before this runs, or under reduced motion — the animation only
      rewinds them to zero and counts back up. Parsing the rendered text rather
      than a data attribute keeps the markup as the single source of the value. */
-  var statValues = document.querySelectorAll(".cd-stat-value");
+  var statValues = document.querySelectorAll(".cd-stat-num");
 
   if (statValues.length && !reduceMotion.matches && "IntersectionObserver" in window) {
     var countUp = function (el, delay) {
@@ -387,46 +402,65 @@
     });
   }
 
-  /* ---- reviews scroller keyboard access ----
-     The track holds only blockquotes, so it has no focusable children and a
-     keyboard user could not reach or scroll it. tabindex makes it focusable and
-     arrow-scrollable. Applied only at the breakpoint where it is genuinely a
-     scroll container — above it the track is display:contents and generates no
-     box, so a focusable-but-invisible element would be a trap of its own. */
-  var reviewsTrack = document.querySelector(".cd-reviews-track");
-  if (reviewsTrack) {
-    var syncTrack = function (isMobile) {
-      if (isMobile) {
-        reviewsTrack.setAttribute("tabindex", "0");
-        reviewsTrack.setAttribute("role", "group");
-        reviewsTrack.setAttribute("aria-label", "Відгуки клієнтів");
-      } else {
-        reviewsTrack.removeAttribute("tabindex");
-        reviewsTrack.removeAttribute("role");
-        reviewsTrack.removeAttribute("aria-label");
-      }
-    };
-    syncTrack(mq.matches);
-    var onTrackMq = function (e) { syncTrack(e.matches); };
-    if (mq.addEventListener) mq.addEventListener("change", onTrackMq);
-    else if (mq.addListener) mq.addListener(onTrackMq);
-  }
-
   /* ---- blog category filter ----
-     Only rendered when the collection spans 2+ categories. */
+     Only rendered when the collection spans 2+ categories. After filtering, the
+     visible cards are renumbered, the staggered middle column re-tagged, and the
+     count in the section rail updated — all mirroring what the template renders
+     for the unfiltered list. */
   var filters = document.querySelectorAll(".cd-filter");
-  if (filters.length) {
-    var cards = document.querySelectorAll(".cd-recipe-grid .cd-card");
+  var grid = document.querySelector("[data-recipe-grid]");
+  if (filters.length && grid) {
+    var cards = grid.querySelectorAll(".cd-rcard");
+    var section = grid.closest("section");
+    var countEl = section && section.querySelector("[data-rail-right]");
+
+    // Ukrainian count noun — same rule as ui.recipeCount in macros.njk.
+    var recipeWord = function (n) {
+      var m10 = n % 10, m100 = n % 100;
+      if (m10 === 1 && m100 !== 11) return "рецепт";
+      if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return "рецепти";
+      return "рецептів";
+    };
+
     filters.forEach(function (btn) {
       btn.addEventListener("click", function () {
         var want = btn.dataset.filter;
-        filters.forEach(function (b) { b.classList.toggle("is-active", b === btn); });
-        cards.forEach(function (card) {
-          card.hidden = want !== "all" && card.dataset.category !== want;
+        filters.forEach(function (b) {
+          b.classList.toggle("is-active", b === btn);
+          b.setAttribute("aria-pressed", String(b === btn));
         });
+        var shown = 0;
+        cards.forEach(function (card) {
+          var hide = want !== "all" && card.dataset.category !== want;
+          card.hidden = hide;
+          if (hide) return;
+          card.classList.toggle("is-offset", shown % 3 === 1);
+          var num = card.querySelector("[data-card-num]");
+          if (num) num.textContent = (shown < 9 ? "0" : "") + (shown + 1);
+          shown++;
+        });
+        if (countEl) countEl.textContent = shown + " " + recipeWord(shown);
       });
     });
   }
+
+  /* ---- recipe ingredient checklist ----
+     The ingredients arrive as CMS rich text, so each <li> is upgraded to a
+     toggleable row here rather than in the template. Local only — nothing is
+     saved; it is a cooking aid. */
+  document.querySelectorAll("[data-ingredients] li").forEach(function (li) {
+    li.setAttribute("role", "checkbox");
+    li.setAttribute("aria-checked", "false");
+    li.tabIndex = 0;
+    var toggle = function () {
+      var on = li.classList.toggle("is-checked");
+      li.setAttribute("aria-checked", String(on));
+    };
+    li.addEventListener("click", toggle);
+    li.addEventListener("keydown", function (e) {
+      if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(); }
+    });
+  });
 
   /* ---- back to top ---- */
   var toTop = document.getElementById("backToTop");
